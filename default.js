@@ -92,17 +92,3 @@ function createResult (obj) {
 
     return result;
 }
-
-/*
-Potential Enhancements to Search:
-    weight results based on whether search term as a whole is found (Regex)
-    weight results based on whether search term appears in name category
-    return fuzzy results, and weight lowest
-      http://www.htmlgoodies.com/beyond/javascript/js-ref/a-guide-to-javascript-fuzzy-search-libraries.html
-      Levenshtein distance?
-      SOUNDEX function?
-      Fuse.js?
-      Matt York?
-
-    sort results based on weight, and then alphabetically
-*/
