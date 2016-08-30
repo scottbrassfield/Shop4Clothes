@@ -1,6 +1,7 @@
 //capture content section of page in variable
 var content = document.getElementById('content');
 var matches = [];
+var matchProperties = ['name', 'description', 'category',];
 
 //create event listeners for search
 var searchTerm = document.getElementById('search-bar');
@@ -18,7 +19,7 @@ searchBtn.addEventListener('click', search);
 function search() {
   if (searchTerm.value){
     clear(content);
-    compare(products);
+    compare(products, matchProperties);
     display(matches);
   }
 }
@@ -32,18 +33,18 @@ function clear(element) {
 }
 
 //compare search term to products and add matches to array
-function compare(array) {
+function compare(products, properties) {
   var added;
-  for (i=0; i<array.length; i++) {
+  for (i=0; i<products.length; i++) {
     var added = false;
-    for (prop in array[i]) {
-      if (array[i][prop].indexOf(searchTerm.value) === -1) {
+    for (j=0; j<properties.length; j++) {
+      if (products[i][properties[j]].toLowerCase().indexOf(searchTerm.value.toLowerCase()) === -1) {
         continue;
       } else {
         if (added) {
           continue;
         } else {
-          matches.push(array[i])
+          matches.push(products[i])
           added = true;
         }
       }
