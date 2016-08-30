@@ -42,9 +42,6 @@ document.addEventListener('click', function(e) {
   }
 })
 
-function viewCart() {
-
-}
 //perform search based on search criteria
 function search() {
   if (searchTerm.value){
@@ -97,10 +94,12 @@ function display(array) {
 
 //create result element based on matches array
 function createResult (obj) {
+    //create element to store product image
     var img = document.createElement('img');
     img.src = obj.img;
     img.classList.add('result-img')
 
+    //create elements for product name, price, and description
     var name = document.createElement('div');
     name.textContent = obj.name;
     name.classList.add('result-name');
@@ -116,11 +115,13 @@ function createResult (obj) {
     resultText.appendChild(price);
     resultText.appendChild(descr);
 
+    //create button for adding products to cart
     var addBtn = document.createElement('button');
     addBtn.textContent = 'Add to Cart';
     addBtn.classList.add('result-add');
     addBtn.setAttribute('data-id', obj.id);
 
+    //combine and return result element
     var result = document.createElement('div');
     result.classList.add('result', 'col-md-9');
     result.appendChild(img);
