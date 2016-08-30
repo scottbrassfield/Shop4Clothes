@@ -5,8 +5,9 @@ var content = document.getElementById('content');
 //declare variables related to matched searches
 var matchProperties = ['name', 'description', 'category',];
 var matches = [];
+var cart = [];
 
-//event listeners for search and other functions
+//event listeners for search bar
 document.addEventListener('keyup', function(e) {
   switch(e.target) {
     case searchTerm:
@@ -20,7 +21,8 @@ document.addEventListener('keyup', function(e) {
   }
 })
 
-document.addEventListener('click',function(e) {
+//event listener for search button
+document.addEventListener('click', function(e) {
   switch (e.target) {
     case document.getElementById('search-btn'):
       search();
@@ -29,6 +31,20 @@ document.addEventListener('click',function(e) {
   }
 });
 
+//event listener for add to cart
+document.addEventListener('click', function(e) {
+  var prodId;
+  for (i=0; i<matches.length; i++) {
+    prodId = e.target.getAttribute('data-id');
+    if (prodId === matches[i].id) {
+      cart.push(prodId);
+    }
+  }
+})
+
+function viewCart() {
+
+}
 //perform search based on search criteria
 function search() {
   if (searchTerm.value){
@@ -88,20 +104,28 @@ function createResult (obj) {
     var name = document.createElement('div');
     name.textContent = obj.name;
     name.classList.add('result-name');
-
+    var price = document.createElement('div');
+    price.textContent = obj.price;
+    price.classList.add('result-price')
     var descr = document.createElement('div');
     descr.textContent = obj.description;
     descr.classList.add('result-descr');
-
     var resultText = document.createElement('div');
     resultText.classList.add('result-text');
     resultText.appendChild(name);
+    resultText.appendChild(price);
     resultText.appendChild(descr);
+
+    var addBtn = document.createElement('button');
+    addBtn.textContent = 'Add to Cart';
+    addBtn.classList.add('result-add');
+    addBtn.setAttribute('data-id', obj.id);
 
     var result = document.createElement('div');
     result.classList.add('result', 'col-md-9');
     result.appendChild(img);
     result.appendChild(resultText);
+    result.appendChild(addBtn);
 
     return result;
 }
