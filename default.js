@@ -1,19 +1,33 @@
-//capture content section of page in variable
-var content = document.getElementById('content');
-var matches = [];
-var matchProperties = ['name', 'description', 'category',];
-
-//create event listeners for search
+//capture search bar and content sections of page in variables
 var searchTerm = document.getElementById('search-bar');
-var searchBtn = document.getElementById('search-btn')
-  //event listener for search term
-searchTerm.addEventListener('keyup',function(e) {
-  if (e.which === 13 || e.keyCode === 13) {
-    search();
+var content = document.getElementById('content');
+
+//declare variables related to matched searches
+var matchProperties = ['name', 'description', 'category',];
+var matches = [];
+
+//event listeners for search and other functions
+document.addEventListener('keyup', function(e) {
+  switch(e.target) {
+    case searchTerm:
+      (function() {
+        if (e.which === 13 || e.keyCode === 13) {
+          search();
+        }
+      } )();
+      break;
+      default:
   }
 })
-  //event listener for search button
-searchBtn.addEventListener('click', search);
+
+document.addEventListener('click',function(e) {
+  switch (e.target) {
+    case document.getElementById('search-btn'):
+      search();
+      break;
+      default:
+  }
+});
 
 //perform search based on search criteria
 function search() {
@@ -81,12 +95,11 @@ function createResult (obj) {
 
     var resultText = document.createElement('div');
     resultText.classList.add('result-text');
+    resultText.appendChild(name);
+    resultText.appendChild(descr);
 
     var result = document.createElement('div');
     result.classList.add('result', 'col-md-9');
-
-    resultText.appendChild(name);
-    resultText.appendChild(descr);
     result.appendChild(img);
     result.appendChild(resultText);
 
