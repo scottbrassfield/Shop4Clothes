@@ -1,0 +1,77 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: helvetica;
+}
+
+.navbar {
+  background-color: rgba(35,47,62,1);
+  color: white;
+}
+
+#brand {
+  font-size: 40px;
+  display: inline-block;
+}
+
+#search {
+  padding-top: 10px;
+}
+
+#search-bar {
+  height: 35px;
+  width: 200px;
+  border-radius: 10px;
+  display:inline-block;
+}
+
+#search-btn {
+  height: 35px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+#content {
+  margin-top: 120px;
+}
+
+.result-detail {
+  padding-top: 5px;
+  border-bottom: 2px solid black;
+  font-weight: bold;
+}
+
+.result {
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.result-img {
+  height: 150px;
+  width: 150px;
+  padding-top: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.result-text {
+  margin-left: 30px;
+  width: 60%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.result-name {
+  font-weight: bold;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.result-descr {
+  font-size: 14px;
+  margin-top: 10px;
+  vertical-align: middle;
+}
