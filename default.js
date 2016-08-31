@@ -27,6 +27,9 @@ document.addEventListener('click', function(e) {
     case document.getElementById('search-btn'):
       search();
       break;
+    case document.getElementById('cart-btn'):
+      viewCart();
+      break;
       default:
   }
 });
@@ -41,6 +44,27 @@ document.addEventListener('click', function(e) {
     }
   }
 })
+
+
+//clear content and view shopping cart
+function viewCart() {
+  clear(content);
+  var displayed;
+  for (i=0; i<products.length; i++) {
+    displayed = false;
+    for (k=0; k<cart.length; k++) {
+      if (products[i].id === cart[k]) {
+        if(displayed) {
+          continue;
+        } else {
+          var result = createResult(products[i]);
+          content.appendChild(result);
+          displayed = true;
+        }
+      }
+    }
+  }
+}
 
 //perform search based on search criteria
 function search() {
@@ -88,6 +112,7 @@ function display(array) {
 
   for (var i = 0; i < array.length; i++) {
     var result = createResult(array[i]);
+    result.appendChild(cartBtn(array[i]));
     content.appendChild(result)
   }
 }
@@ -115,18 +140,19 @@ function createResult (obj) {
     resultText.appendChild(price);
     resultText.appendChild(descr);
 
-    //create button for adding products to cart
-    var addBtn = document.createElement('button');
-    addBtn.textContent = 'Add to Cart';
-    addBtn.classList.add('result-add');
-    addBtn.setAttribute('data-id', obj.id);
-
     //combine and return result element
     var result = document.createElement('div');
     result.classList.add('result', 'col-md-9');
     result.appendChild(img);
     result.appendChild(resultText);
-    result.appendChild(addBtn);
-
     return result;
+  }
+
+function cartBtn(obj) {
+  //create button for adding products to cart
+  var cartBtn = document.createElement('button');
+  cartBtn.textContent = 'Add to Cart';
+  cartBtn.classList.add('result-add');
+  cartBtn.setAttribute('data-id', obj.id);
+  return cartBtn;
 }
