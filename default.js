@@ -21,7 +21,7 @@ document.addEventListener('keyup', function(e) {
   }
 })
 
-//event listener for search button
+//event listener for buttons on home screen
 document.addEventListener('click', function(e) {
   switch (e.target) {
     case document.getElementById('search-btn'):
@@ -30,6 +30,10 @@ document.addEventListener('click', function(e) {
     case document.getElementById('cart-btn'):
       viewCart();
       break;
+    case document.getElementById('brand'):
+      searchTerm.value = '';
+      clear(content);
+      break;
       default:
   }
 });
@@ -37,7 +41,7 @@ document.addEventListener('click', function(e) {
 //event listener for add to cart
 document.addEventListener('click', function(e) {
   var prodId;
-  for (i=0; i<matches.length; i++) {
+  for (var i=0; i<matches.length; i++) {
     prodId = e.target.getAttribute('data-id');
     if (prodId === matches[i].id) {
       cart.push(prodId);
@@ -50,9 +54,9 @@ document.addEventListener('click', function(e) {
 function viewCart() {
   clear(content);
   var displayed;
-  for (i=0; i<products.length; i++) {
+  for (var i=0; i<products.length; i++) {
     displayed = false;
-    for (k=0; k<cart.length; k++) {
+    for (var k=0; k<cart.length; k++) {
       if (products[i].id === cart[k]) {
         if(displayed) {
           continue;
@@ -86,9 +90,9 @@ function clear(element) {
 //compare search term to products and add matches to array
 function compare(products, properties) {
   var added;
-  for (i=0; i<products.length; i++) {
+  for (var i=0; i<products.length; i++) {
     var added = false;
-    for (j=0; j<properties.length; j++) {
+    for (var k=0; k<properties.length; k++) {
       if (products[i][properties[j]].toLowerCase().indexOf(searchTerm.value.toLowerCase()) === -1) {
         continue;
       } else {
@@ -110,7 +114,7 @@ function display(array) {
   resultDetail.classList.add('result-detail', 'col-md-9');
   content.appendChild(resultDetail);
 
-  for (var i = 0; i < array.length; i++) {
+  for (var i=0; i < array.length; i++) {
     var result = createResult(array[i]);
     result.appendChild(cartBtn(array[i]));
     content.appendChild(result)
