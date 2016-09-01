@@ -20,6 +20,7 @@ body {
   font-size: 2.5em;
   display: inline-block;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 #search {
@@ -33,7 +34,7 @@ body {
   height: 35px;
   width: 200px;
   border-radius: 10px;
-  display:inline-block;
+  display: inline-block;
 }
 
 #search-btn {
@@ -112,4 +113,68 @@ body {
 .result-price {
   color: maroon;
   font-size: 16px;
+}
+
+.quant-label {
+  width: 100px;
+}
+
+.quant-btn {
+  margin-top: 5px;
+  width: 50px;
+  cursor: pointer;
+  -moz-appearance: none;
+  background-position: 150px 7px;
+  text-indent: .01px;
+  text-overflow: "";
+}
+
+.quant {
+  display: inline-block;
+}
+
+.order-summary {
+  width: 20%;
+  padding-top: 10px;
+  margin-left: 100px;
+  border: 1px solid black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.order-summary-text {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.order-summary-value {
+  float: right;
+  text-align: right;
+  font-size: 14px;
+  color: maroon;
+  font-weight: normal;
+}
+
+.subtotal {
+  margin-top: 10px;
+}
+
+.checkout-total {
+  border-top: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.checkout-btn {
+  display: block;
+  height: 30px;
+  width: 90%;
+  font-size: 16px;
+  font-weight: normal;
+  background-color: rgba(35,47,62,1);
+  color: white;
+  border-style: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
