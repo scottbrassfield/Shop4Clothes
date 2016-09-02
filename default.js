@@ -103,6 +103,14 @@ checkoutSection.addEventListener('click', function(e) {
   }
 });
 
+checkoutSection.addEventListener('keyup', function(e) {
+  if(e.target.id === 'customer-input'){
+    if (e.which === 13 || e.keyCode === 13) {
+      customerInfo.email = e.target.value;
+    }
+  }
+})
+
 //clear specified element
 function clear(element) {
   while(element.firstChild) {
@@ -535,6 +543,7 @@ function ordered() {
   for (var i=0; i<cart.length; i++) {
     order.contents.push(cart[i]);
   }
+  order.customer = customerInfo;
   orders.push(order);
   cart = [];
   hide('checkout');
