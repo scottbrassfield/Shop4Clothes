@@ -20,13 +20,118 @@
         View Cart
       </button>
     </nav>
-    <div class="container">
+    <div id="main" class="container">
       <div class="row" id="content">
       </div>
     </div>
+      <div id="checkout" class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row" id="checkout-cust">
+              <div id="customer-section">
+                <div id="customer-title">Customer Information:</div>
+                <input type="text" id="customer-input" placeholder="Email address">
+              </div>
+            </div>
+            <div class="row" id="checkout-ship">
+              <div id="shipping-section">
+                <div>
+                  <span id="shipping-title">Shipping Information: <span> </span><i id="ship-icon" class="fa fa-plus-square" aria-hidden="true"></i></span>
+                </div>
+                <form id="shipping-form">
+                  <div>
+                    <span class="form-label">Full name:</span>
+                    <span><input type="text" id="ship-name" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Address line 1:</span>
+                    <span><input type="text" id="ship-address" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Address line 2:</span>
+                    <span><input type="text" id="ship-address-two" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">City:</span>
+                    <span><input type="text" id="ship-city" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">State/Province/Region:</span>
+                    <span><input type="text" id="ship-state" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">ZIP:</span>
+                    <span><input type="text" id="ship-zip" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Phone number:</span>
+                    <span><input type="text" id="ship-phone" class="form-input"></span>
+                  </div>
+                  <input type="button" class="form-submit" value="Save" data-section="shipping">
+                </form>
+              </div>
+            </div>
+            <div class="row" id="checkout-pay">
+              <div id="payment-section">
+                <div>
+                  <span id="payment-title">Payment Information: <span> </span><i id="pay-icon" class="fa fa-plus-square" aria-hidden="true"></i></span>
+                </div>
+                <form id="payment-form">
+                  <div>
+                    <span class="form-label">Name on Card:</span>
+                    <span><input type="text" id="pay-name" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Credit Card Number:</span>
+                    <span><input type="text" id="pay-cc-number" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Expiration Date</span>
+                    <span><input type="text" id="pay-expire" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Security Code</span>
+                    <span><input type="text" id="pay-sec-code" class="form-input"></span>
+                  </div>
+                  <div id="billing-heading">
+                    Billing Information (if different from shipping address):
+                  </div>
+                  <div>
+                    <span class="form-label">Address line 1:</span>
+                    <span><input type="text" id="pay-address" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Address line 2:</span>
+                    <span><input type="text" id="pay-address-two" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">City:</span>
+                    <span><input type="text" id="pay-city" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">State/Province/Region:</span>
+                    <span><input type="text" id="pay-state" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">ZIP:</span>
+                    <span><input type="text" id="pay-zip" class="form-input"></span>
+                  </div>
+                  <div>
+                    <span class="form-label">Phone number:</span>
+                    <span><input type="text" id="pay-phone" class="form-input"></span>
+                  </div>
+                  <input type="button" class="form-submit" value="Save" data-section="payment">
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5" id="review">
+          </div>
+        </div>
+      </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="data.js"></script>
     <script src="default.js"></script>
   </body>
-</html> 
+</html>

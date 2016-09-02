@@ -1,7 +1,8 @@
-//store references to search bar and content sections of page
+//store references to sections of page
 var searchBar = document.getElementById('search-bar');
 var navbar = document.getElementById('navbar');
 var content = document.getElementById('content');
+var checkoutSection = document.getElementById('checkout');
 
 //variables related to matched searches
 var matchProperties = ['name', 'description', 'category',];
@@ -22,6 +23,7 @@ navbar.addEventListener('click', function(e) {
     case 'brand':
       searchBar.value = '';
       clear(content);
+      hide('checkout');
       break;
       default:
   }
@@ -62,6 +64,21 @@ content.addEventListener('click', function(e) {
   }
 })
 
+content.addEventListener('click', function(e) {
+  if (e.target.id === 'proceed-btn') {
+    show('checkout');
+    reviewOrder().appendChild(orderSummary());
+  }
+})
+
+checkoutSection.addEventListener('click', function(e) {
+  toggleCheckout(e)
+});
+
+// checkoutSection.addEventListener('click', function(e) {
+//   saveCheckout(e)
+// });
+
 //clear specified element
 function clear(element) {
   while(element.firstChild) {
@@ -74,6 +91,7 @@ function clear(element) {
 function search() {
   if (searchBar.value){
     clear(content);
+    hide('checkout');
     compare(products, matchProperties);
     viewResults(matches);
   }
@@ -132,23 +150,14 @@ function createResult (obj) {
 
   //add item to cart
 
-//create button for adding products to cart
-function cartBtn(obj) {
-  var cartBtn = document.createElement('button');
-  cartBtn.textContent = 'Add to Cart';
-  cartBtn.classList.add('result-add');
-  cartBtn.setAttribute('data-id', obj.id);
-  return cartBtn;
-}
-
 //display results
 function viewResults(array) {
   var resultArea = document.createElement('div');
-  resultArea.classList.add('col-md-8');
+  resultArea.classList.add('col-md-9');
 
   var resultDetail = document.createElement('div');
   resultDetail.textContent = 'Your search returned ' + array.length + ' results';
-  resultDetail.classList.add('result-detail', 'col-md-8');
+  resultDetail.classList.add('result-detail', 'col-md-9');
   content.appendChild(resultDetail);
 
   for (var i=0; i < array.length; i++) {
@@ -157,6 +166,15 @@ function viewResults(array) {
     resultArea.appendChild(result);
   }
   content.appendChild(resultArea);
+}
+
+//create button for adding products to cart
+function cartBtn(obj) {
+  var cartBtn = document.createElement('button');
+  cartBtn.textContent = 'Add to Cart';
+  cartBtn.classList.add('result-add');
+  cartBtn.setAttribute('data-id', obj.id);
+  return cartBtn;
 }
 
 //add item to cart
@@ -193,41 +211,131 @@ function removeFromCart(obj) {
 //clear content and view cart
 function viewCart() {
   clear(content);
+  hide('checkout');
   var resultArea = document.createElement('div');
   resultArea.classList.add('col-md-8');
-  for (var i=0; i<cart.length; i++) {
-    var result = createResult(cart[i]);
-    var quantity = document.createElement('div');
-    quantity.classList.add('inline-div');
-    quantity.appendChild(quantityBtn(cart[i]));
-    quantity.appendChild(removeBtn(cart[i]));
-    result.appendChild(quantity);
-    resultArea.appendChild(result);
+  if(cart.length === 0) {
+    var empty = document.createElement('div');
+    empty.classList.add('empty-message');
+    empty.textContent = 'Your Cart is Currently Empty'
+    content.appendChild(empty);
   }
-  content.appendChild(resultArea);
-  content.appendChild(cartSummary());
+  else {
+    var cartTitle = document.createElement('div');
+    cartTitle.textContent = 'Shopping Cart';
+    cartTitle.classList.add('cart-title', 'col-md-8');
+    content.appendChild(cartTitle);
+    for (var i=0; i<cart.length; i++) {
+      var result = createResult(cart[i]);
+      var quantSection = document.createElement('div');
+      quantSection.classList.add('inline-div');
+      var quantLabel = document.createElement('div');
+      quantLabel.classList.add('quant-label');
+      quantLabel.textContent = 'Quantity:'
+      quantSection.appendChild(quantLabel);
+      quantSection.appendChild(quantBtn(cart[i]));
+      quantSection.appendChild(removeBtn(cart[i]));
+      result.appendChild(quantSection);
+      resultArea.appendChild(result);
+    }
+    var subtotal = document.createElement('div');
+    subtotal.textContent = 'Subtotal: ' + calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+    subtotal.classList.add('cart-subtotal');
+    subtotal.setAttribute('id', 'cart-sub');
+    resultArea.appendChild(subtotal);
+    content.appendChild(resultArea);
+    var cartSub = cartSubtotal();
+    content.appendChild(cartSub);
+  }
 }
 
+function cartSubtotal() {
+  var summaryLabel = document.createElement('div');
+  summaryLabel.classList.add('cart-summary-label');
+  summaryLabel.textContent = 'Subtotal:'
+  var summaryValue = document.createElement('div');
+  summaryValue.classList.add('cart-summary-value');
+  summaryValue.textContent = calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+  var proceedBtn = document.createElement('button');
+  proceedBtn.setAttribute('id', 'proceed-btn');
+  proceedBtn.textContent = 'Checkout';
+  var proceed = document.createElement('div');
+  proceed.classList.add('cart-summary', 'col-md-2');
+  proceed.setAttribute('id', 'cart-summary');
+  proceed.appendChild(summaryLabel);
+  proceed.appendChild(summaryValue);
+  proceed.appendChild(proceedBtn);
+  return proceed;
+}
+
+function reviewOrder() {
+  var reviewSection = document.getElementById('review');
+  clear(reviewSection);
+
+  var reviewTitle = document.createElement('div');
+  reviewTitle.classList.add('review-title');
+  reviewTitle.textContent = 'Order Summary';
+  reviewSection.appendChild(reviewTitle);
+
+  for (var i=0; i<cart.length; i++) {
+    var img = document.createElement('img');
+    img.src = cart[i].img;
+    img.classList.add('review-img')
+
+    var name = document.createElement('div');
+    name.textContent = cart[i].name;
+    name.classList.add('review-name');
+    var price = document.createElement('div');
+    price.textContent = cart[i].price.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+    price.classList.add('review-price');
+    var quantity = document.createElement('div');
+    quantity.textContent = 'Quantity: ' + cart[i].quantity;
+    quantity.classList.add('review-quant');
+    var reviewText = document.createElement('div');
+    reviewText.classList.add('review-text');
+    reviewText.appendChild(name);
+    reviewText.appendChild(price);
+    reviewText.appendChild(quantity);
+
+    var subLabel = document.createElement('span');
+    subLabel.textContent = 'Subtotal: ';
+    var subValue = document.createElement('span');
+    subValue.classList.add('review-sub-value');
+    subValue.textContent = (cart[i].quantity * cart[i].price).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+    var sub = document.createElement('div');
+    sub.classList.add('review-sub');
+    sub.appendChild(subLabel);
+    sub.appendChild(subValue);
+
+    var review = document.createElement('div');
+    review.classList.add('review');
+    review.appendChild(img);
+    review.appendChild(reviewText);
+    review.appendChild(sub);
+    reviewSection.appendChild(review);
+  }
+  return reviewSection;
+}
 //create order summary box
-function cartSummary() {
-  var subtotalText = document.createElement('span');
-  subtotalText.classList.add('order-summary-text');
-  subtotalText.textContent = 'Items:';
-  var subtotalValue = document.createElement('span');
-  subtotalValue.classList.add('order-summary-value');
-  var itemTotal = calculateTotal(cart)
-  subtotalValue.textContent = itemTotal.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-  var subtotal = document.createElement('div');
-  subtotal.classList.add('subtotal');
-  subtotal.appendChild(subtotalText);
-  subtotal.appendChild(subtotalValue);
+function orderSummary() {
+  var itemsText = document.createElement('span');
+  itemsText.classList.add('order-summary-text');
+  itemsText.textContent = 'Items:';
+  var itemsValue = document.createElement('span');
+  itemsValue.classList.add('order-summary-value');
+  var itemsTotal = calculateTotal(cart)
+  itemsValue.textContent = itemsTotal.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+  var items = document.createElement('div');
+  items.classList.add('subtotal');
+  items.appendChild(itemsText);
+  items.appendChild(itemsValue);
 
   var taxText = document.createElement('span');
   taxText.classList.add('order-summary-text');
   taxText.textContent = 'Tax:';
   var taxValue = document.createElement('span');
   taxValue.classList.add('order-summary-value');
-  var taxTotal = itemTotal * 8 / 100;
+  var taxTotal = itemsTotal * 8 / 100;
   taxValue.textContent = taxTotal.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
   var tax = document.createElement('div');
   tax.appendChild(taxText);
@@ -238,7 +346,7 @@ function cartSummary() {
   totalText.textContent = 'Total:';
   var totalValue = document.createElement('span');
   totalValue.classList.add('order-summary-value');
-  var totalCost = itemTotal + taxTotal;
+  var totalCost = itemsTotal + taxTotal;
   totalValue.textContent = totalCost.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
   var total = document.createElement('div');
   total.classList.add('checkout-total', 'subtotal');
@@ -247,13 +355,13 @@ function cartSummary() {
 
   var checkout = document.createElement('button');
   checkout.classList.add('checkout-btn');
-  checkout.textContent = 'Checkout';
+  checkout.setAttribute('id', 'checkoutBtn');
+  checkout.textContent = 'Place Order';
 
   var summary = document.createElement('div');
   summary.classList.add('order-summary', 'col-md-2');
   summary.setAttribute('id','summary');
-  summary.textContent = 'Cart Summary';
-  summary.appendChild(subtotal);
+  summary.appendChild(items);
   summary.appendChild(tax);
   summary.appendChild(total);
   summary.appendChild(checkout);
@@ -271,20 +379,20 @@ function calculateTotal(array) {
 }
 
 function updateTotal(e, obj) {
-  var summary = document.getElementById('summary');
+  var summary = document.getElementById('cart-summary');
   content.removeChild(summary);
   obj.quantity = e.target.value;
-  content.appendChild(cartSummary());
+  content.appendChild(cartSubtotal());
+  var sub = document.getElementById('cart-sub');
+  sub.textContent = 'Subtotal: ' + calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+  // content.appendChild(orderSummary());
 }
 
-function quantityBtn(obj) {
-  var quantLabel = document.createElement('div');
-  quantLabel.classList.add('quant-label');
-  quantLabel.textContent = 'Quantity:'
-  var quantBtn = document.createElement('select');
-  quantBtn.classList.add('quant-btn');
-  quantBtn.setAttribute('value', obj.quantity);
-  quantBtn.setAttribute('data-quant-id', obj.id);
+function quantBtn(obj) {
+  var quant = document.createElement('select');
+  quant.classList.add('quant-btn');
+  quant.setAttribute('value', obj.quantity);
+  quant.setAttribute('data-quant-id', obj.id);
   for (var i=1; i<=10; i++) {
     var theOption = document.createElement('option');
     theOption.setAttribute('value', i);
@@ -292,12 +400,8 @@ function quantityBtn(obj) {
     if (theOption.textContent === obj.quantity.toString()) {
       theOption.setAttribute('selected', 'selected');
     }
-    quantBtn.appendChild(theOption);
+    quant.appendChild(theOption);
   }
-  var quant = document.createElement('div');
-  quant.classList.add('quant');
-  quant.appendChild(quantLabel);
-  quant.appendChild(quantBtn);
   return quant;
 }
 
@@ -308,3 +412,67 @@ function removeBtn(obj) {
   remove.textContent = "Remove";
   return remove;
 }
+
+function show(element) {
+  clear(content);
+  var show = document.getElementById(element);
+  show.style.display = 'block'; //question - why doesn't the setAttribute function work here?
+}
+
+function hide(element) {
+  var hidden = document.getElementById(element);
+    hidden.style.display = 'none';
+}
+
+function toggleCheckout(e) {
+  switch (e.target.id) {
+    case 'shipping-title':
+      var shipping = document.getElementById('shipping-form');
+      var shipIcon = document.getElementById('ship-icon');
+      if (shipping.style.display === 'block') {
+          shipping.style.display = 'none';
+      }
+      else {
+        shipping.style.display = 'block';
+      }
+      shipIcon.classList.toggle('fa-plus-square');
+      shipIcon.classList.toggle('fa-minus-square');
+      break;
+
+    case 'payment-title':
+      var payment = document.getElementById('payment-form');
+      var payIcon = document.getElementById('pay-icon');
+      if (payment.style.display === 'block') {
+        payment.style.display = 'none';
+      }
+      else {
+        payment.style.display = 'block'
+      }
+      payIcon.classList.toggle('fa-plus-square');
+      payIcon.classList.toggle('fa-minus-square');
+      break;
+      default:
+  }
+}
+
+// function saveCheckout(e) {
+//   if (e.target.classList.contains('form-submit')) {
+//     switch (e.target.getAttribute('data-section')) {
+//       case 'shipping':
+//         var ship = document.getElementById('shipping-title').parentElement;
+//         var checkShip = document.createElement('i');
+//         checkShip.classList.add('fa', 'fa-check', 'fa-check-green', 'fa-2x');
+//         checkShip.setAttribute('aria-hidden', 'true');
+//         ship.appendChild(checkShip);
+//         break;
+//       case 'payment':
+//         var pay = document.getElementById('payment-title').parentElement;
+//         var checkPay = document.createElement('i');
+//         checkPay.classList.add('fa', 'fa-check', 'fa-check-green', 'fa-2x');
+//         checkPay.setAttribute('aria-hidden', 'true');
+//         pay.appendChild(checkPay);
+//         break;
+//         default:
+//     }
+//   }
+// }
