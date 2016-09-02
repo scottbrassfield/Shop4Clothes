@@ -36,7 +36,8 @@
             <div class="row" id="checkout-ship">
               <div id="shipping-section">
                 <div>
-                  <span id="shipping-title">Shipping Information: <span> </span><i id="ship-icon" class="fa fa-plus-square" aria-hidden="true"></i></span>
+                  <span id="shipping-title">Shipping Information:</span>
+                  <span id="shipping-update" class="form-update">Update</span>
                 </div>
                 <form id="shipping-form">
                   <div>
@@ -67,14 +68,16 @@
                     <span class="form-label">Phone number:</span>
                     <span><input type="text" id="ship-phone" class="form-input"></span>
                   </div>
-                  <input type="button" class="form-submit" value="Save" data-section="shipping">
+                  <input type="button" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
                 </form>
+                <div id="ship-info"></div>
               </div>
             </div>
             <div class="row" id="checkout-pay">
               <div id="payment-section">
                 <div>
-                  <span id="payment-title">Payment Information: <span> </span><i id="pay-icon" class="fa fa-plus-square" aria-hidden="true"></i></span>
+                  <span id="payment-title">Payment Information:</span>
+                  <span id="payment-update" class="form-update">Update</span>
                 </div>
                 <form id="payment-form">
                   <div>
@@ -120,8 +123,10 @@
                     <span class="form-label">Phone number:</span>
                     <span><input type="text" id="pay-phone" class="form-input"></span>
                   </div>
-                  <input type="button" class="form-submit" value="Save" data-section="payment">
+                  <input type="button" class="form-submit" id="pay-submit" value="Save" data-section="payment">
                 </form>
+                <div id="pay-info">
+                </div>
               </div>
             </div>
           </div>

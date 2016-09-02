@@ -8,8 +8,10 @@ var checkoutSection = document.getElementById('checkout');
 var matchProperties = ['name', 'description', 'category',];
 var matches = [];
 
-//store items added to cart
+//variables related to user shopping experience
 var cart = [];
+var orders = [];
+var customerInfo = {};
 
 //event listener for buttons in navbar
 navbar.addEventListener('click', function(e) {
@@ -72,12 +74,34 @@ content.addEventListener('click', function(e) {
 })
 
 checkoutSection.addEventListener('click', function(e) {
-  toggleCheckout(e)
+  if (e.target.id === 'ship-submit') {
+    saveShip();
+    showShip();
+  }
+  if (e.target.id === 'pay-submit') {
+    savePay();
+    showPay();
+  }
+  if  (e.target.id === 'shipping-update') {
+    var shipping = document.getElementById('shipping-form');
+    shipping.style.display = 'block';
+    var shipUpdate = document.getElementById('shipping-update');
+    shipUpdate.style.display = 'none';
+    var shipText = document.getElementsByClassName('ship-text')[0];
+    shipText.style.display = 'none';
+  }
+  if (e.target.id === 'payment-update') {
+    var payment = document.getElementById('payment-form');
+    payment.style.display = 'block';
+    var payUpdate = document.getElementById('payment-update');
+    payUpdate.style.display = 'none';
+    var payText = document.getElementsByClassName('pay-text')[0];
+    payText.style.display = 'none';
+  }
+  if (e.target.id === 'checkoutBtn') {
+    ordered();
+  }
 });
-
-// checkoutSection.addEventListener('click', function(e) {
-//   saveCheckout(e)
-// });
 
 //clear specified element
 function clear(element) {
@@ -424,55 +448,106 @@ function hide(element) {
     hidden.style.display = 'none';
 }
 
-function toggleCheckout(e) {
-  switch (e.target.id) {
-    case 'shipping-title':
-      var shipping = document.getElementById('shipping-form');
-      var shipIcon = document.getElementById('ship-icon');
-      if (shipping.style.display === 'block') {
-          shipping.style.display = 'none';
-      }
-      else {
-        shipping.style.display = 'block';
-      }
-      shipIcon.classList.toggle('fa-plus-square');
-      shipIcon.classList.toggle('fa-minus-square');
-      break;
-
-    case 'payment-title':
-      var payment = document.getElementById('payment-form');
-      var payIcon = document.getElementById('pay-icon');
-      if (payment.style.display === 'block') {
-        payment.style.display = 'none';
-      }
-      else {
-        payment.style.display = 'block'
-      }
-      payIcon.classList.toggle('fa-plus-square');
-      payIcon.classList.toggle('fa-minus-square');
-      break;
-      default:
-  }
+function saveShip() {
+  var ship = {};
+  ship.id = 'ship';
+  ship.name = document.getElementById('ship-name').value;
+  ship.address = document.getElementById('ship-address').value;
+  ship.addressTwo = document.getElementById('ship-address-two').value;
+  ship.city = document.getElementById('ship-city').value;
+  ship.state = document.getElementById('ship-state').value;
+  ship.zip = document.getElementById('ship-zip').value;
+  ship.phone = document.getElementById('ship-phone').value;
+  customerInfo.ship = ship;
 }
 
-// function saveCheckout(e) {
-//   if (e.target.classList.contains('form-submit')) {
-//     switch (e.target.getAttribute('data-section')) {
-//       case 'shipping':
-//         var ship = document.getElementById('shipping-title').parentElement;
-//         var checkShip = document.createElement('i');
-//         checkShip.classList.add('fa', 'fa-check', 'fa-check-green', 'fa-2x');
-//         checkShip.setAttribute('aria-hidden', 'true');
-//         ship.appendChild(checkShip);
-//         break;
-//       case 'payment':
-//         var pay = document.getElementById('payment-title').parentElement;
-//         var checkPay = document.createElement('i');
-//         checkPay.classList.add('fa', 'fa-check', 'fa-check-green', 'fa-2x');
-//         checkPay.setAttribute('aria-hidden', 'true');
-//         pay.appendChild(checkPay);
-//         break;
-//         default:
-//     }
+function savePay() {
+  var pay = {};
+  pay.id = 'pay';
+  pay.name = document.getElementById('pay-name').value
+  pay.cc = document.getElementById('pay-cc-number').value
+  pay.exp = document.getElementById('pay-expire').value
+  pay.sec = document.getElementById('pay-sec-code').value
+  pay.billing = {
+    address: document.getElementById('pay-address').value,
+    addressTwo: pay.name = document.getElementById('pay-address-two').value,
+    city: document.getElementById('pay-city').value,
+    state: document.getElementById('pay-state').value,
+    zip: document.getElementById('pay-zip').value,
+    phone: document.getElementById('pay-phone').value,
+  }
+  customerInfo.pay = pay;
+}
+
+function showShip() {
+  var shipInfo = document.getElementById('ship-info');
+  clear(shipInfo);
+  var shipText = document.createElement('div');
+  shipText.classList.add('ship-text');
+  var shipName = document.createElement('div');
+  shipName.textContent = customerInfo.ship.name;
+  shipText.appendChild(shipName);
+  var shipAdd = document.createElement('div');
+  shipAdd.textContent = customerInfo.ship.address;
+  shipText.appendChild(shipAdd);
+  var shipAddTwo = document.createElement('div');
+  shipAddTwo.textContent = customerInfo.ship.addressTwo;
+  shipText.appendChild(shipAddTwo);
+  var shipCity = document.createElement('span');
+  shipCity.textContent = customerInfo.ship.city + ', ';
+  shipText.appendChild(shipCity);
+  var shipState = document.createElement('span');
+  shipState.textContent = customerInfo.ship.state + ' ';
+  shipText.appendChild(shipState);
+  var shipZip = document.createElement('span');
+  shipZip.textContent = customerInfo.ship.zip;
+  shipText.appendChild(shipZip);
+  var shipPhone = document.createElement('div');
+  shipPhone.textContent = customerInfo.ship.phone;
+  shipText.appendChild(shipPhone);
+  shipInfo.appendChild(shipText);
+  shipInfo.style.display = 'block';
+  var shipForm = document.getElementById('shipping-form');
+  shipForm.style.display = 'none';
+
+  var shipUpdate = document.getElementById('shipping-update');
+  shipUpdate.style.display = 'inline';
+}
+
+function showPay() {
+  var payInfo = document.getElementById('pay-info');
+  var payText = document.createElement('div');
+  payText.classList.add('pay-text');
+  payText.textContent = 'Payment Information has been saved'
+  payInfo.appendChild(payText);
+  payInfo.style.display = 'block';
+  var payForm = document.getElementById('payment-form');
+  payForm.style.display = 'none';
+
+  var payUpdate = document.getElementById('payment-update');
+  payUpdate.style.display = 'inline';
+}
+
+function ordered() {
+  var order = {};
+  order.submitted = new Date();
+  order.contents = [];
+  for (var i=0; i<cart.length; i++) {
+    order.contents.push(cart[i]);
+  }
+  orders.push(order);
+  cart = [];
+  hide('checkout');
+  var confirmation = document.createElement('div');
+  confirmation.classList.add('order-confirmation');
+  confirmation.textContent = "Your order has been placed!";
+  content.appendChild(confirmation);
+}
+
+// function element(tagname, classes, text) {
+//   var el = document.createElement(tagname);
+//   for (var i=0; i<classes.length; i++) {
+//     el.classList.add(classes[i]);
 //   }
+//   el.textContent = text;
 // }

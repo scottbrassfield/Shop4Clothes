@@ -225,6 +225,7 @@ body {
   color: white;
   border-style: none;
   border-radius: 5px;
+  margin-top: 25px;
   margin-bottom: 10px;
   margin-left: auto;
   margin-right: auto;
@@ -263,12 +264,27 @@ body {
   cursor: pointer;
 }
 
-#shipping-form {
+.form-update {
+  font-size: 12px;
+  color: rgba(35,47,62,1);
+  float: right;
+  cursor: pointer;
+}
+
+#shipping-update {
   display: none;
 }
 
-#payment-form {
+#payment-update {
   display: none;
+}
+
+#shipping-form {
+  display: block;
+}
+
+#payment-form {
+  display: block;
 }
 
 #shipping-form div {
@@ -292,10 +308,6 @@ body {
 
 #billing-heading {
   margin-top: 30px !important;
-}
-
-.fa-check-green {
-  color: rgba(29,157,116,1);
 }
 
 #review {
@@ -381,4 +393,30 @@ body {
   font-size: 18px;
   color: maroon;
   font-weight: normal;
+}
+
+.order-confirmation {
+  margin-top: 50px;
+  margin-left: 100px;
+  font-size: 30px;
+}
+
+#pay-info {
+  display: none;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+#ship-info {
+  display: none;
+  width: 100%;
+  background-color: #f3f3f3;
+}
+
+.ship-text {
+  padding: 10px;
+}
+
+.pay-text {
+  padding: 10px;
 }
