@@ -5,13 +5,62 @@ var content = document.getElementById('content');
 var checkoutSection = document.getElementById('checkout');
 
 //variables related to matched searches
-var matchProperties = ['name', 'description', 'category',];
+var matchProperties = ['name', 'description', 'category'];
 var matches = [];
 
 //variables related to user shopping experience
 var cart = [];
 var orders = [];
-var customerInfo = {};
+var customer = {
+  login: {email: ''},
+  ship: {
+    name: 'Scott',
+    address: '',
+    addressTwo: '',
+    city: '',
+    state: '',
+    zip: '',
+    phone: '',
+  },
+  pay: {
+    cc: '',
+    sec: '',
+    expire: '',
+    name: '',
+    address: '',
+    addressTwo: '',
+    city: '',
+    state: '',
+    zip: '',
+    phone: ''
+  },
+};
+var form = {
+  ship: {
+    name: {id: 'ship-name', value: '', validate: ''},
+    address: {id: 'ship-address', value: '', validate: ''},
+    addressTwo: {id: 'ship-address-two', value: '', validate: ''},
+    city: {id: 'ship-city', value: '', validate: ''},
+    state: {id: 'ship-state', value: '', validate: ''},
+    zip: {id: 'ship-zip', value: '', validate: '',},
+    phone: {id: 'ship-phone', value: '', validate: '',}
+  },
+  pay: {
+    cc: {id: 'pay-cc-number', value: '', validate: ''},
+    sec: {id: 'pay-sec-code', value: '', validate: ''},
+    expire: {id: 'pay-expire', value: '', validate: ''},
+    name: {id: 'pay-name', value: '', validate: ''},
+    address: {id: 'pay-address', value: '', validate: ''},
+    addressTwo: {id: 'pay-address-two', value: '', validate: ''},
+    city: {id: 'pay-city', value: '', validate: ''},
+    state: {id: 'pay-state', value: '', validate: ''},
+    zip: {id: 'pay-zip', value: '', validate: '',},
+    phone: {id: 'pay-phone', value: '', validate: '',}
+  },
+  customer: {
+    email: {id: 'customer-input', value: '', validate: ''}
+  },
+};
 
 //event listener for buttons in navbar
 navbar.addEventListener('click', function(e) {
@@ -42,7 +91,7 @@ searchBar.addEventListener('keyup', function(e) {
 content.addEventListener('click', function(e) {
   for (var i=0; i<matches.length; i++) {
     if (e.target.getAttribute('data-id') === matches[i].id) {
-        addToCart(matches[i]);
+      addToCart(matches[i]);
     }
   }
 })
@@ -74,39 +123,32 @@ content.addEventListener('click', function(e) {
 })
 
 checkoutSection.addEventListener('click', function(e) {
-  if (e.target.id === 'ship-submit') {
-    saveShip();
-    showShip();
-  }
-  if (e.target.id === 'pay-submit') {
-    savePay();
-    showPay();
-  }
-  if  (e.target.id === 'shipping-update') {
-    var shipping = document.getElementById('shipping-form');
-    shipping.style.display = 'block';
-    var shipUpdate = document.getElementById('shipping-update');
-    shipUpdate.style.display = 'none';
-    var shipText = document.getElementsByClassName('ship-text')[0];
-    shipText.style.display = 'none';
-  }
-  if (e.target.id === 'payment-update') {
-    var payment = document.getElementById('payment-form');
-    payment.style.display = 'block';
-    var payUpdate = document.getElementById('payment-update');
-    payUpdate.style.display = 'none';
-    var payText = document.getElementsByClassName('pay-text')[0];
-    payText.style.display = 'none';
-  }
-  if (e.target.id === 'checkoutBtn') {
-    ordered();
+  switch (e.target.id) {
+    case 'ship-submit':
+      saveForm(customer.ship, form.ship);
+      showShip();
+      break;
+    case 'pay-submit':
+      saveForm(customer.pay, form.pay);
+      showPay();
+      break;
+    case 'shipping-update':
+      toggleShip();
+      break;
+    case 'payment-update':
+      togglePay();
+      break;
+    case 'checkoutBtn':
+      ordered();
+      break;
+    default:
   }
 });
 
 checkoutSection.addEventListener('keyup', function(e) {
   if(e.target.id === 'customer-input'){
     if (e.which === 13 || e.keyCode === 13) {
-      customerInfo.email = e.target.value;
+      customer.email = e.target.value;
     }
   }
 })
@@ -151,45 +193,28 @@ function compare(products, properties) {
 
 //create result element based on matches array
 function createResult (obj) {
-    //create element to store product image
-    var img = document.createElement('img');
-    img.src = obj.img;
-    img.classList.add('result-img')
+  //create element to store product image
+  var img = element('img', 'result-img');
+  img.src = obj.img;
 
-    //create elements for product name, price, and description
-    var name = document.createElement('div');
-    name.textContent = obj.name;
-    name.classList.add('result-name');
-    var price = document.createElement('div');
-    price.textContent = obj.price.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-    price.classList.add('result-price')
-    var descr = document.createElement('div');
-    descr.textContent = obj.description;
-    descr.classList.add('result-descr');
-    var resultText = document.createElement('div');
-    resultText.classList.add('result-text');
-    resultText.appendChild(name);
-    resultText.appendChild(price);
-    resultText.appendChild(descr);
+  //create elements for product name, price, and description
+  var name = element('div', 'result-name', obj.name);
+  var price = element('div', 'result-price', priceFormat(obj.price));
+  var descr = element('div', 'result-descr', obj.description);
+  var resultText = element('div', 'result-text');
+  append(resultText, [name, price, descr]);
 
-    //combine and return result element
-    var result = document.createElement('div');
-    result.classList.add('result');
-    result.appendChild(img);
-    result.appendChild(resultText);
-    return result;
-  }
-
-  //add item to cart
+  //combine and return result element
+  var result = element('div', 'result');
+  append(result, [img, resultText]);
+  return result;
+}
 
 //display results
 function viewResults(array) {
-  var resultArea = document.createElement('div');
-  resultArea.classList.add('col-md-9');
-
-  var resultDetail = document.createElement('div');
-  resultDetail.textContent = 'Your search returned ' + array.length + ' results';
-  resultDetail.classList.add('result-detail', 'col-md-9');
+  var resultArea = element('div','col-md-10', '');
+  var resultDetail = element('div', ['result-detail', 'col-md-10'], 'Your search returned ' + array.length + ' results');
+  // resultDetail.textContent = 'Your search returned ' + array.length + ' results';
   content.appendChild(resultDetail);
 
   for (var i=0; i < array.length; i++) {
@@ -202,10 +227,7 @@ function viewResults(array) {
 
 //create button for adding products to cart
 function cartBtn(obj) {
-  var cartBtn = document.createElement('button');
-  cartBtn.textContent = 'Add to Cart';
-  cartBtn.classList.add('result-add');
-  cartBtn.setAttribute('data-id', obj.id);
+  var cartBtn = element('button', 'result-add', 'Add to Cart', ['data-id', obj.id]);
   return cartBtn;
 }
 
@@ -244,59 +266,37 @@ function removeFromCart(obj) {
 function viewCart() {
   clear(content);
   hide('checkout');
-  var resultArea = document.createElement('div');
-  resultArea.classList.add('col-md-8');
   if(cart.length === 0) {
-    var empty = document.createElement('div');
-    empty.classList.add('empty-message');
-    empty.textContent = 'Your Cart is Currently Empty'
+    var empty = element('div', 'empty-message', 'Your Cart is Currently Empty');
     content.appendChild(empty);
   }
   else {
-    var cartTitle = document.createElement('div');
-    cartTitle.textContent = 'Shopping Cart';
-    cartTitle.classList.add('cart-title', 'col-md-8');
+    var cartTitle = element('div',['cart-title', 'col-md-8'], 'Shopping Cart');
     content.appendChild(cartTitle);
     for (var i=0; i<cart.length; i++) {
+      var quantLabel = element('div', 'quant-label', 'Quantity');
+      var quantSection = element('div', 'inline-div');
+      append(quantSection, [quantLabel, quantBtn(cart[i]), removeBtn(cart[i])])
       var result = createResult(cart[i]);
-      var quantSection = document.createElement('div');
-      quantSection.classList.add('inline-div');
-      var quantLabel = document.createElement('div');
-      quantLabel.classList.add('quant-label');
-      quantLabel.textContent = 'Quantity:'
-      quantSection.appendChild(quantLabel);
-      quantSection.appendChild(quantBtn(cart[i]));
-      quantSection.appendChild(removeBtn(cart[i]));
       result.appendChild(quantSection);
+      var resultArea = element('div', 'col-md-8');
       resultArea.appendChild(result);
     }
-    var subtotal = document.createElement('div');
-    subtotal.textContent = 'Subtotal: ' + calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-    subtotal.classList.add('cart-subtotal');
-    subtotal.setAttribute('id', 'cart-sub');
+    var subtotal = element('div','cart-subtotal','Subtotal: ' + priceFormat(calculateTotal(cart)), ['id', 'cart-sub']);
     resultArea.appendChild(subtotal);
-    content.appendChild(resultArea);
     var cartSub = cartSubtotal();
-    content.appendChild(cartSub);
+    append(content, [resultArea, cartSub])
   }
 }
 
 function cartSubtotal() {
-  var summaryLabel = document.createElement('div');
-  summaryLabel.classList.add('cart-summary-label');
-  summaryLabel.textContent = 'Subtotal:'
-  var summaryValue = document.createElement('div');
-  summaryValue.classList.add('cart-summary-value');
-  summaryValue.textContent = calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-  var proceedBtn = document.createElement('button');
+  var summaryLabel = element('div', 'cart-summary-label', 'Subtotal:');
+  var summaryValue = element('div', 'cart-summary-value', calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'}));
+  var proceedBtn = element('button', '', 'Checkout');
   proceedBtn.setAttribute('id', 'proceed-btn');
-  proceedBtn.textContent = 'Checkout';
-  var proceed = document.createElement('div');
-  proceed.classList.add('cart-summary', 'col-md-2');
+  var proceed = element('div', ['cart-summary', 'col-md-2'], '');
   proceed.setAttribute('id', 'cart-summary');
-  proceed.appendChild(summaryLabel);
-  proceed.appendChild(summaryValue);
-  proceed.appendChild(proceedBtn);
+  append(proceed, [summaryLabel, summaryValue, proceedBtn])
   return proceed;
 }
 
@@ -304,99 +304,52 @@ function reviewOrder() {
   var reviewSection = document.getElementById('review');
   clear(reviewSection);
 
-  var reviewTitle = document.createElement('div');
-  reviewTitle.classList.add('review-title');
-  reviewTitle.textContent = 'Order Summary';
+  var reviewTitle = element('div', 'review-title', 'Order Summary');
   reviewSection.appendChild(reviewTitle);
 
   for (var i=0; i<cart.length; i++) {
-    var img = document.createElement('img');
+    var img = element('img', 'review-img');
     img.src = cart[i].img;
-    img.classList.add('review-img')
+    var name = element('div', 'review-name', cart[i].name);
+    var price = element('div', 'review-price', priceFormat(cart[i].price));
+    var quantity = element('div', 'review-quant', 'Quantity: ' + cart[i].quantity);
+    var reviewText = element('div','review-text');
+    append(reviewText, [name, price, quantity]);
 
-    var name = document.createElement('div');
-    name.textContent = cart[i].name;
-    name.classList.add('review-name');
-    var price = document.createElement('div');
-    price.textContent = cart[i].price.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-    price.classList.add('review-price');
-    var quantity = document.createElement('div');
-    quantity.textContent = 'Quantity: ' + cart[i].quantity;
-    quantity.classList.add('review-quant');
-    var reviewText = document.createElement('div');
-    reviewText.classList.add('review-text');
-    reviewText.appendChild(name);
-    reviewText.appendChild(price);
-    reviewText.appendChild(quantity);
-
-    var subLabel = document.createElement('span');
-    subLabel.textContent = 'Subtotal: ';
-    var subValue = document.createElement('span');
-    subValue.classList.add('review-sub-value');
-    subValue.textContent = (cart[i].quantity * cart[i].price).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-    var sub = document.createElement('div');
-    sub.classList.add('review-sub');
-    sub.appendChild(subLabel);
-    sub.appendChild(subValue);
-
-    var review = document.createElement('div');
-    review.classList.add('review');
-    review.appendChild(img);
-    review.appendChild(reviewText);
-    review.appendChild(sub);
-    reviewSection.appendChild(review);
+    var subLabel = element('span','', 'Subtotal: ');
+    var subValue = element('span', 'review-sub-value', priceFormat(cart[i].quantity * cart[i].price));
+    var sub = element('div', 'review-sub');
+    append(sub, [subLabel, subValue])
+    var review = element('div', 'review');
+    append(review, [img, reviewText, sub])
+    append(reviewSection, review);
   }
   return reviewSection;
 }
 //create order summary box
 function orderSummary() {
-  var itemsText = document.createElement('span');
-  itemsText.classList.add('order-summary-text');
-  itemsText.textContent = 'Items:';
-  var itemsValue = document.createElement('span');
-  itemsValue.classList.add('order-summary-value');
-  var itemsTotal = calculateTotal(cart)
-  itemsValue.textContent = itemsTotal.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-  var items = document.createElement('div');
-  items.classList.add('subtotal');
-  items.appendChild(itemsText);
-  items.appendChild(itemsValue);
+  var itemsTotal = calculateTotal(cart);
+  var itemsText = element('span', 'order-summary-text', 'Items:');
+  var itemsValue = element('span', 'order-summary-value', priceFormat(itemsTotal));
+  var items = element('div', 'subtotal', '');
+  append(items, [itemsText, itemsValue])
 
-  var taxText = document.createElement('span');
-  taxText.classList.add('order-summary-text');
-  taxText.textContent = 'Tax:';
-  var taxValue = document.createElement('span');
-  taxValue.classList.add('order-summary-value');
-  var taxTotal = itemsTotal * 8 / 100;
-  taxValue.textContent = taxTotal.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-  var tax = document.createElement('div');
-  tax.appendChild(taxText);
-  tax.appendChild(taxValue);
+  var taxTotal = itemsTotal * (8 / 100);
+  var taxText = element('span', 'order-summary-text', 'Tax:');
+  var taxValue = element('span', 'order-summary-value', priceFormat(taxTotal));
+  var tax = element('div');
+  append(tax, [taxText, taxValue]);
 
-  var totalText = document.createElement('span');
-  totalText.classList.add('order-summary-text');
-  totalText.textContent = 'Total:';
-  var totalValue = document.createElement('span');
-  totalValue.classList.add('order-summary-value');
   var totalCost = itemsTotal + taxTotal;
-  totalValue.textContent = totalCost.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-  var total = document.createElement('div');
-  total.classList.add('checkout-total', 'subtotal');
-  total.appendChild(totalText);
-  total.appendChild(totalValue);
+  var totalText = element('span', 'order-summary-text', 'Total:');
+  var totalValue = element('span', 'order-summary-value', priceFormat(totalCost));
+  var total = element('div', ['checkout-total', 'subtotal']);
+  append(total, [totalText, totalValue]);
 
-  var checkout = document.createElement('button');
-  checkout.classList.add('checkout-btn');
-  checkout.setAttribute('id', 'checkoutBtn');
-  checkout.textContent = 'Place Order';
+  var checkout = element('button', 'checkout-btn', 'Place Order', ['id', 'checkoutBtn']);
 
-  var summary = document.createElement('div');
-  summary.classList.add('order-summary', 'col-md-2');
-  summary.setAttribute('id','summary');
-  summary.appendChild(items);
-  summary.appendChild(tax);
-  summary.appendChild(total);
-  summary.appendChild(checkout);
+  var summary = element('div', ['order-summary', 'col-md-2'], ['id', 'summary']);
+  append(summary, [items, tax, total, checkout]);
 
   return summary;
 }
@@ -416,8 +369,7 @@ function updateTotal(e, obj) {
   obj.quantity = e.target.value;
   content.appendChild(cartSubtotal());
   var sub = document.getElementById('cart-sub');
-  sub.textContent = 'Subtotal: ' + calculateTotal(cart).toLocaleString('en-US',{style: 'currency', currency: 'USD'});
-  // content.appendChild(orderSummary());
+  sub.textContent = 'Subtotal: ' + priceFormat(calculateTotal(cart));
 }
 
 function quantBtn(obj) {
@@ -438,95 +390,52 @@ function quantBtn(obj) {
 }
 
 function removeBtn(obj) {
-  var remove = document.createElement('div');
-  remove.classList.add('remove-btn');
+  var remove = element('div', 'remove-btn', 'Remove');
   remove.setAttribute('data-remove-id', obj.id);
-  remove.textContent = "Remove";
   return remove;
 }
 
 function show(element) {
   clear(content);
   var show = document.getElementById(element);
-  show.style.display = 'block'; //question - why doesn't the setAttribute function work here?
+  show.style.display = 'block';
 }
 
 function hide(element) {
   var hidden = document.getElementById(element);
-    hidden.style.display = 'none';
+  hidden.style.display = 'none';
 }
 
-function saveShip() {
-  var ship = {};
-  ship.id = 'ship';
-  ship.name = document.getElementById('ship-name').value;
-  ship.address = document.getElementById('ship-address').value;
-  ship.addressTwo = document.getElementById('ship-address-two').value;
-  ship.city = document.getElementById('ship-city').value;
-  ship.state = document.getElementById('ship-state').value;
-  ship.zip = document.getElementById('ship-zip').value;
-  ship.phone = document.getElementById('ship-phone').value;
-  customerInfo.ship = ship;
-}
-
-function savePay() {
-  var pay = {};
-  pay.id = 'pay';
-  pay.name = document.getElementById('pay-name').value
-  pay.cc = document.getElementById('pay-cc-number').value
-  pay.exp = document.getElementById('pay-expire').value
-  pay.sec = document.getElementById('pay-sec-code').value
-  pay.billing = {
-    address: document.getElementById('pay-address').value,
-    addressTwo: pay.name = document.getElementById('pay-address-two').value,
-    city: document.getElementById('pay-city').value,
-    state: document.getElementById('pay-state').value,
-    zip: document.getElementById('pay-zip').value,
-    phone: document.getElementById('pay-phone').value,
+function saveForm(save, source) {
+  for (var prop in save) {
+    save[prop] = document.getElementById(source[prop].id).value;
   }
-  customerInfo.pay = pay;
 }
 
 function showShip() {
   var shipInfo = document.getElementById('ship-info');
   clear(shipInfo);
-  var shipText = document.createElement('div');
-  shipText.classList.add('ship-text');
-  var shipName = document.createElement('div');
-  shipName.textContent = customerInfo.ship.name;
-  shipText.appendChild(shipName);
-  var shipAdd = document.createElement('div');
-  shipAdd.textContent = customerInfo.ship.address;
-  shipText.appendChild(shipAdd);
-  var shipAddTwo = document.createElement('div');
-  shipAddTwo.textContent = customerInfo.ship.addressTwo;
-  shipText.appendChild(shipAddTwo);
-  var shipCity = document.createElement('span');
-  shipCity.textContent = customerInfo.ship.city + ', ';
-  shipText.appendChild(shipCity);
-  var shipState = document.createElement('span');
-  shipState.textContent = customerInfo.ship.state + ' ';
-  shipText.appendChild(shipState);
-  var shipZip = document.createElement('span');
-  shipZip.textContent = customerInfo.ship.zip;
-  shipText.appendChild(shipZip);
-  var shipPhone = document.createElement('div');
-  shipPhone.textContent = customerInfo.ship.phone;
-  shipText.appendChild(shipPhone);
-  shipInfo.appendChild(shipText);
+  var shipText = element('div', 'ship-text');
+  append(shipText, [
+    element('div', '', customer.ship.name),
+    element('div', '', customer.ship.address),
+    element('div', '', customer.ship.addressTwo),
+    element('span', '', customer.ship.city + ', '),
+    element('span', '', customer.ship.state + ' '),
+    element('span', '', customer.ship.zip),
+    element('div', '', customer.ship.phone)
+    ]);
+  append(shipInfo, shipText);
   shipInfo.style.display = 'block';
   var shipForm = document.getElementById('shipping-form');
   shipForm.style.display = 'none';
-
   var shipUpdate = document.getElementById('shipping-update');
   shipUpdate.style.display = 'inline';
 }
 
 function showPay() {
+  var payText = element('div', ['pay-text'], 'Payment Information has been saved');
   var payInfo = document.getElementById('pay-info');
-  var payText = document.createElement('div');
-  payText.classList.add('pay-text');
-  payText.textContent = 'Payment Information has been saved'
   payInfo.appendChild(payText);
   payInfo.style.display = 'block';
   var payForm = document.getElementById('payment-form');
@@ -543,20 +452,63 @@ function ordered() {
   for (var i=0; i<cart.length; i++) {
     order.contents.push(cart[i]);
   }
-  order.customer = customerInfo;
+  order.customer = customer;
   orders.push(order);
   cart = [];
   hide('checkout');
-  var confirmation = document.createElement('div');
-  confirmation.classList.add('order-confirmation');
-  confirmation.textContent = "Your order has been placed!";
+  var confirmation = element('div', 'order-confirmation', 'Your order has been placed');
   content.appendChild(confirmation);
 }
 
-// function element(tagname, classes, text) {
-//   var el = document.createElement(tagname);
-//   for (var i=0; i<classes.length; i++) {
-//     el.classList.add(classes[i]);
-//   }
-//   el.textContent = text;
-// }
+function toggleShip() {
+  var shipping = document.getElementById('shipping-form');
+  shipping.style.display = 'block';
+  var shipUpdate = document.getElementById('shipping-update');
+  shipUpdate.style.display = 'none';
+  var shipText = document.getElementsByClassName('ship-text')[0];
+  shipText.style.display = 'none';
+}
+
+function togglePay() {
+  var payment = document.getElementById('payment-form');
+  payment.style.display = 'block';
+  var payUpdate = document.getElementById('payment-update');
+  payUpdate.style.display = 'none';
+  var payText = document.getElementsByClassName('pay-text')[0];
+  payText.style.display = 'none';
+}
+
+function priceFormat(num) {
+  var numFormat = num.toLocaleString('en-US',{style: 'currency', currency: 'USD'});
+  return numFormat;
+}
+
+function element(tagname, classes, text, attribute) {
+  var el = document.createElement(tagname);
+  if(typeof classes === 'object') {
+    for (var i=0; i<classes.length; i++) {
+      el.classList.add(classes[i]);
+    }
+  }
+  else if (classes) {
+    el.classList.add(classes);
+  }
+  if(text) {
+    el.textContent = text;
+  }
+  if(attribute) {
+    el.setAttribute(attribute[0], attribute[1]);
+  }
+  return el;
+}
+
+function append(parent, children) {
+  if(Array.isArray(children)) {
+    for (var i=0; i<children.length; i++) {
+      parent.appendChild(children[i]);
+    }
+  }
+  else {
+    parent.appendChild(children);
+  }
+}
