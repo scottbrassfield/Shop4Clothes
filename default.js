@@ -76,6 +76,11 @@ navbar.addEventListener('click', function(e) {
       clear(content);
       hide('checkout');
       break;
+    case 'hist-btn':
+      clear(content);
+      hide('checkout');
+      orderHistory();
+      break;
       default:
   }
 });
@@ -125,11 +130,11 @@ content.addEventListener('click', function(e) {
 checkoutSection.addEventListener('click', function(e) {
   switch (e.target.id) {
     case 'ship-submit':
-      saveForm(customer.ship, form.ship);
+      saveForm(form.ship, customer.ship);
       showShip();
       break;
     case 'pay-submit':
-      saveForm(customer.pay, form.pay);
+      saveForm(form.pay, customer.pay);
       showPay();
       break;
     case 'shipping-update':
@@ -273,13 +278,13 @@ function viewCart() {
   else {
     var cartTitle = element('div',['cart-title', 'col-md-8'], 'Shopping Cart');
     content.appendChild(cartTitle);
+    var resultArea = element('div', 'col-md-8');
     for (var i=0; i<cart.length; i++) {
       var quantLabel = element('div', 'quant-label', 'Quantity');
       var quantSection = element('div', 'inline-div');
       append(quantSection, [quantLabel, quantBtn(cart[i]), removeBtn(cart[i])])
       var result = createResult(cart[i]);
       result.appendChild(quantSection);
-      var resultArea = element('div', 'col-md-8');
       resultArea.appendChild(result);
     }
     var subtotal = element('div','cart-subtotal','Subtotal: ' + priceFormat(calculateTotal(cart)), ['id', 'cart-sub']);
@@ -348,7 +353,7 @@ function orderSummary() {
 
   var checkout = element('button', 'checkout-btn', 'Place Order', ['id', 'checkoutBtn']);
 
-  var summary = element('div', ['order-summary', 'col-md-2'], ['id', 'summary']);
+  var summary = element('div', ['order-summary', 'col-md-2'], '', ['id', 'summary']);
   append(summary, [items, tax, total, checkout]);
 
   return summary;
@@ -406,7 +411,7 @@ function hide(element) {
   hidden.style.display = 'none';
 }
 
-function saveForm(save, source) {
+function saveForm(source, save) {
   for (var prop in save) {
     save[prop] = document.getElementById(source[prop].id).value;
   }
@@ -434,7 +439,7 @@ function showShip() {
 }
 
 function showPay() {
-  var payText = element('div', ['pay-text'], 'Payment Information has been saved');
+  var payText = element('div', 'pay-text', 'Payment Information has been saved');
   var payInfo = document.getElementById('pay-info');
   payInfo.appendChild(payText);
   payInfo.style.display = 'block';
@@ -447,10 +452,12 @@ function showPay() {
 
 function ordered() {
   var order = {};
+  order.total = 0;
   order.submitted = new Date();
   order.contents = [];
   for (var i=0; i<cart.length; i++) {
     order.contents.push(cart[i]);
+    order.total += (cart[i].quantity * cart[i].price);
   }
   order.customer = customer;
   orders.push(order);
@@ -476,6 +483,39 @@ function togglePay() {
   payUpdate.style.display = 'none';
   var payText = document.getElementsByClassName('pay-text')[0];
   payText.style.display = 'none';
+}
+
+function orderHistory() {
+  content.appendChild(element('div', 'hist-title', 'Order History'))
+  for (var i=0; i<orders.length; i++) {
+    var order = element('div', ['hist-order', 'col-md-9'], '');
+    var date = element('div', 'hist-date');
+    append(date, [
+      element('div', 'hist-date-label', 'Order Submitted:'),
+      element('div', 'hist-date-content', orders[i].submitted.toDateString())
+    ]);
+    var total = element('div', 'hist-total');
+    append(total, [
+      element('div', 'hist-total-label', 'Total:'),
+      element('div', 'hist-total-content', priceFormat(orders[i].total)),
+    ]);
+    var summary = element('div', 'hist-summary');
+    append(summary, [date, total]);
+    append(order, summary);
+
+    for (var k=0; k<orders[i].contents.length; k++) {
+      var item = element('div', 'hist-item');
+      append(item, element('img', 'hist-item-img', '', ['src', orders[i].contents[k].img]));
+      var text = element('div', 'hist-item-text');
+      append(text, [
+        element('div', 'hist-item-name', orders[i].contents[k].name),
+        element('div', 'hist-item-price', priceFormat(orders[i].contents[k].price))
+      ]);
+      append(item, text);
+      append(order, item);
+    }
+    append(content, order);
+  }
 }
 
 function priceFormat(num) {

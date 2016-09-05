@@ -54,6 +54,18 @@ body {
   width: 70%;
 }
 
+#hist-btn {
+  float: right;
+  margin-top: 18px;
+  margin-right: 50px;
+  font-size: 14px;
+  height: 40px;
+  width: 100px;
+  border-radius: 5px;
+  border-style: none;
+  background-color: #5a5a5a;
+}
+
 #cart-btn {
   font-size: 14px;
   height: 40px;
@@ -62,7 +74,7 @@ body {
   border-style: none;
   background-color: #5a5a5a;
   margin-top: 18px;
-  margin-right: 50px;
+  margin-right: 20px;
   float: right;
 }
 
@@ -424,4 +436,75 @@ body {
   margin-left: 20px;
   font-size: 12px;
   color: maroon;
+}
+
+.hist-title {
+  font-size: 20px;
+  border-bottom: 2px solid black;
+}
+
+.hist-order {
+  margin-top: 15px;
+}
+
+.hist-summary {
+  background-color: #f3f3f3;
+  border: 1px solid grey;
+  width: 100%;
+  padding: 15px;
+  font-size: 14px;
+}
+
+.hist-date {
+  display: inline-block;
+}
+
+.hist-date-label {
+  font-weight: bold;
+  display: inline-block;
+}
+
+.hist-date-content {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.hist-total {
+  display: inline-block;
+  margin-left: 75px;
+}
+
+.hist-total-label {
+  font-weight: bold;
+  display: inline-block;
+}
+
+.hist-total-content {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.hist-item {
+  width: 100%;
+  border: 1px solid grey;
+}
+
+.hist-item-img {
+  height: 100px;
+  width: 100px;
+  margin: 20px;
+}
+
+.hist-item-text {
+  display: inline-block;
+}
+
+.hist-item-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.hist-item-price {
+  color: maroon;
+  font-size: 14px;
 }
