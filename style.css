@@ -434,8 +434,13 @@ body {
 
 .form-submit-val {
   margin-left: 20px;
-  font-size: 12px;
-  color: maroon;
+  font-size: 16px;
+  color: #e3320c;
+}
+
+.form-val {
+  margin-left: 40%;
+  color: #e3320c;
 }
 
 .hist-title {

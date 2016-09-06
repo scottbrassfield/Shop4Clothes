@@ -14,7 +14,7 @@ var orders = [];
 var customer = {
   login: {email: ''},
   ship: {
-    name: 'Scott',
+    name: '',
     address: '',
     addressTwo: '',
     city: '',
@@ -37,29 +37,86 @@ var customer = {
 };
 var form = {
   ship: {
-    name: {id: 'ship-name', value: '', validate: ''},
-    address: {id: 'ship-address', value: '', validate: ''},
-    addressTwo: {id: 'ship-address-two', value: '', validate: ''},
-    city: {id: 'ship-city', value: '', validate: ''},
-    state: {id: 'ship-state', value: '', validate: ''},
-    zip: {id: 'ship-zip', value: '', validate: '',},
-    phone: {id: 'ship-phone', value: '', validate: '',}
+    name: {id: 'ship-name', value: '', required: true, valid: true, validate: ''},
+    address: {id: 'ship-address', value: '', required: true, valid: true, validate: function(input) {
+        var number = 0;
+        var string = 0;
+        form.ship.address.valid = true;
+        var msg = document.getElementById('ship-address-val');
+        msg.textContent = '';
+        var content = input.split('');
+        for (var i=0; i<content.length; i++) {
+          if (isNaN(parseInt(content[i]))) {
+            string++;
+          }
+          else { number++; }
+        }
+        if (number === 0 || string === 0) {
+        msg.textContent = 'Please enter a valid address'
+        form.ship.address.valid = false;
+        }
+      }
+    },
+    addressTwo: {id: 'ship-address-two', value: '', required: false, valid: true, validate: ''},
+    city: {id: 'ship-city', value: '', required: true, valid: true, validate: ''},
+    state: {id: 'ship-state', value: '', required: true, valid: true, validate: function(input) {
+      form.ship.state.valid = true;
+      var msg = document.getElementById('ship-state-val');
+      msg.textContent = '';
+      if (input.length != 2) {
+        msg.textContent = 'Please enter valid state abbreviation';
+        form.ship.state.valid = false;
+      }
+    }},
+    zip: {id: 'ship-zip', value: '', required: true, valid: true, validate: function(input) {
+        form.ship.zip.valid = true;
+        var msg = document.getElementById('ship-zip-val');
+        msg.textContent = '';
+        if(input.length != 5) {
+          msg.textContent = 'Please enter valid zip code';
+          form.ship.zip.valid = false;
+        }
+    }},
+    phone: {id: 'ship-phone', value: '', required: true, valid: true, validate: function(input) {
+        form.ship.phone.valid = true;
+        var msg = document.getElementById('ship-phone-val');
+        msg.textContent = '';
+        if(input.length < 10 || input.length > 13) {
+          msg.textContent = 'Please enter valid phone number';
+          form.ship.phone.valid = false;
+        }
+      }
+    }
   },
   pay: {
-    cc: {id: 'pay-cc-number', value: '', validate: ''},
-    sec: {id: 'pay-sec-code', value: '', validate: ''},
-    expire: {id: 'pay-expire', value: '', validate: ''},
-    name: {id: 'pay-name', value: '', validate: ''},
-    address: {id: 'pay-address', value: '', validate: ''},
-    addressTwo: {id: 'pay-address-two', value: '', validate: ''},
-    city: {id: 'pay-city', value: '', validate: ''},
-    state: {id: 'pay-state', value: '', validate: ''},
-    zip: {id: 'pay-zip', value: '', validate: '',},
-    phone: {id: 'pay-phone', value: '', validate: '',}
+    cc: {id: 'pay-cc-number', value: '', required: true, valid: true, validate: ''},
+    sec: {id: 'pay-sec-code', value: '', required: true, valid: true, validate: ''},
+    expire: {id: 'pay-expire', value: '', required: true, valid: true, validate: ''},
+    name: {id: 'pay-name', value: '', required: true, valid: true, validate: ''},
+    address: {id: 'pay-address', value: '', required: true, valid: true, validate: ''},
+    addressTwo: {id: 'pay-address-two', value: '', required: false, valid: true, validate: ''},
+    city: {id: 'pay-city', value: '', required: true, valid: true, validate: ''},
+    state: {id: 'pay-state', value: '', required: true, valid: true, validate: ''},
+    zip: {id: 'pay-zip', value: '', required: true, valid: true, validate: '',},
+    phone: {id: 'pay-phone', value: '', required: true, valid: true, validate: '',}
   },
   customer: {
-    email: {id: 'customer-input', value: '', validate: ''}
+    email: {id: 'customer-input', value: '', required: true, valid: true, validate: ''}
   },
+  validate: function(obj, element) {
+    var valid = true;
+    for (var prop in obj) {
+      if (document.getElementById(obj[prop].id).value === '' && obj[prop].required) {
+        document.getElementById(element).textContent = 'Enter text for all required fields';
+        valid = false;
+      }
+      if (!obj[prop].valid) {
+        document.getElementById(element).textContent = 'Please fix errors';
+        valid = false;
+      }
+    }
+    return valid;
+  }
 };
 
 //event listener for buttons in navbar
@@ -130,18 +187,28 @@ content.addEventListener('click', function(e) {
 checkoutSection.addEventListener('click', function(e) {
   switch (e.target.id) {
     case 'ship-submit':
-      saveForm(form.ship, customer.ship);
-      showShip();
+      var ship = form.validate(form.ship, 'ship-submit-val')
+      if (ship) {
+        saveForm(form.ship, customer.ship);
+        showShip();
+      }
       break;
     case 'pay-submit':
-      saveForm(form.pay, customer.pay);
-      showPay();
+      var pay = form.validate(form.pay, 'pay-submit-val');
+      if (pay) {
+        saveForm(form.pay, customer.pay);
+        showPay();
+      }
       break;
     case 'shipping-update':
       toggleShip();
+      var shipSubmit = document.getElementById('ship-submit-val');
+      shipSubmit.textContent = '';
       break;
     case 'payment-update':
       togglePay();
+      var paySubmit = document.getElementById('pay-submit-val');
+      paySubmit.textContent = '';
       break;
     case 'checkoutBtn':
       ordered();
@@ -157,6 +224,18 @@ checkoutSection.addEventListener('keyup', function(e) {
     }
   }
 })
+
+checkoutSection.addEventListener('blur', function(e) {
+  for (var type in form) {
+    for (var prop in form[type]) {
+        if (form[type][prop].id === e.target.id) {
+          if(form[type][prop].validate) {
+            form[type][prop].validate(e.target.value);
+          }
+        }
+    }
+  }
+}, true);
 
 //clear specified element
 function clear(element) {
@@ -492,7 +571,7 @@ function orderHistory() {
     var date = element('div', 'hist-date');
     append(date, [
       element('div', 'hist-date-label', 'Order Submitted:'),
-      element('div', 'hist-date-content', orders[i].submitted.toDateString())
+      element('div', 'hist-date-content', orders[i].submitted.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric'}))
     ]);
     var total = element('div', 'hist-total');
     append(total, [

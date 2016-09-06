@@ -3,15 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>Shop4Stuff</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   </head>
   <body>
     <nav id="navbar">
       <div id="brand">Shop4Stuff</div>
       <div id="search">
-        <input id="search-bar" type="text" class="form-control" placeholder="Search">
+        <input id="search-bar" type="text" class="form-control" placeholder="Search" autofocus="">
         <button id="search-btn" type="button" class="btn btn-default">
           <span class="glyphicon glyphicon-search"></span>
         </button>
@@ -33,7 +35,7 @@
             <div class="row" id="checkout-cust">
               <div id="customer-section">
                 <div id="customer-title">Customer Information:</div>
-                <input type="text" id="customer-input" placeholder="Email address">
+                <input type="email" id="customer-input" placeholder="Email address">
               </div>
             </div>
             <div class="row" id="checkout-ship">
@@ -55,7 +57,7 @@
                   </div>
                   <div>
                     <span class="form-label">Address line 2:</span>
-                    <span><input type="text" id="ship-address-two" class="form-input"></span>
+                    <span><input type="text" id="ship-address-two" class="form-input" placeholder="Apt, Suite, etc. (Optional)"></span>
                     <div class="form-val" id="ship-address-two-val"></div>
                   </div>
                   <div>
@@ -75,7 +77,7 @@
                   </div>
                   <div>
                     <span class="form-label">Phone number:</span>
-                    <span><input type="text" id="ship-phone" class="form-input"></span>
+                    <span><input type="tel" id="ship-phone" class="form-input"></span>
                     <div class="form-val" id="ship-phone-val"></div>
                   </div>
                   <input type="button" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
@@ -92,7 +94,7 @@
                 </div>
                 <form id="payment-form">
                   <div>
-                    <span class="form-label">Name on Card:</span>
+                    <span class="form-label">Name on Card (VISA/MC):</span>
                     <span><input type="text" id="pay-name" class="form-input"></span>
                     <div class="form-val" id="pay-name-val"></div>
                   </div>
@@ -141,7 +143,7 @@
                   </div>
                   <div>
                     <span class="form-label">Phone number:</span>
-                    <span><input type="text" id="pay-phone" class="form-input"></span>
+                    <span><input type="tel" id="pay-phone" class="form-input"></span>
                     <div class="form-val" id="pay-phone-val"></div>
                   </div>
                   <input type="button" class="form-submit" id="pay-submit" value="Save" data-section="payment">
@@ -156,8 +158,6 @@
           </div>
         </div>
       </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="data.js"></script>
     <script src="default.js"></script>
   </body>
