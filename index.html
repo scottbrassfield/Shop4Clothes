@@ -71,7 +71,7 @@
           <div class="row" id="checkout-cust">
             <div id="customer-section">
               <div id="customer-title">Customer Information:</div>
-              <input type="email" id="customer-input" placeholder="someone@somewhere.com" required>
+              <input type="email" id="customer-input" placeholder="someone@somewhere.com" required="true">
             </div>
           </div>
           <div id="checkout-ship" class="row">
@@ -83,37 +83,37 @@
               <form name="shipping" id="shipping-form">
                 <div>
                   <div class="form-label">Full name:</div>
-                  <input type="text" id="ship-name" class="form-input" required pattern="[A-Za-z\s]{0,}">
+                  <input type="text" name="name" id="ship-name" class="form-input" required="true" pattern="[A-Za-z\s]{0,}">
                   <div class="form-val" id="ship-name-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Address line 1:</div>
-                  <input type="text" id="ship-address" class="form-input" required>
+                  <input type="text" name="address" id="ship-address" class="form-input" required="true">
                   <div class="form-val" id="ship-address-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Address line 2:</div>
-                  <input type="text" id="ship-address-two" class="form-input" placeholder="Apt, Suite, etc. (Optional)">
+                  <input type="text" name="address-two" id="ship-address-two" class="form-input" placeholder="Apt, Suite, etc. (Optional)">
                   <div class="form-val" id="ship-address-two-val"></div>
                 </div>
                 <div>
                   <div class="form-label">City:</div>
-                  <input type="text" id="ship-city" class="form-input" required pattern="[A-Za-z\s]{0,}">
+                  <input type="text" name="city" id="ship-city" class="form-input" required="true" pattern="[A-Za-z\s]{0,}">
                   <div class="form-val" id="ship-city-val"></div>
                 </div>
                 <div>
                   <div class="form-label">State:</div>
-                  <input type="text" id="ship-state" class="form-input" pattern="[A-Z]{2}" required>
+                  <input type="text" name="state" id="ship-state" class="form-input" pattern="[A-Z]{2}" required="true">
                   <div class="form-val" id="ship-state-val"></div>
                 </div>
                 <div>
                   <div class="form-label">ZIP:</div>
-                  <input type="text" id="ship-zip" class="form-input" pattern="[0-9]{5}" maxlength="5" required>
+                  <input type="text" name="zip" id="ship-zip" class="form-input" pattern="[0-9]{5}" maxlength="5" required="true">
                   <div class="form-val" id="ship-zip-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Phone:</div>
-                  <input type="text" id="ship-phone" class="form-input" maxlength="14" pattern="\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}" required>
+                  <input type="text" name="phone" id="ship-phone" class="form-input" maxlength="14" pattern="\([0-9]{3}\)\s[0-9]{3}-[0-9]{4}" required="true">
                   <div class="form-val" id="ship-phone-val"></div>
                 </div>
                 <input type="submit" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
@@ -140,22 +140,22 @@
               <form name="payment" id="payment-form">
                 <div>
                   <div class="form-label">Name on Card:</div>
-                  <input type="text" id="pay-name" class="form-input" required pattern="[A-Za-z\s]{0,}">
+                  <input type="text" id="pay-name" class="form-input" required="true" pattern="[A-Za-z\s]{0,}">
                   <div class="form-val" id="pay-name-val"></div>
                 </div>
                 <div>
                   <div class="form-label">CC#:</div>
-                  <input type="text" id="pay-cc-number" class="form-input" placeholder="VISA/MC" pattern="[0-9]{4}\s[[0-9]{4}\s[0-9]{4}\s[0-9]{4}" maxlength="19" required>
+                  <input type="text" name="cc" id="pay-cc-number" class="form-input" placeholder="VISA/MC" pattern="[0-9]{4}\s[[0-9]{4}\s[0-9]{4}\s[0-9]{4}" maxlength="19" required="true">
                   <div class="form-val" id="pay-cc-number-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Expiration Date:</div>
-                  <input type="text" id="pay-expire" class="form-input" placeholder="mm/yy" pattern="[0-9]{2}\/[0-9]{2}" maxlength="5" required>
+                  <input type="text" name="expire" id="pay-expire" class="form-input" placeholder="mm/yy" pattern="[0-9]{2}\/[0-9]{2}" maxlength="5" required="true">
                   <div class="form-val" id="pay-expire-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Security Code:</div>
-                  <input type="text" id="pay-sec-code" class="form-input" maxlength="3">
+                  <input type="text" name="sec-code" id="pay-sec-code" class="form-input" maxlength="3">
                   <div class="form-val" id="pay-sec-code-val"></div>
                 </div>
                 <div id="billing-heading">
@@ -164,35 +164,35 @@
                 </div>
                 <div>
                   <div class="form-label">Address line 1:</div>
-                  <input type="text" id="pay-address" class="form-input">
+                  <input type="text" name="address" id="pay-address" class="form-input">
                   <div class="form-val" id="pay-address-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Address line 2:</div>
-                  <input type="text" id="pay-address-two" class="form-input">
+                  <input type="text" name="address-two" id="pay-address-two" class="form-input">
                   <div class="form-val" id="pay-address-two-val"></div>
                 </div>
                 <div>
                   <div class="form-label">City:</div>
-                  <input type="text" id="pay-city" class="form-input" pattern="[A-Za-z\s]{0,}">
+                  <input type="text" id="pay-city" name="city" class="form-input" pattern="[A-Za-z\s]{0,}">
                   <div class="form-val" id="pay-city-val"></div>
                 </div>
                 <div>
                   <div class="form-label">State:</div>
-                  <input type="text" id="pay-state" class="form-input" maxlength="2" pattern="[A-Z]{2}">
+                  <input type="text" name="state" id="pay-state" class="form-input" maxlength="2" pattern="[A-Z]{2}">
                   <div class="form-val" id="pay-state-val"></div>
                 </div>
                 <div>
                   <div class="form-label">ZIP:</div>
-                  <input type="text" id="pay-zip" class="form-input" maxlength="5" pattern="[0-9]{5}">
+                  <input type="text" name="zip" id="pay-zip" class="form-input" maxlength="5" pattern="[0-9]{5}">
                   <div class="form-val" id="pay-zip-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Phone:</div>
-                  <input type="tel" id="pay-phone" class="form-input" maxlength="14">
+                  <input type="tel" name="phone" id="pay-phone" class="form-input" maxlength="14">
                   <div class="form-val" id="pay-phone-val"></div>
                 </div>
-                <input type="button" class="form-submit" id="pay-submit" value="Save" data-section="payment">
+                <input type="submit" class="form-submit" id="pay-submit" value="Save" data-section="payment">
                 <span class="form-submit-val" id="pay-submit-val"></span>
               </form>
               <div id="pay-info">

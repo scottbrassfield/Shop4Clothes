@@ -102,90 +102,96 @@ var checkoutView = document.getElementById('view-checkout');
 // })
 
 checkoutView.addEventListener('blur', function(e) {
-  console.log(e);
-  for (var type in form) {
-    for (var prop in form[type]) {
-        if (form[type][prop].id === e.target.id) {
-          if(form[type][prop].validate) {
-            form[type][prop].validate(e.target.value);
-          }
-        }
-    }
-  }
+  validate(e.target);
 }, true);
 
-
-
-
-// checkoutView.addEventListener('change', function(e) {
-//   if (e.target.id === 'billing-checkbox') {
-//     var payInput;
-//     var shipInput;
-//     for (var payProp in form.pay) {
-//       payInput = document.getElementById(form.pay[payProp].id);
-//       for (var shipProp in form.ship) {
-//         shipInput = document.getElementById(form.ship[shipProp].id);
-//         if (payProp === shipProp) {
-//           if(!e.target.checked) {
-//             payInput.setAttribute('value', '');
-//           }
-//           else {
-//             payInput.setAttribute('value', shipInput.value);
-//           }
-//         }
-//       }
-//     }
-//   }
-// });
-checkoutView.addEventListener('click', function(e) {
-  switch (e.target.id) {
-    case 'ship-submit':
-    console.log(e);
-      e.preventDefault();
-      // var ship = form.validate(form.ship, 'ship-submit-val')
-      // if (ship) {
-        // saveForm(form.ship, customer.ship);
-        // var summary = document.getElementById('ship-summary').getElementsByClassName('ship-summary-value');
-        // for (var prop in customer.ship) {
-        //   for (var i=0; i<summary.length; i++) {
-        //     summary.length[i].textContent = customer.ship[prop];
-        //   }
-        // }
-      // }
-      break;
-    // case 'pay-submit':
-    //   // var pay = form.validate(form.pay, 'pay-submit-val');
-    //   if (pay) {
-    //     saveForm(form.pay, customer.pay);
-    //     showPay();
-    //   }
-    //   break;
-    // // case 'shipping-update':
-    //   toggleShip();
-    //   var shipSubmit = document.getElementById('ship-submit-val');
-    //   shipSubmit.textContent = '';
-    //   break;
-    // case 'payment-update':
-    //   togglePay();
-    //   var paySubmit = document.getElementById('pay-submit-val');
-    //   paySubmit.textContent = '';
-    //   break;
-    // case 'checkoutBtn':
-    //   var validate = [form.validate(form.ship, 'ship-submit-val'),
-    //   form.validate(form.pay, 'pay-submit-val')];
-    //   var order = true;
-    //   for (var i=0; i<validate.length; i++) {
-    //     if(!validate[i]) {
-    //       order = false;
-    //     }
-    //   }
-    //   if(order) {
-    //     ordered();
-    // //   }
-    // //   break;
-    default:
+checkoutView.addEventListener('change', function(e) {
+  if (e.target.id === 'billing-checkbox') {
+    var sources = $( '#shipping-form').find('input[name]');
+    var targets = $( e.target.form ).find('input[name]');
+    for (var i=0; i<targets.length; i++) {
+      for (var k=0; k<sources.length; k++) {
+        if (targets[i].getAttribute('name') === sources[k].getAttribute('name')) {
+          if (e.target.checked) {
+            $( targets[i] ).val($( sources[k] ).val());
+          }
+          else {
+            $( targets[i] ).val("");
+          }
+        }
+      }
+    }
   }
 });
+
+// checkoutView.addEventListener('click', function(e) {
+//   switch (e.target.id) {
+//     case 'ship-submit':
+//       e.preventDefault();
+//
+//       // var ship = form.validate(form.ship, 'ship-submit-val')
+//       // if (ship) {
+//         // saveForm(form.ship, customer.ship);
+//         // var summary = document.getElementById('ship-summary').getElementsByClassName('ship-summary-value');
+//         // for (var prop in customer.ship) {
+//         //   for (var i=0; i<summary.length; i++) {
+//         //     summary.length[i].textContent = customer.ship[prop];
+//         //   }
+//         // }
+//       // }
+//       break;
+//     // case 'pay-submit':
+//     //   // var pay = form.validate(form.pay, 'pay-submit-val');
+//     //   if (pay) {
+//     //     saveForm(form.pay, customer.pay);
+//     //     showPay();
+//     //   }
+//     //   break;
+//     // // case 'shipping-update':
+//     //   toggleShip();
+//     //   var shipSubmit = document.getElementById('ship-submit-val');
+//     //   shipSubmit.textContent = '';
+//     //   break;
+//     // case 'payment-update':
+//     //   togglePay();
+//     //   var paySubmit = document.getElementById('pay-submit-val');
+//     //   paySubmit.textContent = '';
+//     //   break;
+//     // case 'checkoutBtn':
+//     //   var validate = [form.validate(form.ship, 'ship-submit-val'),
+//     //   form.validate(form.pay, 'pay-submit-val')];
+//     //   var order = true;
+//     //   for (var i=0; i<validate.length; i++) {
+//     //     if(!validate[i]) {
+//     //       order = false;
+//     //     }
+//     //   }
+//     //   if(order) {
+//     //     ordered();
+//     // //   }
+//     // //   break;
+//     default:
+//   }
+// });
+
+function validate(element) {
+  if (!element.checkValidity()) {
+    if(!element.classList.contains('form-input-invalid')) {
+      element.classList.add('form-input-invalid');
+    }
+  }
+  else {
+    if (element.classList.contains('form-input-invalid')) {
+      element.classList.remove('form-input-invalid');
+    }
+  }
+}
+
+function save(source, save) {
+  for (var prop in save) {
+    save[prop] = document.getElementById(source[prop].id).value;
+  }
+}
 
 function search(products, fields, criteria) {
   var matches = [];
@@ -477,11 +483,7 @@ function quantBtn(item) {
   return quant;
 }
 
-// function saveForm(source, save) {
-//   for (var prop in save) {
-//     save[prop] = document.getElementById(source[prop].id).value;
-//   }
-// }
+
 
 // function ordered() {
 //   var order = {};

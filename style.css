@@ -323,6 +323,10 @@ input:focus:valid {
   background-color: none;
 }
 
+.form-input-invalid {
+  background-color: rgba(240,170,176,.2);
+}
+
 #shipping-title {
   font-size: 20px;
   margin-right: 3px;
