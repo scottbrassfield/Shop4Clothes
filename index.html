@@ -27,7 +27,7 @@
     </nav>
     <div id="view-home" class="container view active">
       <div class="row" id="home-content">
-        <div class="col-md-5">Who's ready to buy some stuff??</div>
+        <div class="col-md-5"></div>
       </div>
     </div>
     <div id="view-search" class="container-fluid view hidden">
@@ -47,14 +47,14 @@
     </div>
     <div id="view-product" class="container view hidden">
       <div class="row">
-        <div id="product-content" class="col-md-10">
+        <div id="product-content" class="col-md-10 main">
         </div>
       </div>
     </div>
     <div id="view-cart" class="container-fluid view hidden">
       <div class="row">
         <div class="col-md-1"></div>
-        <div id="cart-content" class="col-md-8 main">
+        <div id="cart-content" class="col-md-7 main">
         </div>
         <div id="cart-aside" class="col-md-3">
           <div id="cart-subtotal">
@@ -103,17 +103,17 @@
                 </div>
                 <div>
                   <div class="form-label">State:</div>
-                  <input type="text" id="ship-state" class="form-input">
+                  <input type="text" id="ship-state" class="form-input" maxlength="2">
                   <div class="form-val" id="ship-state-val"></div>
                 </div>
                 <div>
                   <div class="form-label">ZIP:</div>
-                  <input type="text" id="ship-zip" class="form-input" pattern="[0-9]{5}" required>
+                  <input type="text" id="ship-zip" class="form-input" maxlength="5">
                   <div class="form-val" id="ship-zip-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Phone:</div>
-                  <input type="tel" id="ship-phone" class="form-input" maxlength="14">
+                  <input type="text" id="ship-phone" class="form-input" maxlength="14">
                   <div class="form-val" id="ship-phone-val"></div>
                 </div>
                 <input type="button" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
@@ -134,7 +134,7 @@
           <div class="row" id="checkout-pay">
             <div id="payment-section">
               <div>
-                <span id="payment-title">Payment Information (Visa/MC):</span>
+                <span id="payment-title">Payment Information:</span>
                 <span id="payment-update" class="form-update">Update</span>
               </div>
               <form name="payment" id="payment-form">
@@ -145,17 +145,17 @@
                 </div>
                 <div>
                   <div class="form-label">CC#:</div>
-                  <input type="text" id="pay-cc-number" class="form-input">
+                  <input type="text" id="pay-cc-number" class="form-input" placeholder="VISA/MC" maxlength="19">
                   <div class="form-val" id="pay-cc-number-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Expiration Date:</div>
-                  <input type="text" id="pay-expire" class="form-input">
+                  <input type="text" id="pay-expire" class="form-input" placeholder="mm/yy" maxlength="5">
                   <div class="form-val" id="pay-expire-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Security Code:</div>
-                  <input type="text" id="pay-sec-code" class="form-input">
+                  <input type="text" id="pay-sec-code" class="form-input" maxlength="3">
                   <div class="form-val" id="pay-sec-code-val"></div>
                 </div>
                 <div id="billing-heading">
@@ -179,17 +179,17 @@
                 </div>
                 <div>
                   <div class="form-label">State:</div>
-                  <input type="text" id="pay-state" class="form-input">
+                  <input type="text" id="pay-state" class="form-input" maxlength="2">
                   <div class="form-val" id="pay-state-val"></div>
                 </div>
                 <div>
                   <div class="form-label">ZIP:</div>
-                  <input type="text" id="pay-zip" class="form-input">
+                  <input type="text" id="pay-zip" class="form-input" maxlength="5">
                   <div class="form-val" id="pay-zip-val"></div>
                 </div>
                 <div>
                   <div class="form-label">Phone:</div>
-                  <input type="tel" id="pay-phone" class="form-input">
+                  <input type="tel" id="pay-phone" class="form-input" maxlength="14">
                   <div class="form-val" id="pay-phone-val"></div>
                 </div>
                 <input type="button" class="form-submit" id="pay-submit" value="Save" data-section="payment">
@@ -225,9 +225,10 @@
     </div>
     <div id="view-history" class="container view hidden">
       <div class="row">
+        <div id="history-content" class="main"></div>
       </div>
     </div>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.10.0/validate.min.js"></script>
+    <script src="validate.js"></script>
     <script src="data.js"></script>
     <script src="default.js"></script>
   </body>

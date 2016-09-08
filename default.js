@@ -1,203 +1,9 @@
-var products = [
-  {
-    id: 'p001',
-    category: 'Sporting Goods',
-    name:'Schwinn Mark V Bike',
-    description:'Schwinn\'s Mark V is a full-dress cruiser that nails the number one reason we ride bikes: fun.',
-    price: 150,
-    img:'http://sicklerbikes.com/images/library/zoom/schwinn_MARV26_SND_13_z.jpg'
-  },
-  {
-    id: 'p002',
-    category: 'Electronics',
-    name:'USB Drive',
-    description:'32GB USB Drive',
-    price: 32.75,
-    img:'#'
-  },
-  {
-    id: 'p003',
-    category: 'Auto',
-    name:'Car',
-    description:'Honda Civic',
-    price: 15827,
-    img:'#'
-  },
-  {
-    id: 'p004',
-    category: 'Clothing and Accessories',
-    name:'Glasses',
-    description:'Tom Ford square-rim glasses',
-    price: 119.85,
-    img:'#'
-  },
-  {
-    id: 'p005',
-    category: 'Electronics',
-    name:'Macbook Pro',
-    description:'13-in Macbook Pro',
-    price: 1300,
-    img:'#'
-  },
-  {
-    id: 'p006',
-    category: 'Electronics',
-    name:'Dell Ultrabook',
-    description:'15-in Dell Ultrabook',
-    price: 999.99,
-    img:'#'},
-  {
-    id: 'p007',
-    category: 'Electronics',
-    name:'HP Pavillion',
-    description:'13-in HP Pavillion',
-    price: 850,
-    img:'#'},
-  {
-    id: 'p008',
-    category: 'School and Office Supplies',
-    name:'Paper',
-    description:'1 ream of paper',
-    price: 1.27,
-    img:'#'
-  },
-  {
-    id: 'p009',
-    category: 'Clothing and Accessories',
-    name:'Nike Roshe Running Shoes',
-    description:'Made for both running and everyday use',
-    price: 95.50,
-    img:'http://images.nike.com/is/image/DotCom/511881_A_V2?&$img=511881_023_A_PREM&$PDP_HERO$'
-  },
-
-  {
-    id: 'p011',
-    category: 'Clothing and Accessories',
-    name:'Vans High-Tops',
-    description:'Classic pair of shoes from Vans',
-    price: 44.95,
-    img:'http://images.vans.com/is/image/Vans/QG36BT-HERO?$583x583$'
-  },
-  {
-    id: 'p012',
-    category: 'Sporting Goods',
-    name:'Basketball',
-    description:'Spalding indoor-outdoor basketball',
-    price: 27.00,
-    img:'http://thumbs1.ebaystatic.com/d/l225/m/m9jsV41Jk7HU6fBkgyd9W-g.jpg'
-  }
-]
 var searchFields = ['name', 'description', 'category'];
-var searches = {};
+// var searches = {};
 var cart = [];
-var orders = [];
-var customer = {
-  login: {email: ''},
-  ship: {
-    name: '',
-    address: '',
-    addressTwo: '',
-    city: '',
-    state: '',
-    zip: '',
-    phone: '',
-  },
-  pay: {
-    cc: '',
-    sec: '',
-    expire: '',
-    name: '',
-    address: '',
-    addressTwo: '',
-    city: '',
-    state: '',
-    zip: '',
-    phone: ''
-  },
-};
-var form = {
-  ship: {
-    name: {id: 'ship-name', value: '', required: true, valid: true, validate: ''},
-    address: {id: 'ship-address', value: '', required: true, valid: true, validate: function(input) {
-        var number = 0;
-        var string = 0;
-        form.ship.address.valid = true;
-        var msg = document.getElementById('ship-address-val');
-        msg.textContent = '';
-        var content = input.split('');
-        for (var i=0; i<content.length; i++) {
-          if (isNaN(parseInt(content[i]))) {
-            string++;
-          }
-          else { number++; }
-        }
-        if (number === 0 || string === 0) {
-        msg.textContent = 'Please enter a valid address'
-        form.ship.address.valid = false;
-        }
-      }
-    },
-    addressTwo: {id: 'ship-address-two', value: '', required: false, valid: true, validate: ''},
-    city: {id: 'ship-city', value: '', required: true, valid: true, validate: ''},
-    state: {id: 'ship-state', value: '', required: true, valid: true, validate: function(input) {
-      form.ship.state.valid = true;
-      var msg = document.getElementById('ship-state-val');
-      msg.textContent = '';
-      if (input.length != 2) {
-        msg.textContent = 'Please enter valid state abbreviation';
-        form.ship.state.valid = false;
-      }
-    }},
-    zip: {id: 'ship-zip', value: '', required: true, valid: true, validate: function(input) {
-        form.ship.zip.valid = true;
-        var msg = document.getElementById('ship-zip-val');
-        msg.textContent = '';
-        if(input.length != 5) {
-          msg.textContent = 'Please enter valid zip code';
-          form.ship.zip.valid = false;
-        }
-    }},
-    phone: {id: 'ship-phone', value: '', required: true, valid: true, validate: function(input) {
-        form.ship.phone.valid = true;
-        var msg = document.getElementById('ship-phone-val');
-        msg.textContent = '';
-        if(input.length < 10 || input.length > 13) {
-          msg.textContent = 'Please enter valid phone number';
-          form.ship.phone.valid = false;
-        }
-      }
-    }
-  },
-  pay: {
-    cc: {id: 'pay-cc-number', value: '', required: true, valid: true, validate: ''},
-    sec: {id: 'pay-sec-code', value: '', required: true, valid: true, validate: ''},
-    expire: {id: 'pay-expire', value: '', required: true, valid: true, validate: ''},
-    name: {id: 'pay-name', value: '', required: true, valid: true, validate: ''},
-    address: {id: 'pay-address', value: '', required: true, valid: true, validate: ''},
-    addressTwo: {id: 'pay-address-two', value: '', required: false, valid: true, validate: ''},
-    city: {id: 'pay-city', value: '', required: true, valid: true, validate: ''},
-    state: {id: 'pay-state', value: '', required: true, valid: true, validate: ''},
-    zip: {id: 'pay-zip', value: '', required: true, valid: true, validate: '',},
-    phone: {id: 'pay-phone', value: '', required: true, valid: true, validate: '',}
-  },
-  customer: {
-    email: {id: 'customer-input', value: '', required: true, valid: true, validate: ''}
-  },
-  validate: function(obj, element) {
-    var valid = true;
-    for (var prop in obj) {
-      if (document.getElementById(obj[prop].id).value === '' && obj[prop].required) {
-        document.getElementById(element).textContent = 'Enter text for all required fields';
-        valid = false;
-      }
-      if (!obj[prop].valid) {
-        document.getElementById(element).textContent = 'Please fix errors';
-        valid = false;
-      }
-    }
-    return valid;
-  }
-};
+// var orders = [];
+
+// References to products refer to the products object stored in data.js file
 
 var navbar = document.getElementById("navbar");
 navbar.addEventListener('click', function(e) {
@@ -243,6 +49,17 @@ searchBar.addEventListener('keyup', function(e) {
 
 var searchView = document.getElementById('view-search');
 searchView.addEventListener('click', function(e) {
+  clear('product-content');
+  for (var i=0; i<products.length; i++) {
+    if (e.target.getAttribute('data-id') === products[i].id) {
+      var currentView = view(products[i], 'view-product').id;
+      swap('view', currentView)
+    }
+  }
+})
+
+var productView = document.getElementById('view-product');
+productView.addEventListener('click', function(e) {
   for (var i=0; i<products.length; i++) {
     if (e.target.getAttribute('data-id') === products[i].id) {
       toCart(products[i]);
@@ -274,8 +91,47 @@ cartView.addEventListener('click', function(e) {
     swap('view', currentView);
   }
 })
-//
-// var checkoutView = document.getElementById('view-checkout');
+
+var checkoutView = document.getElementById('view-checkout');
+checkoutView.addEventListener('keyup', function(e) {
+  if(e.target.id === 'customer-input'){
+    if (e.which === 13 || e.keyCode === 13) {
+      customer.email = e.target.value;
+    }
+  }
+})
+
+// checkoutView.addEventListener('blur', function(e) {
+//   for (var type in form) {
+//     for (var prop in form[type]) {
+//         if (form[type][prop].id === e.target.id) {
+//           if(form[type][prop].validate) {
+//             form[type][prop].validate(e.target.value);
+//           }
+//         }
+//     }
+//   }
+// }, true);
+// checkoutView.addEventListener('change', function(e) {
+//   if (e.target.id === 'billing-checkbox') {
+//     var payInput;
+//     var shipInput;
+//     for (var payProp in form.pay) {
+//       payInput = document.getElementById(form.pay[payProp].id);
+//       for (var shipProp in form.ship) {
+//         shipInput = document.getElementById(form.ship[shipProp].id);
+//         if (payProp === shipProp) {
+//           if(!e.target.checked) {
+//             payInput.setAttribute('value', '');
+//           }
+//           else {
+//             payInput.setAttribute('value', shipInput.value);
+//           }
+//         }
+//       }
+//     }
+//   }
+// });
 // checkoutView.addEventListener('click', function(e) {
 //   switch (e.target.id) {
 //     case 'ship-submit':
@@ -321,47 +177,6 @@ cartView.addEventListener('click', function(e) {
 //     //   }
 //     //   break;
 //     default:
-//   }
-// });
-//
-// checkoutView.addEventListener('keyup', function(e) {
-//   if(e.target.id === 'customer-input'){
-//     if (e.which === 13 || e.keyCode === 13) {
-//       customer.email = e.target.value;
-//     }
-//   }
-// })
-//
-// checkoutView.addEventListener('blur', function(e) {
-//   for (var type in form) {
-//     for (var prop in form[type]) {
-//         if (form[type][prop].id === e.target.id) {
-//           if(form[type][prop].validate) {
-//             form[type][prop].validate(e.target.value);
-//           }
-//         }
-//     }
-//   }
-// }, true);
-//
-// checkoutView.addEventListener('change', function(e) {
-//   if (e.target.id === 'billing-checkbox') {
-//     var payInput;
-//     var shipInput;
-//     for (var payProp in form.pay) {
-//       payInput = document.getElementById(form.pay[payProp].id);
-//       for (var shipProp in form.ship) {
-//         shipInput = document.getElementById(form.ship[shipProp].id);
-//         if (payProp === shipProp) {
-//           if(!e.target.checked) {
-//             payInput.setAttribute('value', '');
-//           }
-//           else {
-//             payInput.setAttribute('value', shipInput.value);
-//           }
-//         }
-//       }
-//     }
 //   }
 // });
 
@@ -437,8 +252,8 @@ function view(items, view) {
       var count = document.getElementById('result-count');
       count.textContent = elItems.length;
       break;
-    // case 'view-product':
-    //   break;
+    case 'view-product':
+      break;
     case 'view-cart':
       if(cart.length === 0) {
         var aside = document.getElementById('cart-aside')
@@ -465,6 +280,7 @@ function view(items, view) {
       totalValue.textContent = priceFormat(itemsTotal + taxTotal);
       break;
     case 'view-history':
+      elContent.appendChild(element('div', 'hist-title', 'Order History'));
       break;
     default:
   }
@@ -473,62 +289,107 @@ function view(items, view) {
 }
 
 function create(items, view) {
+  var img;
+  var name;
+  var price;
+  var descrip;
   var elItems = [];
   var elItem;
-  for (var i=0; i<items.length; i++) {
-    var img = element('img', '', '', ['src', items[i].img]);
-    var name = element('div', '', items[i].name);
-    var price = element('div', '', priceFormat(items[i].price));
-    var descrip = element('div', '', items[i].description);
-    switch (view) {
-      // case 'view-home':
-      //   break;
-      case 'view-search':
-        img.classList.add('result-img');
-        name.classList.add('result-name');
-        price.classList.add('result-price');
-        var cartBtn = element('button', 'result-add', 'Add to Cart', ['data-id', items[i].id]);
-        var resultText = element('div', 'result-text');
-        append(resultText, [name, price, cartBtn]);
-        elItem = element('div', 'result');
-        append(elItem, [img, resultText, cartBtn]);
-        break;
-      // case 'view-product':
-      //   break;
-      case 'view-cart':
-        img.classList.add('cart-img');
-        name.classList.add('cart-name');
-        price.classList.add('cart-price');
-        descrip.classList.add('cart-descr');
-        var cartText = element('div', 'cart-text');
-        append(cartText, [name, price, descrip]);
-        var quantLabel = element('div', 'quant-label', 'Quantity');
-        var quantSection = element('div', 'inline-div');
-        append(quantSection, [quantLabel, quantBtn(items[i]), removeBtn(items[i])])
-        elItem = element('div', 'cart-item');
-        append(elItem, [img, cartText, quantSection]);
-        break;
-      case 'view-checkout':
-        img.classList.add('review-img');
-        name.classList.add('review-name');
-        price.classList.add('review-price');
-        var quantity = element('div', 'review-quant', 'Quantity: ' + cart[i].quantity);
-        var reviewText = element('div','review-text');
-        append(reviewText, [name, price, quantity]);
-        var subLabel = element('span','', 'Subtotal: ');
-        var subValue = element('span', 'review-sub-value', priceFormat(cart[i].quantity * cart[i].price));
-        var sub = element('div', 'review-sub');
-        append(sub, [subLabel, subValue])
-        elItem = element('div', 'review');
-        append(elItem, [img, reviewText, sub]);
-        break;
-      case 'view-history':
-        break;
-      default:
+  if (Array.isArray(items)) {
+    for (var i=0; i<items.length; i++) {
+      if(!Array.isArray(items[i])) {
+        img = element('img', '', '', ['src', items[i].img]);
+        name = element('div', '', items[i].name);
+        price = element('div', '', priceFormat(items[i].price));
+        descrip = element('div', '', items[i].description);
+        switch (view) {
+          // case 'view-home':
+          //   break;
+          case 'view-search':
+            img.classList.add('result-img');
+            name.classList.add('result-name');
+            name.setAttribute('data-id', items[i].id);
+            price.classList.add('result-price');
+            var resultText = element('div', 'result-text');
+            append(resultText, [name, price]);
+            elItem = element('div', 'result');
+            append(elItem, [img, resultText]);
+            break;
+          case 'view-cart':
+            img.classList.add('cart-img');
+            name.classList.add('cart-name');
+            price.classList.add('cart-price');
+            var cartText = element('div', 'cart-text');
+            append(cartText, [name, price]);
+            var quantLabel = element('div', 'quant-label', 'Quantity');
+            var quantSection = element('div', 'inline-div');
+            append(quantSection, [quantLabel, quantBtn(items[i]), removeBtn(items[i])])
+            elItem = element('div', 'cart-item');
+            append(elItem, [img, cartText, quantSection]);
+            break;
+          case 'view-checkout':
+            img.classList.add('review-img');
+            name.classList.add('review-name');
+            price.classList.add('review-price');
+            var quantity = element('div', 'review-quant', 'Quantity: ' + cart[i].quantity);
+            var reviewText = element('div','review-text');
+            append(reviewText, [name, price, quantity]);
+            var subLabel = element('span','', 'Subtotal: ');
+            var subValue = element('span', 'review-sub-value', priceFormat(cart[i].quantity * cart[i].price));
+            var sub = element('div', 'review-sub');
+            append(sub, [subLabel, subValue])
+            elItem = element('div', 'review');
+            append(elItem, [img, reviewText, sub]);
+            break;
+            default:
+        }
+        elItems.push(elItem);
+      }
+      //order history has arrays within an array
+      else {
+        elItem = element('div', ['hist-order', 'col-md-9'], '');
+        var date = element('div', 'hist-date');
+        append(date, [
+          element('div', 'hist-date-label', 'Order Submitted:'),
+          element('div', 'hist-date-content', items[i].submitted.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric'}))
+        ]);
+        var total = element('div', 'hist-total');
+        append(total, [
+          element('div', 'hist-total-label', 'Total:'),
+          element('div', 'hist-total-content', priceFormat(items[i].total)),
+        ]);
+        var summary = element('div', 'hist-summary');
+        append(summary, [date, total]);
+        append(elItem, summary);
+        for (var k=0; k<items[i].contents.length; k++) {
+          var item = element('div', 'hist-item');
+          append(item, element('img', 'hist-item-img', '', ['src', items[i].contents[k].img]));
+          var text = element('div', 'hist-item-text');
+          append(text, [
+            element('div', 'hist-item-name', items[i].contents[k].name),
+            element('div', 'hist-item-price', priceFormat(items[i].contents[k].price))
+          ]);
+          append(item, text);
+          append(elItem, item);
+          elItems.push(elItem);
+        }
+      }
     }
-    elItems.push(elItem);
+    return elItems;
   }
-  return elItems;
+  //product view only uses one object
+  else {
+    img = element('img', 'product-img', '', ['src', items.img]);
+    name = element('div', 'product-name', items.name);
+    price = element('div', 'product-price', priceFormat(items.price));
+    descrip = element('div', 'product-descr', items.description);
+    var cartBtn = element('button', 'add-cart-btn', 'Add to Cart', ['data-id', items.id]);
+    var prodDetail = element('div', 'product-detail');
+    append(prodDetail, [name, price, descrip, cartBtn]);
+    elItem = element('div', 'product-item');
+    append(elItem, [img, prodDetail]);
+    return elItem;
+  }
 }
 
 function append(parent, children) {
@@ -609,11 +470,11 @@ function quantBtn(item) {
   return quant;
 }
 
-function saveForm(source, save) {
-  for (var prop in save) {
-    save[prop] = document.getElementById(source[prop].id).value;
-  }
-}
+// function saveForm(source, save) {
+//   for (var prop in save) {
+//     save[prop] = document.getElementById(source[prop].id).value;
+//   }
+// }
 
 // function ordered() {
 //   var order = {};
@@ -651,67 +512,4 @@ function saveForm(source, save) {
 //   shipForm.style.display = 'none';
 //   var shipUpdate = document.getElementById('shipping-update');
 //   shipUpdate.style.display = 'inline';
-// }
-
-// function showPay() {
-//   var payText = element('div', 'pay-text', 'Payment Information has been saved');
-//   var payInfo = document.getElementById('pay-info');
-//   payInfo.appendChild(payText);
-//   payInfo.style.display = 'block';
-//   var payForm = document.getElementById('payment-form');
-//   payForm.style.display = 'none';
-//
-//   var payUpdate = document.getElementById('payment-update');
-//   payUpdate.style.display = 'inline';
-// }
-
-// function toggleShip() {
-//   var shipping = document.getElementById('shipping-form');
-//   shipping.style.display = 'block';
-//   var shipUpdate = document.getElementById('shipping-update');
-//   shipUpdate.style.display = 'none';
-//   var shipText = document.getElementsByClassName('ship-text')[0];
-//   shipText.style.display = 'none';
-// }
-
-// function togglePay() {
-//   var payment = document.getElementById('payment-form');
-//   payment.style.display = 'block';
-//   var payUpdate = document.getElementById('payment-update');
-//   payUpdate.style.display = 'none';
-//   var payText = document.getElementsByClassName('pay-text')[0];
-//   payText.style.display = 'none';
-// }
-
-// function orderHistory() {
-//   content.appendChild(element('div', 'hist-title', 'Order History'))
-//   for (var i=0; i<orders.length; i++) {
-//     var order = element('div', ['hist-order', 'col-md-9'], '');
-//     var date = element('div', 'hist-date');
-//     append(date, [
-//       element('div', 'hist-date-label', 'Order Submitted:'),
-//       element('div', 'hist-date-content', orders[i].submitted.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric'}))
-//     ]);
-//     var total = element('div', 'hist-total');
-//     append(total, [
-//       element('div', 'hist-total-label', 'Total:'),
-//       element('div', 'hist-total-content', priceFormat(orders[i].total)),
-//     ]);
-//     var summary = element('div', 'hist-summary');
-//     append(summary, [date, total]);
-//     append(order, summary);
-//
-//     for (var k=0; k<orders[i].contents.length; k++) {
-//       var item = element('div', 'hist-item');
-//       append(item, element('img', 'hist-item-img', '', ['src', orders[i].contents[k].img]));
-//       var text = element('div', 'hist-item-text');
-//       append(text, [
-//         element('div', 'hist-item-name', orders[i].contents[k].name),
-//         element('div', 'hist-item-price', priceFormat(orders[i].contents[k].price))
-//       ]);
-//       append(item, text);
-//       append(order, item);
-//     }
-//     append(content, order);
-//   }
 // }
