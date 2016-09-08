@@ -11,6 +11,8 @@ body {
   width: 100%;
   position: fixed;
   z-index: 999;
+  top: 0;
+  left: 0;
 }
 
 #brand {
@@ -42,18 +44,6 @@ body {
   display: inline-block;
 }
 
-#proceed-btn {
-  font-size: 16px;
-  font-weight: normal;
-  background-color: rgba(35,47,62,1);
-  color: white;
-  border-style: none;
-  border-radius: 5px;
-  margin: 15px auto;
-  padding: 10px;
-  width: 70%;
-}
-
 #hist-btn {
   float: right;
   margin-top: 18px;
@@ -78,71 +68,52 @@ body {
   float: right;
 }
 
-#content {
-  margin-top: 120px;
-}
-
 .inline-div {
   display: inline-block;
   vertical-align: middle;
 }
 
-.cart-title {
-  font-size: 30px;
-  border-bottom: 2px solid black;
-}
-
-.cart-subtotal {
-  font-size: 18px;
-  color: maroon;
-  margin-left: 60%;
-  margin-top: 15px;
-}
-
-.cart-summary-label {
-  font-size: 20px;
-  font-weight: bold;
-  display: inline-block;
-}
-
-.cart-summary-value {
-  font-size: 18px;
-  color: maroon;
-  display: inline-block;
-  float: right;
-}
-
-.result-detail {
-  padding-top: 5px;
+#result-detail {
+  padding-top: 30px;
   border-bottom: 2px solid black;
   font-weight: bold;
 }
 
 .result {
-  border-bottom: 1px solid grey;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  position: relative;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e5e5e5;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 250px;
+  height: 300px;
+  display: inline-block;
 }
 
 .result-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   height: 150px;
   width: 150px;
   padding-top: 20px;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .result-text {
   margin-left: 30px;
-  width: 50%;
-  display: inline-block;
-  vertical-align: middle;
+  width: 90%;
 }
 
 .result-name {
   font-weight: bold;
-  font-size: 18px;
-  vertical-align: middle;
+  font-size: 14px;
+}
+
+.result-price {
+  color: maroon;
+  font-size: 16px;
 }
 
 .result-descr {
@@ -153,19 +124,49 @@ body {
 
 .result-add {
   height: 35px;
-  width: 10%;
+  width: 30%;
   margin-left: 20px;
   font-size: 12px;
   color: white;
   background-color: rgba(35,47,62,1);
   border-style: none;
   border-radius: 5px;
-  display: inline-block;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
 }
 
-.result-price {
-  color: maroon;
-  font-size: 16px;
+.cart-item {
+  border-bottom: 1px solid grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.cart-img {
+  height: 150px;
+  width: 150px;
+  padding-top: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cart-text {
+  margin-left: 30px;
+  width: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cart-name {
+  font-weight: bold;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.cart-descr {
+  font-size: 14px;
+  margin-top: 10px;
+  vertical-align: middle;
 }
 
 .quant-label {
@@ -195,51 +196,57 @@ body {
   cursor: pointer;
 }
 
-.cart-summary {
-  padding-top: 10px;
-  margin-left: 80px;
-  width: 20%;
+#cart-title {
+  font-size: 30px;
+  border-bottom: 2px solid black;
+}
+
+#cart-subtotal {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  width: 80%;
   border-style: solid;
   border-width: 1px;
   border-color: rgba(221,221,221);
-  background-color: #f3f3f3;
   border-radius: 5px;
+  background-color: #f3f3f3;
 }
 
-.cart-btn {
+#cart-sub-label {
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#cart-sub-value {
+  font-size: 18px;
+  color: maroon;
+  display: inline-block;
+  float: right;
+}
+
+#cart-sub-btn {
+  display: block;
+  text-align: center;
   font-size: 16px;
   font-weight: normal;
   background-color: rgba(35,47,62,1);
   color: white;
   border-style: none;
   border-radius: 5px;
+  margin-top: 15px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.subtotal {
-  margin-top: 10px;
+  width: 70%;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .checkout-total {
   border-top: 1px solid black;
   margin-bottom: 10px;
-}
-
-.checkout-btn {
-  display: block;
-  height: 30px;
-  width: 90%;
-  font-size: 16px;
-  font-weight: normal;
-  background-color: rgba(35,47,62,1);
-  color: white;
-  border-style: none;
-  border-radius: 5px;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .empty-message {
@@ -321,7 +328,7 @@ body {
   margin-top: 30px !important;
 }
 
-#review {
+#checkout-aside {
   margin-left: 40px;
 }
 
@@ -335,12 +342,22 @@ body {
   margin-bottom: 20px;
 }
 
-.review-title {
+#checkout-summary {
+  border-style: solid;
+  border-width: 1px;
+  border-color: grey;
+  border radius: 4px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#summary-title {
+  width: 100%;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 10px;
   font-size: 25px;
-  border: 1px solid grey;
+  border-bottom: 1px solid grey;
   background-color: #f3f3f3;
 }
 
@@ -373,7 +390,9 @@ body {
 
 .review-sub {
   text-align: right;
-  padding-right: 16px;
+  margin-bottom: 8px;
+  padding-right: 60px;
+  font-weight: bold;
 }
 
 .review-sub-value {
@@ -382,28 +401,50 @@ body {
 }
 
 .review {
-  border: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 
-.order-summary {
+#summary-totals {
+  margin-left: auto;
+  margin-right: auto;
   padding-top: 15px;
-  width: 100%;
-  border: 1px solid grey;
-  font-weight: bold;
+  width: 75%;
   font-size: 20px;
 }
 
-.order-summary-text {
+#summary-tax {
+  border-bottom: 1px solid grey;
+}
+
+#summary-total-cost {
+  font-weight: bold;
+}
+
+.summary-text {
   font-size: 18px;
   font-weight: normal;
 }
 
-.order-summary-value {
+.summary-value {
   float: right;
   text-align: right;
   font-size: 18px;
   color: maroon;
   font-weight: normal;
+}
+
+#order-btn {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  width: 90%;
+  display: block;
+  cursor: pointer;
+  background-color: rgba(35,47,62,1);
+  color: white;
+  border: none;
 }
 
 .order-confirmation {
@@ -430,6 +471,26 @@ body {
 
 .pay-text {
   padding: 10px;
+}
+
+#billing-checkbox + label {
+  margin-left: 5px;
+  font-weight: normal;
+}
+
+.form-label {
+  display: inline-block;
+  width: 25%;
+  text-align: right;
+}
+
+.form-input {
+  margin-left: 20px;
+  width: 60%;
+}
+
+select.form-input {
+  width: 10%;
 }
 
 .form-submit-val {
@@ -512,4 +573,12 @@ body {
 .hist-item-price {
   color: maroon;
   font-size: 14px;
+}
+
+.hidden {
+  display: none;
+}
+
+.view {
+  margin-top: 100px;
 }

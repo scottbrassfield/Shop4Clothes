@@ -25,139 +25,209 @@
         View Cart
       </button>
     </nav>
-    <div id="main" class="container">
-      <div class="row" id="content">
+    <div id="view-home" class="container view active">
+      <div class="row" id="home-content">
+        <div class="col-md-5">Who's ready to buy some stuff??</div>
       </div>
     </div>
-      <div id="checkout" class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="row" id="checkout-cust">
-              <div id="customer-section">
-                <div id="customer-title">Customer Information:</div>
-                <input type="email" id="customer-input" placeholder="Email address">
-              </div>
-            </div>
-            <div class="row" id="checkout-ship">
-              <div id="shipping-section">
-                <div>
-                  <span id="shipping-title">Shipping Information:</span>
-                  <span id="shipping-update" class="form-update">Update</span>
-                </div>
-                <form id="shipping-form">
-                  <div>
-                    <span class="form-label">Full name:</span>
-                    <span><input type="text" id="ship-name" class="form-input"></span>
-                    <div class="form-val" id="ship-name-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Address line 1:</span>
-                    <span><input type="text" id="ship-address" class="form-input"></span>
-                    <div class="form-val" id="ship-address-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Address line 2:</span>
-                    <span><input type="text" id="ship-address-two" class="form-input" placeholder="Apt, Suite, etc. (Optional)"></span>
-                    <div class="form-val" id="ship-address-two-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">City:</span>
-                    <span><input type="text" id="ship-city" class="form-input"></span>
-                    <div class="form-val" id="ship-city-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">State/Province/Region:</span>
-                    <span><input type="text" id="ship-state" class="form-input"></span>
-                    <div class="form-val" id="ship-state-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">ZIP:</span>
-                    <span><input type="text" id="ship-zip" class="form-input"></span>
-                    <div class="form-val" id="ship-zip-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Phone number:</span>
-                    <span><input type="tel" id="ship-phone" class="form-input"></span>
-                    <div class="form-val" id="ship-phone-val"></div>
-                  </div>
-                  <input type="button" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
-                  <span class="form-submit-val" id="ship-submit-val"></span>
-                </form>
-                <div id="ship-info"></div>
-              </div>
-            </div>
-            <div class="row" id="checkout-pay">
-              <div id="payment-section">
-                <div>
-                  <span id="payment-title">Payment Information:</span>
-                  <span id="payment-update" class="form-update">Update</span>
-                </div>
-                <form id="payment-form">
-                  <div>
-                    <span class="form-label">Name on Card (VISA/MC):</span>
-                    <span><input type="text" id="pay-name" class="form-input"></span>
-                    <div class="form-val" id="pay-name-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Credit Card Number:</span>
-                    <span><input type="text" id="pay-cc-number" class="form-input"></span>
-                    <div class="form-val" id="pay-cc-number-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Expiration Date</span>
-                    <span><input type="text" id="pay-expire" class="form-input"></span>
-                    <div class="form-val" id="pay-expire-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Security Code</span>
-                    <span><input type="text" id="pay-sec-code" class="form-input"></span>
-                    <div class="form-val" id="pay-sec-code-val"></div>
-                  </div>
-                  <div id="billing-heading">
-                    Billing Information (if different from shipping address):
-                  </div>
-                  <div>
-                    <span class="form-label">Address line 1:</span>
-                    <span><input type="text" id="pay-address" class="form-input"></span>
-                    <div class="form-val" id="pay-address-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Address line 2:</span>
-                    <span><input type="text" id="pay-address-two" class="form-input"></span>
-                    <div class="form-val" id="pay-address-two-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">City:</span>
-                    <span><input type="text" id="pay-city" class="form-input"></span>
-                    <div class="form-val" id="pay-city-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">State/Province/Region:</span>
-                    <span><input type="text" id="pay-state" class="form-input"></span>
-                    <div class="form-val" id="pay-state-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">ZIP:</span>
-                    <span><input type="text" id="pay-zip" class="form-input"></span>
-                    <div class="form-val" id="pay-zip-val"></div>
-                  </div>
-                  <div>
-                    <span class="form-label">Phone number:</span>
-                    <span><input type="tel" id="pay-phone" class="form-input"></span>
-                    <div class="form-val" id="pay-phone-val"></div>
-                  </div>
-                  <input type="button" class="form-submit" id="pay-submit" value="Save" data-section="payment">
-                  <span class="form-submit-val" id="pay-submit-val"></span>
-                </form>
-                <div id="pay-info">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5" id="review">
+    <div id="view-search" class="container-fluid view hidden">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div id="result-detail" class="col-md-10">Your search returned <span id="result-count"></span><span> results</span>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div id="search-content" class="col-md-11 main">
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+    <div id="view-product" class="container view hidden">
+      <div class="row">
+        <div id="product-content" class="col-md-10">
+        </div>
+      </div>
+    </div>
+    <div id="view-cart" class="container-fluid view hidden">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div id="cart-content" class="col-md-8 main">
+        </div>
+        <div id="cart-aside" class="col-md-3">
+          <div id="cart-subtotal">
+            <div id="cart-sub-label">Subtotal: </div>
+            <div id="cart-sub-value"></div>
+            <btn id="cart-sub-btn">Checkout</btn>
           </div>
         </div>
       </div>
+    </div>
+    <div id="view-checkout" class="container view hidden">
+      <div class="row">
+        <div id="checkout-forms" class="col-md-6">
+          <div class="row" id="checkout-cust">
+            <div id="customer-section">
+              <div id="customer-title">Customer Information:</div>
+              <input type="email" id="customer-input" placeholder="Email address">
+            </div>
+          </div>
+          <div id="checkout-ship" class="row">
+            <div id="shipping-section">
+              <div>
+                <span id="shipping-title">Shipping Information:</span>
+                <span id="shipping-update" class="form-update">Update</span>
+              </div>
+              <form name="shipping" id="shipping-form">
+                <div>
+                  <div class="form-label">Full name:</div>
+                  <input type="text" id="ship-name" class="form-input">
+                  <div class="form-val" id="ship-name-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Address line 1:</div>
+                  <input type="text" id="ship-address" class="form-input">
+                  <div class="form-val" id="ship-address-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Address line 2:</div>
+                  <input type="text" id="ship-address-two" class="form-input" placeholder="Apt, Suite, etc. (Optional)">
+                  <div class="form-val" id="ship-address-two-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">City:</div>
+                  <input type="text" id="ship-city" class="form-input">
+                  <div class="form-val" id="ship-city-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">State:</div>
+                  <input type="text" id="ship-state" class="form-input">
+                  <div class="form-val" id="ship-state-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">ZIP:</div>
+                  <input type="text" id="ship-zip" class="form-input" pattern="[0-9]{5}" required>
+                  <div class="form-val" id="ship-zip-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Phone:</div>
+                  <input type="tel" id="ship-phone" class="form-input" maxlength="14">
+                  <div class="form-val" id="ship-phone-val"></div>
+                </div>
+                <input type="button" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
+                <span class="form-submit-val" id="ship-submit-val"></span>
+              </form>
+              <div id="ship-info"></div>
+            </div>
+          </div>
+          <div id="ship-summary" class="row hidden">
+            <div class="ship-summary-value"></div>
+            <div class="ship-summary-value"></div>
+            <div class="ship-summary-value"></div>
+            <span class="ship-summary-value"></span>
+            <span class="ship-summary-value"></span>
+            <span class="ship-summary-value"></span>
+            <div class="ship-summary-value"></div>
+          </div>
+          <div class="row" id="checkout-pay">
+            <div id="payment-section">
+              <div>
+                <span id="payment-title">Payment Information (Visa/MC):</span>
+                <span id="payment-update" class="form-update">Update</span>
+              </div>
+              <form name="payment" id="payment-form">
+                <div>
+                  <div class="form-label">Name on Card:</div>
+                  <input type="text" id="pay-name" class="form-input">
+                  <div class="form-val" id="pay-name-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">CC#:</div>
+                  <input type="text" id="pay-cc-number" class="form-input">
+                  <div class="form-val" id="pay-cc-number-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Expiration Date:</div>
+                  <input type="text" id="pay-expire" class="form-input">
+                  <div class="form-val" id="pay-expire-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Security Code:</div>
+                  <input type="text" id="pay-sec-code" class="form-input">
+                  <div class="form-val" id="pay-sec-code-val"></div>
+                </div>
+                <div id="billing-heading">
+                  <span>Billing Information:</span>
+                  <input type="checkbox" value="true" id="billing-checkbox"><label for="billing-checkbox">Same as Shipping</label>
+                </div>
+                <div>
+                  <div class="form-label">Address line 1:</div>
+                  <input type="text" id="pay-address" class="form-input">
+                  <div class="form-val" id="pay-address-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Address line 2:</div>
+                  <input type="text" id="pay-address-two" class="form-input">
+                  <div class="form-val" id="pay-address-two-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">City:</div>
+                  <input type="text" id="pay-city" class="form-input">
+                  <div class="form-val" id="pay-city-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">State:</div>
+                  <input type="text" id="pay-state" class="form-input">
+                  <div class="form-val" id="pay-state-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">ZIP:</div>
+                  <input type="text" id="pay-zip" class="form-input">
+                  <div class="form-val" id="pay-zip-val"></div>
+                </div>
+                <div>
+                  <div class="form-label">Phone:</div>
+                  <input type="tel" id="pay-phone" class="form-input">
+                  <div class="form-val" id="pay-phone-val"></div>
+                </div>
+                <input type="button" class="form-submit" id="pay-submit" value="Save" data-section="payment">
+                <span class="form-submit-val" id="pay-submit-val"></span>
+              </form>
+              <div id="pay-info">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div id="checkout-summary" class="col-md-5">
+          <div id="summary-title">Order Summary</div>
+          <div id="summary-content" class="main">
+          </div>
+          <div id="summary-totals">
+            <div id="summary-items">
+              <span class="summary-text">Items:</span>
+              <span id="summary-items-value" class="summary-value"></span>
+            </div>
+            <div id="summary-tax">
+              <span class="summary-text">Tax:</span>
+              <span id="summary-tax-value" class="summary-value"></span>
+            </div>
+            <div id="summary-total-cost">
+              <span class="summary-text">Total:</span>
+              <span id="summary-total-value" class="summary-value"></span>
+            </div>
+            <button id="order-btn">Place Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="view-history" class="container view hidden">
+      <div class="row">
+      </div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.10.0/validate.min.js"></script>
     <script src="data.js"></script>
     <script src="default.js"></script>
   </body>
