@@ -93,25 +93,30 @@ cartView.addEventListener('click', function(e) {
 })
 
 var checkoutView = document.getElementById('view-checkout');
-checkoutView.addEventListener('keyup', function(e) {
-  if(e.target.id === 'customer-input'){
-    if (e.which === 13 || e.keyCode === 13) {
-      customer.email = e.target.value;
-    }
-  }
-})
-
-// checkoutView.addEventListener('blur', function(e) {
-//   for (var type in form) {
-//     for (var prop in form[type]) {
-//         if (form[type][prop].id === e.target.id) {
-//           if(form[type][prop].validate) {
-//             form[type][prop].validate(e.target.value);
-//           }
-//         }
+// checkoutView.addEventListener('keyup', function(e) {
+//   if(e.target.id === 'customer-input'){
+//     if (e.which === 13 || e.keyCode === 13) {
+//       customer.email = e.target.value;
 //     }
 //   }
-// }, true);
+// })
+
+checkoutView.addEventListener('blur', function(e) {
+  console.log(e);
+  for (var type in form) {
+    for (var prop in form[type]) {
+        if (form[type][prop].id === e.target.id) {
+          if(form[type][prop].validate) {
+            form[type][prop].validate(e.target.value);
+          }
+        }
+    }
+  }
+}, true);
+
+
+
+
 // checkoutView.addEventListener('change', function(e) {
 //   if (e.target.id === 'billing-checkbox') {
 //     var payInput;
@@ -132,53 +137,55 @@ checkoutView.addEventListener('keyup', function(e) {
 //     }
 //   }
 // });
-// checkoutView.addEventListener('click', function(e) {
-//   switch (e.target.id) {
-//     case 'ship-submit':
-//       // var ship = form.validate(form.ship, 'ship-submit-val')
-//       // if (ship) {
-//         saveForm(form.ship, customer.ship);
-//         var summary = document.getElementById('ship-summary').getElementsByClassName('ship-summary-value');
-//         for (var prop in customer.ship) {
-//           for (var i=0; i<summary.length; i++) {
-//             summary.length[i].textContent = customer.ship[prop];
-//           }
-//         }
-//       // }
-//       break;
-//     case 'pay-submit':
-//       // var pay = form.validate(form.pay, 'pay-submit-val');
-//       if (pay) {
-//         saveForm(form.pay, customer.pay);
-//         showPay();
-//       }
-//       break;
-//     // case 'shipping-update':
-//       toggleShip();
-//       var shipSubmit = document.getElementById('ship-submit-val');
-//       shipSubmit.textContent = '';
-//       break;
-//     case 'payment-update':
-//       togglePay();
-//       var paySubmit = document.getElementById('pay-submit-val');
-//       paySubmit.textContent = '';
-//       break;
-//     case 'checkoutBtn':
-//       var validate = [form.validate(form.ship, 'ship-submit-val'),
-//       form.validate(form.pay, 'pay-submit-val')];
-//       var order = true;
-//       for (var i=0; i<validate.length; i++) {
-//         if(!validate[i]) {
-//           order = false;
-//         }
-//       }
-//       if(order) {
-//         ordered();
-//     //   }
-//     //   break;
-//     default:
-//   }
-// });
+checkoutView.addEventListener('click', function(e) {
+  switch (e.target.id) {
+    case 'ship-submit':
+    console.log(e);
+      e.preventDefault();
+      // var ship = form.validate(form.ship, 'ship-submit-val')
+      // if (ship) {
+        // saveForm(form.ship, customer.ship);
+        // var summary = document.getElementById('ship-summary').getElementsByClassName('ship-summary-value');
+        // for (var prop in customer.ship) {
+        //   for (var i=0; i<summary.length; i++) {
+        //     summary.length[i].textContent = customer.ship[prop];
+        //   }
+        // }
+      // }
+      break;
+    // case 'pay-submit':
+    //   // var pay = form.validate(form.pay, 'pay-submit-val');
+    //   if (pay) {
+    //     saveForm(form.pay, customer.pay);
+    //     showPay();
+    //   }
+    //   break;
+    // // case 'shipping-update':
+    //   toggleShip();
+    //   var shipSubmit = document.getElementById('ship-submit-val');
+    //   shipSubmit.textContent = '';
+    //   break;
+    // case 'payment-update':
+    //   togglePay();
+    //   var paySubmit = document.getElementById('pay-submit-val');
+    //   paySubmit.textContent = '';
+    //   break;
+    // case 'checkoutBtn':
+    //   var validate = [form.validate(form.ship, 'ship-submit-val'),
+    //   form.validate(form.pay, 'pay-submit-val')];
+    //   var order = true;
+    //   for (var i=0; i<validate.length; i++) {
+    //     if(!validate[i]) {
+    //       order = false;
+    //     }
+    //   }
+    //   if(order) {
+    //     ordered();
+    // //   }
+    // //   break;
+    default:
+  }
+});
 
 function search(products, fields, criteria) {
   var matches = [];

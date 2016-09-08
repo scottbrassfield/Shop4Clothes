@@ -315,6 +315,14 @@ body {
   width: 60%;
 }
 
+input:focus:invalid {
+  background-color: rgba(240,170,176,.2);
+}
+
+input:focus:valid {
+  background-color: none;
+}
+
 #shipping-title {
   font-size: 20px;
   margin-right: 3px;

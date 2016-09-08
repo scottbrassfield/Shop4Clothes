@@ -44,7 +44,7 @@ var form = {
         form.ship.phone.valid = true;
         var msg = document.getElementById('ship-phone-val');
         msg.textContent = '';
-        if(input.length < 10 || input.length > 13) {
+        if(input.length != 14) {
           msg.textContent = 'Please enter valid phone number';
           form.ship.phone.valid = false;
         }

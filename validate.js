@@ -36,7 +36,7 @@ $( document ).ready(function() {
     });
 })
 
-
+//Input mask for credit card
 $('#pay-cc-number').keydown(function (e) {
   var key = e.charCode || e.keyCode || 0;
   $creditCard = $(this);
