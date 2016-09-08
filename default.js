@@ -1,10 +1,15 @@
 var searchFields = ['name', 'description', 'category'];
 // var searches = {};
 var cart = [];
-// var orders = [];
+var orders = [];
+var customer = {
+  shipping: [],
+  payment: [],
+  login: []
+};
+var currentOrder = {};
 
 // References to products refer to the products object stored in data.js file
-
 var navbar = document.getElementById("navbar");
 navbar.addEventListener('click', function(e) {
   var currentView;
@@ -93,14 +98,6 @@ cartView.addEventListener('click', function(e) {
 })
 
 var checkoutView = document.getElementById('view-checkout');
-// checkoutView.addEventListener('keyup', function(e) {
-//   if(e.target.id === 'customer-input'){
-//     if (e.which === 13 || e.keyCode === 13) {
-//       customer.email = e.target.value;
-//     }
-//   }
-// })
-
 checkoutView.addEventListener('blur', function(e) {
   validate(e.target);
 }, true);
@@ -124,55 +121,55 @@ checkoutView.addEventListener('change', function(e) {
   }
 });
 
-// checkoutView.addEventListener('click', function(e) {
-//   switch (e.target.id) {
-//     case 'ship-submit':
-//       e.preventDefault();
-//
-//       // var ship = form.validate(form.ship, 'ship-submit-val')
-//       // if (ship) {
-//         // saveForm(form.ship, customer.ship);
-//         // var summary = document.getElementById('ship-summary').getElementsByClassName('ship-summary-value');
-//         // for (var prop in customer.ship) {
-//         //   for (var i=0; i<summary.length; i++) {
-//         //     summary.length[i].textContent = customer.ship[prop];
-//         //   }
-//         // }
-//       // }
-//       break;
-//     // case 'pay-submit':
-//     //   // var pay = form.validate(form.pay, 'pay-submit-val');
-//     //   if (pay) {
-//     //     saveForm(form.pay, customer.pay);
-//     //     showPay();
-//     //   }
-//     //   break;
-//     // // case 'shipping-update':
-//     //   toggleShip();
-//     //   var shipSubmit = document.getElementById('ship-submit-val');
-//     //   shipSubmit.textContent = '';
-//     //   break;
-//     // case 'payment-update':
-//     //   togglePay();
-//     //   var paySubmit = document.getElementById('pay-submit-val');
-//     //   paySubmit.textContent = '';
-//     //   break;
-//     // case 'checkoutBtn':
-//     //   var validate = [form.validate(form.ship, 'ship-submit-val'),
-//     //   form.validate(form.pay, 'pay-submit-val')];
-//     //   var order = true;
-//     //   for (var i=0; i<validate.length; i++) {
-//     //     if(!validate[i]) {
-//     //       order = false;
-//     //     }
-//     //   }
-//     //   if(order) {
-//     //     ordered();
-//     // //   }
-//     // //   break;
-//     default:
-//   }
-// });
+checkoutView.addEventListener('click', function(e) {
+  switch (e.target.id) {
+    case 'ship-submit':
+      if (e.target.form.checkValidity()) {
+        currentOrder.shipping = (save(e.target.form.id, 'name'));
+        e.preventDefault();
+      }
+      break;
+    case 'pay-submit':
+    if (e.target.form.checkValidity()) {
+      currentOrder.payment = (save(e.target.form.id, 'name'));
+      e.preventDefault();
+    }
+    break;
+    // case 'shipping-update':
+    //   var shipSubmit = document.getElementById('ship-submit-val');
+    //   shipSubmit.textContent = '';
+    //   break;
+    // case 'payment-update':
+    //   var paySubmit = document.getElementById('pay-submit-val');
+    //   paySubmit.textContent = '';
+    //   break;
+    // case 'checkoutBtn':
+    //   var validate = [form.validate(form.ship, 'ship-submit-val'),
+    //   form.validate(form.pay, 'pay-submit-val')];
+    //   var order = true;
+    //   for (var i=0; i<validate.length; i++) {
+    //     if(!validate[i]) {
+    //       order = false;
+    //     }
+    //   }
+    //   if(order) {
+    //     ordered();
+    //   }
+    //   break;
+    default:
+  }
+});
+
+function save(source, property) {
+  var form = {};
+  var inputs = $( '#' + source ).find('input[name]');
+  for (var i=0; i<inputs.length; i++) {
+    var key = inputs[i].getAttribute(property);
+    var value = inputs[i].value;
+    form[key] = value;
+  }
+  return form;
+}
 
 function validate(element) {
   if (!element.checkValidity()) {
@@ -184,12 +181,6 @@ function validate(element) {
     if (element.classList.contains('form-input-invalid')) {
       element.classList.remove('form-input-invalid');
     }
-  }
-}
-
-function save(source, save) {
-  for (var prop in save) {
-    save[prop] = document.getElementById(source[prop].id).value;
   }
 }
 
