@@ -92,6 +92,12 @@ cartView.addEventListener('click', function(e) {
   }
   if (e.target.id === 'cart-sub-btn') {
     clear('summary-content');
+    var $state;
+    for (var k=0; k<states.length; k++) {
+      $state = $('<option>', {name: states[k].abbreviation, value: states[k].name});
+      $('#ship-states').append($state);
+      // $('#pay-states').append($state);
+    }
     var currentView = view(cart, 'view-checkout').id;
     swap('view', currentView);
   }
@@ -123,6 +129,13 @@ checkoutView.addEventListener('change', function(e) {
 
 checkoutView.addEventListener('click', function(e) {
   switch (e.target.id) {
+    case 'customer-submit':
+      if (e.target.form.checkValidity()) {
+        e.preventDefault();
+        currentOrder.customer = (save(e.target.form.id, 'name'));
+        toggle('customer-confirm')
+      }
+      break;
     case 'ship-submit':
       if (e.target.form.checkValidity()) {
         e.preventDefault();
@@ -147,7 +160,7 @@ checkoutView.addEventListener('click', function(e) {
       if (e.target.form.checkValidity()) {
         currentOrder.payment = (save(e.target.form.id, 'name'));
         e.preventDefault();
-        var $elSummary = $('<div>');
+        $elSummary = $('<div>');
         $elSummary.text('Payment information has been saved')
         $elSummary.appendTo($('#payment-summary'));
         toggle(['payment-summary', 'payment-update', 'payment-form']);

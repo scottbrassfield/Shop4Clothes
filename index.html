@@ -69,10 +69,13 @@
       <div class="row">
         <div id="checkout-forms" class="col-md-6">
           <div class="row">
-            <div id="customer-section">
-              <div id="customer-title">Customer Information:</div>
+            <div id="customer-title">Customer Information:</div>
+            <div id="customer-email">Email address:</div>
+            <form name="customer" id="customer-form">
               <input type="email" id="customer-input" placeholder="someone@somewhere.com" required="true">
-            </div>
+              <input type="submit" id="customer-submit" value="Submit">
+              <i id="customer-confirm" class="fa fa-check fa-2x hidden" aria-hidden="true"></i>
+            </form>
           </div>
           <div class="row">
             <div id="shipping-section">
@@ -103,7 +106,9 @@
                 </div>
                 <div>
                   <div class="form-label">State:</div>
-                  <input type="text" name="state" id="ship-state" class="form-input" pattern="[A-Z]{2}" required="true">
+                  <input list="ship-states" name="state" id="ship-state" class="form-input" required="true">
+                  <datalist id="ship-states">
+                  </datalist>
                   <div class="form-val" id="ship-state-val"></div>
                 </div>
                 <div>
@@ -171,7 +176,9 @@
                 </div>
                 <div>
                   <div class="form-label">State:</div>
-                  <input type="text" name="state" id="pay-state" class="form-input" maxlength="2" pattern="[A-Z]{2}">
+                  <input list="pay-states" type="text" name="state" id="pay-state" class="form-input" size="59">
+                  <datalist id="pay-states">
+                  </datalist>
                   <div class="form-val" id="pay-state-val"></div>
                 </div>
                 <div>
@@ -192,7 +199,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-1"></div>
+        <!-- <div class="col-md-1"></div> -->
         <div id="checkout-summary" class="col-md-5">
           <div id="summary-title">Order Summary</div>
           <div id="summary-content" class="main">
