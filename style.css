@@ -71,6 +71,7 @@ body {
 .inline-div {
   display: inline-block;
   vertical-align: middle;
+  margin-left: 2px;
 }
 
 #result-detail {
@@ -306,25 +307,8 @@ body {
   display: none;
 }
 
-#checkout-pay {
+#payment-section {
   margin-top: 30px;
-}
-
-.form-input {
-  float: right;
-  width: 60%;
-}
-
-input:focus:invalid {
-  background-color: rgba(240,170,176,.2);
-}
-
-input:focus:valid {
-  background-color: none;
-}
-
-.form-input-invalid {
-  background-color: rgba(240,170,176,.2);
 }
 
 #shipping-title {
@@ -334,24 +318,31 @@ input:focus:valid {
 }
 
 #payment-title {
+  margin-top: 30px;
   font-size: 20px;
   margin-right: 3px;
   cursor: pointer;
 }
 
-.form-update {
-  font-size: 12px;
-  color: rgba(35,47,62,1);
-  float: right;
-  cursor: pointer;
+#payment-summary {
+  background-color: #f3f3f3;
+  width: 75%;
+  padding: 10px 0 10px 12px;
+  margin-left: 4px;
+  margin-top: 5px;
 }
 
-#shipping-update {
-  display: none;
+#shipping-summary {
+  background-color: #f3f3f3;
+  width: 75%;
+  padding: 5px 0 5px 12px;
+  margin-left: 4px;
+  margin-top: 5px;
 }
 
-#payment-update {
-  display: none;
+#billing-checkbox + label {
+  margin-left: 5px;
+  font-weight: normal;
 }
 
 #shipping-form {
@@ -366,6 +357,39 @@ input:focus:valid {
   margin-top: 10px;
 }
 
+#payment-form div {
+  margin-top: 10px;
+}
+
+#billing-heading {
+  margin-top: 30px !important;
+}
+
+.form-label {
+  display: inline-block;
+  width: 25%;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.form-input {
+  margin-left: 20px;
+  width: 60%;
+  vertical-align: middle;
+}
+
+input:focus:invalid {
+  background-color: rgba(240,170,176,.2);
+}
+
+input:focus:valid {
+  background-color: none;
+}
+
+.form-input-invalid {
+  background-color: rgba(240,170,176,.2);
+}
+
 .form-submit {
   margin-top: 20px;
   height: 35px;
@@ -377,16 +401,22 @@ input:focus:valid {
   font-weight: lighter;
 }
 
-#payment-form div {
-  margin-top: 10px;
+.form-submit-val {
+  margin-left: 20px;
+  font-size: 16px;
+  color: #e3320c;
 }
 
-#billing-heading {
-  margin-top: 30px !important;
+.form-val {
+  margin-left: 40%;
+  color: #e3320c;
 }
 
-#checkout-aside {
-  margin-left: 40px;
+.form-update {
+  font-size: 14px;
+  color: rgba(5,80,180,1);
+  margin-left: 30%;
+  cursor: pointer;
 }
 
 #customer-title {
@@ -397,6 +427,10 @@ input:focus:valid {
   width: 80%;
   height: 35px;
   margin-bottom: 20px;
+}
+
+#checkout-aside {
+  margin-left: 40px;
 }
 
 #checkout-summary {
@@ -505,62 +539,8 @@ input:focus:valid {
 }
 
 .order-confirmation {
-  margin-top: 50px;
-  margin-left: 100px;
-  font-size: 30px;
-}
-
-#pay-info {
-  display: none;
-  width: 100%;
-  background-color: #f3f3f3;
-}
-
-#ship-info {
-  display: none;
-  width: 100%;
-  background-color: #f3f3f3;
-}
-
-.ship-text {
-  padding: 10px;
-}
-
-.pay-text {
-  padding: 10px;
-}
-
-#billing-checkbox + label {
-  margin-left: 5px;
-  font-weight: normal;
-}
-
-.form-label {
-  display: inline-block;
-  width: 25%;
-  text-align: right;
-  vertical-align: middle;
-}
-
-.form-input {
-  margin-left: 20px;
-  width: 60%;
-  vertical-align: middle;
-}
-
-select.form-input {
-  width: 10%;
-}
-
-.form-submit-val {
-  margin-left: 20px;
-  font-size: 16px;
-  color: #e3320c;
-}
-
-.form-val {
-  margin-left: 40%;
-  color: #e3320c;
+  margin-top: 30px;
+  font-size: 20px;
 }
 
 .hist-title {

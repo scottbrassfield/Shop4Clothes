@@ -68,17 +68,17 @@
     <div id="view-checkout" class="container view hidden">
       <div class="row">
         <div id="checkout-forms" class="col-md-6">
-          <div class="row" id="checkout-cust">
+          <div class="row">
             <div id="customer-section">
               <div id="customer-title">Customer Information:</div>
               <input type="email" id="customer-input" placeholder="someone@somewhere.com" required="true">
             </div>
           </div>
-          <div id="checkout-ship" class="row">
+          <div class="row">
             <div id="shipping-section">
               <div>
                 <span id="shipping-title">Shipping Information:</span>
-                <span id="shipping-update" class="form-update">Update</span>
+                <span id="shipping-update" class="form-update hidden">Update</span>
               </div>
               <form name="shipping" id="shipping-form">
                 <div>
@@ -119,23 +119,15 @@
                 <input type="submit" class="form-submit" id="ship-submit" value="Save" data-section="shipping">
                 <span class="form-submit-val" id="ship-submit-val"></span>
               </form>
-              <div id="ship-info"></div>
+              <div id="shipping-summary" class="row hidden">
+              </div>
             </div>
           </div>
-          <div id="ship-summary" class="row hidden">
-            <div class="ship-summary-value"></div>
-            <div class="ship-summary-value"></div>
-            <div class="ship-summary-value"></div>
-            <span class="ship-summary-value"></span>
-            <span class="ship-summary-value"></span>
-            <span class="ship-summary-value"></span>
-            <div class="ship-summary-value"></div>
-          </div>
-          <div class="row" id="checkout-pay">
+          <div class="row" >
             <div id="payment-section">
               <div>
                 <span id="payment-title">Payment Information:</span>
-                <span id="payment-update" class="form-update">Update</span>
+                <span id="payment-update" class="form-update hidden">Update</span>
               </div>
               <form name="payment" id="payment-form">
                 <div>
@@ -195,7 +187,7 @@
                 <input type="submit" class="form-submit" id="pay-submit" value="Save" data-section="payment">
                 <span class="form-submit-val" id="pay-submit-val"></span>
               </form>
-              <div id="pay-info">
+              <div id="payment-summary" class="row hidden">
               </div>
             </div>
           </div>
@@ -225,7 +217,7 @@
     </div>
     <div id="view-history" class="container view hidden">
       <div class="row">
-        <div id="history-content" class="main"></div>
+        <div id="history-content" class="col-md-11 main"></div>
       </div>
     </div>
     <script src="validate.js"></script>

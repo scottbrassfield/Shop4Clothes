@@ -1,5 +1,4 @@
 var searchFields = ['name', 'description', 'category'];
-// var searches = {};
 var cart = [];
 var orders = [];
 var customer = {
@@ -9,7 +8,6 @@ var customer = {
 };
 var currentOrder = {};
 
-// References to products refer to the products object stored in data.js file
 var navbar = document.getElementById("navbar");
 navbar.addEventListener('click', function(e) {
   var currentView;
@@ -35,9 +33,11 @@ navbar.addEventListener('click', function(e) {
       currentView = view(cart, 'view-cart').id;
       swap('view', currentView);
       break;
-    // case 'hist-btn':
-    //   orderHistory();
-    //   break;
+    case 'hist-btn':
+      clear('history-content');
+      currentView = view(orders, 'view-history').id;
+      swap('view', currentView);
+      break;
       default:
   }
 });
@@ -125,47 +125,62 @@ checkoutView.addEventListener('click', function(e) {
   switch (e.target.id) {
     case 'ship-submit':
       if (e.target.form.checkValidity()) {
-        currentOrder.shipping = (save(e.target.form.id, 'name'));
         e.preventDefault();
+        currentOrder.shipping = (save(e.target.form.id, 'name'));
+        var $elSummary;
+        for (var prop in currentOrder.shipping) {
+            $elSummary = $('<div>');
+            $elSummary.text(currentOrder.shipping[prop]);
+            if (prop === 'city' ) {
+              $elSummary.addClass('inline-div');
+              $elSummary.append(',');
+            }
+            else if (prop === 'state' || prop === 'zip') {
+              $elSummary.addClass('inline-div');
+            }
+            $elSummary.appendTo($('#shipping-summary'));
+        }
+        toggle(['shipping-summary', 'shipping-update', 'shipping-form']);
       }
       break;
     case 'pay-submit':
-    if (e.target.form.checkValidity()) {
-      currentOrder.payment = (save(e.target.form.id, 'name'));
-      e.preventDefault();
-    }
-    break;
-    // case 'shipping-update':
-    //   var shipSubmit = document.getElementById('ship-submit-val');
-    //   shipSubmit.textContent = '';
-    //   break;
-    // case 'payment-update':
-    //   var paySubmit = document.getElementById('pay-submit-val');
-    //   paySubmit.textContent = '';
-    //   break;
-    // case 'checkoutBtn':
-    //   var validate = [form.validate(form.ship, 'ship-submit-val'),
-    //   form.validate(form.pay, 'pay-submit-val')];
-    //   var order = true;
-    //   for (var i=0; i<validate.length; i++) {
-    //     if(!validate[i]) {
-    //       order = false;
-    //     }
-    //   }
-    //   if(order) {
-    //     ordered();
-    //   }
-    //   break;
+      if (e.target.form.checkValidity()) {
+        currentOrder.payment = (save(e.target.form.id, 'name'));
+        e.preventDefault();
+        var $elSummary = $('<div>');
+        $elSummary.text('Payment information has been saved')
+        $elSummary.appendTo($('#payment-summary'));
+        toggle(['payment-summary', 'payment-update', 'payment-form']);
+      }
+      break;
+    case 'shipping-update':
+      clear('shipping-summary');
+      toggle(['shipping-summary', 'shipping-update', 'shipping-form']);
+      break;
+    case 'payment-update':
+      clear('payment-summary');
+      toggle(['payment-summary', 'payment-update', 'payment-form']);
+      break;
+    case 'order-btn':
+      var shipping = document.getElementById('shipping-form');
+      var payment = document.getElementById('payment-form');
+      if (shipping.checkValidity() && payment.checkValidity()) {
+        ordered();
+        cart = [];
+        var $orderMsg = $('<div>').addClass('order-confirmation').text('Order has been placed successfully');
+        $orderMsg.appendTo($('checkout-summary'));
+      }
+      break;
     default:
   }
 });
 
 function save(source, property) {
   var form = {};
-  var inputs = $( '#' + source ).find('input[name]');
-  for (var i=0; i<inputs.length; i++) {
-    var key = inputs[i].getAttribute(property);
-    var value = inputs[i].value;
+  var $inputs = $( '#' + source ).find('input[name]');
+  for (var i=0; i<$inputs.length; i++) {
+    var key = $inputs[i].getAttribute(property);
+    var value = $inputs[i].value;
     form[key] = value;
   }
   return form;
@@ -301,7 +316,7 @@ function create(items, view) {
   var elItem;
   if (Array.isArray(items)) {
     for (var i=0; i<items.length; i++) {
-      if(!Array.isArray(items[i])) {
+      if(view === 'view-search' || view === 'view-cart' || view === 'view-checkout') {
         img = element('img', '', '', ['src', items[i].img]);
         name = element('div', '', items[i].name);
         price = element('div', '', priceFormat(items[i].price));
@@ -345,11 +360,11 @@ function create(items, view) {
             elItem = element('div', 'review');
             append(elItem, [img, reviewText, sub]);
             break;
-            default:
+          default:
         }
         elItems.push(elItem);
       }
-      //order history has arrays within an array
+      //history view uses an array of order objects with different properties than those above
       else {
         elItem = element('div', ['hist-order', 'col-md-9'], '');
         var date = element('div', 'hist-date');
@@ -360,7 +375,8 @@ function create(items, view) {
         var total = element('div', 'hist-total');
         append(total, [
           element('div', 'hist-total-label', 'Total:'),
-          element('div', 'hist-total-content', priceFormat(items[i].total)),
+          element('div', 'hist-total-content',
+          priceFormat(items[i].total)),
         ]);
         var summary = element('div', 'hist-summary');
         append(summary, [date, total]);
@@ -375,8 +391,8 @@ function create(items, view) {
           ]);
           append(item, text);
           append(elItem, item);
-          elItems.push(elItem);
         }
+        elItems.push(elItem);
       }
     }
     return elItems;
@@ -417,23 +433,36 @@ function clear(view) {
 function swap(attribute, view) {
   var elViews = document.getElementsByClassName(attribute);
   var nextView = document.getElementById(view);
-  if (elViews.length > 0) {
+  // if (elViews.length > 0) {
     for (var i=0; i<elViews.length; i++) {
       elViews[i].classList.remove('active');
       elViews[i].classList.add('hidden');
     }
     nextView.classList.remove('hidden');
     nextView.classList.add('active');
+  // }
+}
+
+function toggle(attribute) {
+  var $elView;
+  if (Array.isArray(attribute)) {
+    for (var i=0; i<attribute.length; i++) {
+      $elView = $('#' + attribute[i]);
+      if ($elView.hasClass('hidden')) {
+        $elView.removeClass('hidden');
+      }
+      else {
+        $elView.addClass('hidden');
+      }
+    }
   }
   else {
-    var elView = document.getElementById(attribute);
-    if (elView.classList.contains('hidden')) {
-      elView.classList.remove('hidden');
-      elView.classList.add('active');
+    $elView = $('#' + attribute);
+    if ($elView.hasClass('hidden')) {
+      $elView.removeClass('hidden');
     }
     else {
-      elView.classList.add('hidden');
-      elView.classList.remove('active');
+      $elView.addClass('hidden');
     }
   }
 }
@@ -474,42 +503,14 @@ function quantBtn(item) {
   return quant;
 }
 
-
-
-// function ordered() {
-//   var order = {};
-//   order.total = 0;
-//   order.submitted = new Date();
-//   order.contents = [];
-//   for (var i=0; i<cart.length; i++) {
-//     order.contents.push(cart[i]);
-//     order.total += (cart[i].quantity * cart[i].price);
-//   }
-//   order.customer = customer;
-//   orders.push(order);
-//   cart = [];
-//   hide('checkout');
-//   var confirmation = element('div', 'order-confirmation', 'Your order has been placed');
-//   content.appendChild(confirmation);
-// }
-
-// function showShip() {
-//   var shipInfo = document.getElementById('ship-info');
-//   clear(shipInfo);
-//   var shipText = element('div', 'ship-text');
-//   append(shipText, [
-//     element('div', '', customer.ship.name),
-//     element('div', '', customer.ship.address),
-//     element('div', '', customer.ship.addressTwo),
-//     element('span', '', customer.ship.city + ', '),
-//     element('span', '', customer.ship.state + ' '),
-//     element('span', '', customer.ship.zip),
-//     element('div', '', customer.ship.phone)
-//     ]);
-//   append(shipInfo, shipText);
-//   shipInfo.style.display = 'block';
-//   var shipForm = document.getElementById('shipping-form');
-//   shipForm.style.display = 'none';
-//   var shipUpdate = document.getElementById('shipping-update');
-//   shipUpdate.style.display = 'inline';
-// }
+function ordered() {
+  currentOrder.total = 0;
+  currentOrder.submitted = new Date();
+  currentOrder.contents = [];
+  for (var i=0; i<cart.length; i++) {
+    currentOrder.contents.push(cart[i]);
+    currentOrder.total += (cart[i].quantity * cart[i].price);
+  }
+  currentOrder.customer = customer;
+  orders.push(currentOrder);
+}
