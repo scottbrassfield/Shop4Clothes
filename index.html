@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Shop4Stuff</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -13,16 +14,15 @@
     <nav id="navbar">
       <div id="brand">Shop4Stuff</div>
       <div id="search">
-        <input id="search-bar" type="text" class="form-control" placeholder="Search" autofocus="">
-        <button id="search-btn" type="button" class="btn btn-default">
+        <input id="search-bar" type="text" placeholder="Search" autofocus="">
+        <button id="search-btn" type="button" class="btn btn-inverse">
           <span class="glyphicon glyphicon-search"></span>
         </button>
       </div>
       <button id="hist-btn">
         Order History
       </button>
-      <button id="cart-btn">
-        View Cart
+      <button id="cart-btn">Cart<span>(<span id="cart-count">0</span>)</span>
       </button>
     </nav>
     <div id="view-home" class="container view active">
@@ -199,7 +199,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-1"></div> -->
         <div id="checkout-summary" class="col-md-5">
           <div id="summary-title">Order Summary</div>
           <div id="summary-content" class="main">

@@ -67,7 +67,8 @@ var productView = document.getElementById('view-product');
 productView.addEventListener('click', function(e) {
   for (var i=0; i<products.length; i++) {
     if (e.target.getAttribute('data-id') === products[i].id) {
-      toCart(products[i]);
+      var cart = toCart(products[i]);
+      $('#cart-count').text(cart);
     }
   }
 })
@@ -77,6 +78,7 @@ cartView.addEventListener('change', function(e) {
   for (var i=0; i<cart.length; i++) {
     if (e.target.getAttribute('data-quant-id') === cart[i].id) {
       cart[i].quantity = e.target.value;
+      $('#cart-count').text(cartCount());
       var subtotal = document.getElementById('cart-sub-value');
       subtotal.textContent = priceFormat(calculate(cart));
     }
@@ -86,6 +88,7 @@ cartView.addEventListener('click', function(e) {
   for (var i=0; i<cart.length; i++) {
     if (e.target.getAttribute('data-remove-id') === cart[i].id) {
           cart.splice(i, 1);
+          $('#cart-count').text(cartCount());
           clear('cart-content');
           view(cart, 'view-cart');
     }
@@ -180,6 +183,7 @@ checkoutView.addEventListener('click', function(e) {
       if (shipping.checkValidity() && payment.checkValidity()) {
         ordered();
         cart = [];
+        $('#cart-count').text(cartCount());
         var $orderMsg = $('<div>').addClass('order-confirmation').text('Order has been placed successfully');
         $orderMsg.appendTo($('checkout-summary'));
       }
@@ -234,6 +238,7 @@ function search(products, fields, criteria) {
 }
 
 function toCart(product) {
+
   if (cart.length === 0) {
     cart.push(product);
     cart[0].quantity = 1;
@@ -252,6 +257,15 @@ function toCart(product) {
       cart[cart.length - 1].quantity = 1;
     }
   }
+  return cartCount(cart);
+}
+
+function cartCount() {
+  var count = 0;
+  for (var k=0; k<cart.length; k++) {
+    count += parseInt(cart[k].quantity);
+  }
+  return count;
 }
 
 function element(tagname, classes, text, attribute) {

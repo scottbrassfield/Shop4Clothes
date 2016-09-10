@@ -1,10 +1,15 @@
 var products = [
   {
     id: 'p001',
-    category: 'Sporting Goods',
     name:'Schwinn Mark V Bike',
+    category: 'Sporting Goods',
+    subCategory: 'Bicycles',
+    brand: 'Schwinn',
+    store: '',
     description:'Schwinn\'s Mark V is a full-dress cruiser that nails the number one reason we ride bikes: fun. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     price: 150,
+    sale: '',
+    tags: ['bicycles, bikes, frames, recreation, '],
     img:'http://sicklerbikes.com/images/library/zoom/schwinn_MARV26_SND_13_z.jpg'
   },
   {
