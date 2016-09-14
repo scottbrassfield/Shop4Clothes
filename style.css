@@ -95,9 +95,9 @@ button:active {
 }
 
 #result-detail {
-  padding-top: 30px;
-  border-bottom: 2px solid black;
+  border: 1px solid #d3d3d3;
   font-weight: bold;
+  padding: 10px;
 }
 
 .result {
@@ -675,5 +675,5 @@ input:focus:valid {
 }
 
 .view {
-  margin-top: 100px;
+  margin-top: 80px;
 }

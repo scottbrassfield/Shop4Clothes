@@ -7,7 +7,7 @@ var customer = {
 };
 var currentOrder = {};
 
-var navbar = document.getElementById("navbar");
+var navbar = document.getElementById('navbar');
 navbar.addEventListener('click', function(e) {
   var currentView;
   switch (e.target.id) {
@@ -46,7 +46,7 @@ searchBar.addEventListener('keyup', function(e) {
   if (e.target.value && e.which === 13 || e.keyCode === 13) {
     clear('search-content');
     var results = search(products, e.target.value);
-    var currentView = view(results, 'view-search').id;
+    var currentView = view(results, 'view-search', e.target.value).id;
     swap('view', currentView);
   }
 })
@@ -349,7 +349,7 @@ function element(tagname, classes, text, attribute) {
   return el;
 }
 
-function view(items, view) {
+function view(items, view, term) {
   var elItems = create(items, view);
   var elView = document.getElementById(view)
   var elContent = $( 'div[id=' + view + ']' ).find('.main')[0];
@@ -359,6 +359,8 @@ function view(items, view) {
     case 'view-search':
       var count = document.getElementById('result-count');
       count.textContent = elItems.length;
+      var searchTerm = document.getElementById('result-term');
+      searchTerm.textContent = term;
       break;
     case 'view-product':
       break;
