@@ -505,9 +505,9 @@ function create(items, view) {
 
 function append(parent, children) {
   if(Array.isArray(children)) {
-    for (var i=0; i<children.length; i++) {
-      parent.appendChild(children[i]);
-    }
+    children.forEach(function(child) {
+      parent.appendChild(child);
+    })
   }
   else {
     parent.appendChild(children);
@@ -537,15 +537,15 @@ function swap(attribute, view) {
 function toggle(attribute) {
   var $elView;
   if (Array.isArray(attribute)) {
-    for (var i=0; i<attribute.length; i++) {
-      $elView = $('#' + attribute[i]);
+    attribute.forEach(function(attr) {
+      $elView = $('#' + attr);
       if ($elView.hasClass('hidden')) {
         $elView.removeClass('hidden');
       }
       else {
         $elView.addClass('hidden');
       }
-    }
+    })
   }
   else {
     $elView = $('#' + attribute);
@@ -564,10 +564,10 @@ function priceFormat(num) {
 }
 
 function calculate(products) {
-  var total = 0;
-  for (var i=0; i<products.length; i++) {
-    total += products[i].quantity * products[i].price * 100;
-  }
+  var total =
+    products.reduce(function(total, product) {
+      return total + (product.price * 100) * product.quantity;
+    }, 0)
   return total / 100;
 }
 
@@ -598,10 +598,10 @@ function ordered() {
   currentOrder.total = 0;
   currentOrder.submitted = new Date();
   currentOrder.contents = [];
-  for (var i=0; i<cart.length; i++) {
-    currentOrder.contents.push(cart[i]);
-    currentOrder.total += (cart[i].quantity * cart[i].price);
-  }
+  cart.forEach(function(item) {
+    currentOrder.contents.push(item);
+    currentOrder.total += (item.quantity * item.price);
+  })
   currentOrder.customer = customer;
   orders.push(currentOrder);
 }
