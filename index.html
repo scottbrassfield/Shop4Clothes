@@ -33,7 +33,19 @@
     <div id="view-search" class="container-fluid view hidden">
       <div class="row">
         <div class="col-md-1"></div>
-        <div id="result-detail" class="col-md-12">Showing <span id="result-count"></span><span> results for "<span id="result-term"></span>"</span>
+        <div id="result-bar" class="col-md-12">
+          <div id="result-detail">
+            Showing <span id="result-count"></span><span> results for "<span id="result-term"></span>"</span>
+          </div>
+          <div id="result-sort">
+            <span>Sort by:</span>
+            <select name="sort">
+              <option value="relevance">Relevance</option>
+              <option value="price (high to low)">Price (high to low)</option>
+              <option value="price (low to high)">Price (low to high)</option>
+              <!-- <option value="alpha">A-Z</option> -->
+            </select>
+          </div>
         </div>
         <div class="col-md-1"></div>
       </div>

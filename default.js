@@ -6,6 +6,7 @@ var customer = {
   login: []
 };
 var currentOrder = {};
+var searches = [];
 
 var navbar = document.getElementById('navbar');
 navbar.addEventListener('click', function(e) {
@@ -53,12 +54,22 @@ searchBar.addEventListener('keyup', function(e) {
 
 var searchView = document.getElementById('view-search');
 searchView.addEventListener('click', function(e) {
-  clear('product-content');
   for (var i=0; i<products.length; i++) {
     if (e.target.getAttribute('data-id') === products[i].id) {
+      clear('product-content');
       var currentView = view(products[i], 'view-product').id;
       swap('view', currentView)
     }
+  }
+})
+searchView.addEventListener('change', function(e) {
+  if (e.target.name === 'sort') {
+    clear('search-content');
+    var results = sort(searches[searches.length - 1].results, e.target.value);
+    var theResults = create(results, 'view-search');
+    theResults.forEach(function(item) {
+      document.getElementById('search-content').appendChild(item);
+    })
   }
 })
 
@@ -282,16 +293,6 @@ function relevancy(product, fields, criteria) {
 function search(products, criteria) {
   var fields = ['name', 'description', 'brand', 'tags'];
   var matches = [];
-  // var matches = products.reduce(function(matches, product) {
-  //   debugger;
-  //   var score = relevancy(product, fields, criteria);
-  //   if (score) {
-  //     var prod = product;
-  //     prod.score = score;
-  //     matches.push(product);
-  //     return matches;
-  //   }
-  // }, [])
   for (var i=0; i<products.length; i++) {
     var score = relevancy(products[i], fields, criteria);
     if (score) {
@@ -302,6 +303,11 @@ function search(products, criteria) {
   }
   matches.sort(function(a, b) {
     return b.score - a.score;
+  })
+  searches.push({
+    term: criteria,
+    results: matches,
+    time: new Date()
   })
   return matches;
 }
@@ -611,4 +617,25 @@ function ordered() {
   })
   currentOrder.customer = customer;
   orders.push(currentOrder);
+}
+
+function sort(items, type) {
+  switch(type) {
+    case 'price (high to low)':
+      items.sort(function compareLow(a, b) {
+        return b.price - a.price;
+      })
+      break;
+    case 'price (low to high)':
+      items.sort(function compareHigh(a, b) {
+        return a.price - b.price;
+      })
+      break;
+    case 'relevance':
+      items.sort(function compareRelevance(a, b) {
+        return a.score - b.score
+      })
+      break;
+    }
+    return items;
 }

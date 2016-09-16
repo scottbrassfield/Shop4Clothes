@@ -94,10 +94,23 @@ button:active {
   margin-left: 2px;
 }
 
-#result-detail {
+#result-bar {
   border: 1px solid #d3d3d3;
   font-weight: bold;
   padding: 10px;
+}
+
+#result-detail {
+  display: inline-block;
+}
+
+#result-sort {
+  display: inline-block;
+  margin-left: 70%;
+}
+
+#result-sort > select {
+  margin-left: 5px;
 }
 
 .result {
