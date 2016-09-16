@@ -633,7 +633,7 @@ function sort(items, type) {
       break;
     case 'relevance':
       items.sort(function compareRelevance(a, b) {
-        return a.score - b.score
+        return b.score - a.score
       })
       break;
     }
