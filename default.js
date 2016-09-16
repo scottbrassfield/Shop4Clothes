@@ -144,8 +144,7 @@ checkoutView.addEventListener('click', function(e) {
         currentOrder.shipping = (save(e.target.form.id, 'name'));
         var $elSummary;
         for (var prop in currentOrder.shipping) {
-            $elSummary = $('<div>');
-            $elSummary.text(currentOrder.shipping[prop]);
+            $elSummary = $('<div>').text(currentOrder.shipping[prop]);
             if (prop === 'city' ) {
               $elSummary.addClass('inline-div');
               $elSummary.append(',');
@@ -162,9 +161,7 @@ checkoutView.addEventListener('click', function(e) {
       if (e.target.form.checkValidity()) {
         currentOrder.payment = (save(e.target.form.id, 'name'));
         e.preventDefault();
-        $elSummary = $('<div>');
-        $elSummary.text('Payment information has been saved')
-        $elSummary.appendTo($('#payment-summary'));
+        $elSummary = $('<div>').text('Payment information has been saved').appendTo($('#payment-summary'));
         toggle(['payment-summary', 'payment-update', 'payment-form']);
       }
       break;
@@ -285,6 +282,16 @@ function relevancy(product, fields, criteria) {
 function search(products, criteria) {
   var fields = ['name', 'description', 'brand', 'tags'];
   var matches = [];
+  // var matches = products.reduce(function(matches, product) {
+  //   debugger;
+  //   var score = relevancy(product, fields, criteria);
+  //   if (score) {
+  //     var prod = product;
+  //     prod.score = score;
+  //     matches.push(product);
+  //     return matches;
+  //   }
+  // }, [])
   for (var i=0; i<products.length; i++) {
     var score = relevancy(products[i], fields, criteria);
     if (score) {
