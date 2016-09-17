@@ -10,39 +10,55 @@ button:active {
   outline: none;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
 #navbar {
   background-color: rgba(35,47,62,1);
-  color: white;
-  height: 80px;
+  height: 70px;
   width: 100%;
   position: fixed;
-  z-index: 999;
+  z-index: 100;
   top: 0;
   left: 0;
 }
 
+#nav-contents {
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
 #brand {
-  margin-top: 10px;
   margin-left: 15px;
-  font-size: 2.5em;
+  font-size: 2em;
   display: inline-block;
   vertical-align: middle;
-  cursor: pointer;
+  color: rgba(240,240,240,1);
+  cursor: default;
 }
 
 #search {
-  margin-top: 10px;
-  margin-left: 60px;
+  margin-left: 40px;
   display: inline-block;
   vertical-align: middle;
+  width: 40%;
 }
 
 #search-bar {
   height: 35px;
-  width: 500px;
+  width: 80%;
   display: inline-block;
   vertical-align: middle;
   color: black;
+  border-style: none;
+  text-indent: 8px;
 }
 
 #search-bar:active,
@@ -55,58 +71,104 @@ button:active {
   height: 35px;
   margin-left: -8px;
   vertical-align: middle;
-  display: inline-block;
-  background-color: #5a5a5a;
+  background-color: rgba(220,220,220,1);
   border-radius: 0;
+  color: black;
+  cursor: default;
 }
 
-#hist-btn {
-  float: right;
-  margin-top: 15px;
-  margin-right: 50px;
-  font-size: 14px;
-  height: 38px;
-  width: 100px;
-  border-radius: 5px;
-  border-style: none;
-  background-color: #5a5a5a;
+#nav-options {
+  position: absolute;
+  top: 8px;
+  right: 30px;
+  border: 1px solid #bbb;
+  background-color: rgba(240,240,240,1);
+  display: inline-block;
+  color: black;
+  z-index: 101;
 }
 
 #cart-btn {
-  font-size: 14px;
-  height: 38px;
-  width: 100px;
-  border-radius: 5px;
-  border-style: none;
-  background-color: #5a5a5a;
-  margin-top: 15px;
-  margin-right: 20px;
-  float: right;
-}
-
-#cart-btn > span {
-  margin-left: 3px;
-}
-
-.inline-div {
+  position: relative;
+  background: none;
+  border-right: 1px solid #bbb;
   display: inline-block;
-  vertical-align: middle;
-  margin-left: 2px;
 }
+
+#cart-btn > i {
+  margin-left: 10px;
+}
+
+#cart-count {
+  margin-left: 3px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+#cart-click {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+#nav-menu {
+  display: inline-block;
+}
+
+#nav-menu > i {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.dropdown-toggle {
+  border-style: none;
+  background-color: transparent;
+}
+
+/*
+#view-home {
+  position: absolute;
+  background: url("#") rgba(240,240,240,.8);
+  background-repeat: no-repeat;
+  background-position: top left;
+  width: 100%;
+  height: 1000px;
+}
+*/
+
+/*
+#home-overlay {
+  position: absolute;
+  left: 0;
+  height: 1000px;
+  width: 100%;
+  background-color: rgba(50,70,85,.9);
+  position: absolute;
+}
+*/
 
 #result-bar {
   border: 1px solid #d3d3d3;
   font-weight: bold;
   padding: 10px;
+  background-color: white;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  z-index: 98;
+  width: 100%;
 }
 
 #result-detail {
-  display: inline-block;
+  float: left;
 }
 
 #result-sort {
-  display: inline-block;
-  margin-left: 70%;
+  float: right;
+  margin-right: 20px;
 }
 
 #result-sort > select {
@@ -120,43 +182,50 @@ button:active {
   border-color: #e5e5e5;
   padding: 10px;
   margin-top: 20px;
-  margin-left: 10px;
-  width: 250px;
-  height: 300px;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 23%;
+  height: auto;
   display: inline-block;
+  vertical-align: top;
+  background-color: white;
 }
 
 .result-img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height: 190px;
-  width: 190px;
+  height: 70%;
+  width: 85%;
   padding-top: 20px;
 }
 
 .result-text {
-  margin-top: 40px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   width: 90%;
 }
 
 .result-name {
+  margin-left: 5px;
   font-weight: bold;
   font-size: 14px;
-  cursor: pointer;
 }
 
 .result-price {
+  margin-left: 5px;
   color: maroon;
   font-size: 16px;
 }
 
-.result-descr {
-  font-size: 14px;
-  margin-top: 10px;
-  vertical-align: middle;
+.result-click {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
 }
 
 .product-item {
@@ -207,25 +276,26 @@ button:active {
   background-color: rgba(35,47,62,1);
   border-style: none;
   border-radius: 5px;
+  cursor: default;
 }
 
 .cart-item {
+  position: relative;
   border-bottom: 1px solid grey;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .cart-img {
   height: 150px;
   width: 150px;
-  padding-top: 20px;
   display: inline-block;
   vertical-align: middle;
 }
 
 .cart-text {
   margin-left: 30px;
-  width: 50%;
+  width: 40%;
   display: inline-block;
   vertical-align: middle;
 }
@@ -256,7 +326,6 @@ button:active {
 .quant-btn {
   margin-top: 5px;
   width: 50px;
-  cursor: pointer;
   -moz-appearance: none;
   background-position: 150px 7px;
   text-indent: .01px;
@@ -264,7 +333,11 @@ button:active {
 }
 
 .quant {
+  position: absolute;
+  top: 25%;
+  right: 5%;
   display: inline-block;
+  margin-left: 15%;
 }
 
 .remove-btn {
@@ -272,7 +345,6 @@ button:active {
   margin-top: 8px;
   font-size: 12px;
   color: maroon;
-  cursor: pointer;
 }
 
 #cart-title {
@@ -320,7 +392,6 @@ button:active {
   margin-right: auto;
   width: 70%;
   padding: 5px;
-  cursor: pointer;
 }
 
 .checkout-total {
@@ -457,7 +528,6 @@ input:focus:valid {
   font-size: 14px;
   color: rgba(5,80,180,1);
   margin-left: 30%;
-  cursor: pointer;
 }
 
 #customer-title {
@@ -601,7 +671,6 @@ input:focus:valid {
   padding: 5px;
   width: 90%;
   display: block;
-  cursor: pointer;
   background-color: rgba(35,47,62,1);
   color: white;
   border: none;
@@ -688,5 +757,23 @@ input:focus:valid {
 }
 
 .view {
-  margin-top: 80px;
+  margin-top: 70px;
+}
+
+#search-content {
+  margin-top: 50px;
+}
+
+#brand:hover,
+#cart-btn:hover,
+#cart-sub-btn:hover,
+#customer-submit:hover,
+#ship-submit:hover,
+#pay-submit:hover,
+.result:hover,
+.add-cart-btn:hover,
+.remove-btn:hover,
+.order-btn:hover {
+  cursor: default;
+  transform: scale(1.02);
 }

@@ -24,7 +24,7 @@ navbar.addEventListener('click', function(e) {
         swap('view', currentView);
       }
       break;
-    case 'cart-btn':
+    case 'cart-click':
       clear('cart-content');
       var aside = document.getElementById('cart-aside');
       if (aside.classList.contains('hidden')){
@@ -431,12 +431,13 @@ function create(items, view) {
           case 'view-search':
             img.classList.add('result-img');
             name.classList.add('result-name');
-            name.setAttribute('data-id', items[i].id);
             price.classList.add('result-price');
             var resultText = element('div', 'result-text');
             append(resultText, [name, price]);
+            var resultClick = element('div', 'result-click');
+            resultClick.setAttribute('data-id', items[i].id);
             elItem = element('div', 'result');
-            append(elItem, [img, resultText]);
+            append(elItem, [img, resultText, resultClick]);
             break;
           case 'view-cart':
             img.classList.add('cart-img');
@@ -445,7 +446,7 @@ function create(items, view) {
             var cartText = element('div', 'cart-text');
             append(cartText, [name, price]);
             var quantLabel = element('div', 'quant-label', 'Quantity');
-            var quantSection = element('div', 'inline-div');
+            var quantSection = element('div', 'quant');
             append(quantSection, [quantLabel, quantBtn(items[i]), removeBtn(items[i])])
             elItem = element('div', 'cart-item');
             append(elItem, [img, cartText, quantSection]);

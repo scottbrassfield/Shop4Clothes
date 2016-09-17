@@ -8,32 +8,45 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="max-768.css">
   </head>
   <body>
     <nav id="navbar">
-      <div id="brand">Shop4Stuff</div>
-      <div id="search">
-        <input id="search-bar" type="text" placeholder="Search" autofocus="">
-        <button id="search-btn" type="button" class="btn btn-inverse">
-          <span class="glyphicon glyphicon-search"></span>
-        </button>
+      <div id="nav-contents">
+        <div id="brand">Shop4Clothes</div>
+        <div id="search">
+          <input id="search-bar" type="text" placeholder=" What do you need?" autofocus="">
+          <button id="search-btn" type="button" class="btn btn-inverse">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div id="nav-options">
+          <div id="cart-btn">
+            <i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i>
+            <span id="cart-count">0</span>
+            <div id="cart-click"></div>
+          </div>
+          <!-- <div id="nav-menu">
+            <i class="glyphicon glyphicon-menu-down"></i>
+            <ul class="dropdown-menu" aria-labelledby="nav-menu">
+              <li>Checkout</li>
+              <li>Order History</li>
+            </ul>
+          </div> -->
+        </div>
       </div>
-      <button id="hist-btn">
-        Order History
-      </button>
-      <button id="cart-btn">Cart<span>(<span id="cart-count">0</span>)</span>
-      </button>
     </nav>
-    <div id="view-home" class="container view active">
-      <div class="row" id="home-content">
-        <div class="col-md-5"></div>
+    <div id="view-home" class="container-fluid view active">
+      <!-- <div id="home-overlay">
+      </div> -->
+      <div id="home-content" class="row">
+        <div class="col-md-5">
+        </div>
       </div>
     </div>
     <div id="view-search" class="container-fluid view hidden">
-      <div class="row">
-        <div class="col-md-1"></div>
-        <div id="result-bar" class="col-md-12">
+      <div>
+        <div id="result-bar">
           <div id="result-detail">
             Showing <span id="result-count"></span><span> results for "<span id="result-term"></span>"</span>
           </div>
@@ -47,11 +60,10 @@
             </select>
           </div>
         </div>
-        <div class="col-md-1"></div>
       </div>
       <div class="row">
         <div class="col-md-1"></div>
-        <div id="search-content" class="col-md-11 main">
+        <div id="search-content" class="col-md-10 main">
         </div>
         <div class="col-md-1">
         </div>
@@ -59,8 +71,10 @@
     </div>
     <div id="view-product" class="container view hidden">
       <div class="row">
-        <div id="product-content" class="col-md-10 main">
+        <div class="col-sm-1"></div>
+        <div id="product-content" class="col-sm-10 main">
         </div>
+        <div class="col-sm-1"></div>
       </div>
     </div>
     <div id="view-cart" class="container-fluid view hidden">
@@ -238,6 +252,7 @@
         <div id="history-content" class="col-md-11 main"></div>
       </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="validate.js"></script>
     <script src="data.js"></script>
     <script src="default.js"></script>
