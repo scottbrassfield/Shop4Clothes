@@ -342,6 +342,19 @@ ul {
   vertical-align: middle;
 }
 
+.cart-brand {
+  font-size: 20px;
+}
+
+.cart-size {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.cart-l {
+  margin-left: 10px;
+}
+
 .quant-label {
   width: 100px;
   margin-top: 10px;

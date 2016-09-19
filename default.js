@@ -77,8 +77,9 @@ var productView = document.getElementById('view-product');
 productView.addEventListener('click', function(e) {
   for (var i=0; i<products.length; i++) {
     if (e.target.getAttribute('data-id') === products[i].id) {
-      var cart = toCart(products[i]);
-      $('#cart-count').text(cart);
+      var sizes = $(e.target.parentElement).find('select[data-size]');
+      var cartCount = toCart(products[i], sizes);
+      $('#cart-count').text(cartCount);
     }
   }
 })
@@ -312,24 +313,37 @@ function search(products, criteria) {
   return matches;
 }
 
-function toCart(product) {
+function toCart(product, elements) {
 
+  var size;
+  if (elements.length > 1) {
+    size = {};
+    for (var i=0; i<elements.length; i++) {
+      size[($(elements[i]).attr('data-size'))] = elements[i].value;
+    }
+  } else {
+    size = elements[0].value;
+  }
+
+  var prod = Object.assign({}, product);
   if (cart.length === 0) {
-    cart.push(product);
-    cart[0].quantity = 1;
+    prod.quantity = 1;
+    prod.size = size;
+    cart.push(prod);
   }
   else {
     var found = false;
-    for (var i=0; i<cart.length; i++) {
-      if (product.id === cart[i].id) {
-        found = true;
-        cart[i].quantity++;
-        break;
+    for (var k=0; k<cart.length; k++) {
+      if (prod.id === cart[k].id && _.isEqual(size, cart[k].size )) {
+          found = true;
+          cart[k].quantity++;
+          break;
       }
     }
     if(!found) {
-      cart.push(product);
-      cart[cart.length - 1].quantity = 1;
+      prod.quantity = 1;
+      prod.size = size;
+      cart.push(prod);
     }
   }
   return cartCount(cart);
@@ -337,8 +351,8 @@ function toCart(product) {
 
 function cartCount() {
   var count = 0;
-  for (var k=0; k<cart.length; k++) {
-    count += parseInt(cart[k].quantity);
+  for (var i=0; i<cart.length; i++) {
+    count += parseInt(cart[i].quantity);
   }
   return count;
 }
@@ -425,6 +439,7 @@ function create(items, view) {
         name = element('div', '', items[i].name);
         price = element('div', '', priceFormat(items[i].price));
         descrip = element('div', '', items[i].description);
+        brand = element('div', '', items[i].brand);
         switch (view) {
           // case 'view-home':
           //   break;
@@ -443,14 +458,34 @@ function create(items, view) {
             img.classList.add('cart-img');
             name.classList.add('cart-name');
             price.classList.add('cart-price');
+            brand.classList.add('cart-brand');
             var cartText = element('div', 'cart-text');
-            append(cartText, [name, price]);
+            append(cartText, [name, brand, price]);
+            var $size = $('<div>');
+            if (typeof items[i].size === 'object') {
+              for (var prop in items[i].size) {
+                if (prop === 'waist') {
+                  $size.append($('<div>').addClass('cart-size').text('Waist:'))
+                  $size.append($('<div>').addClass('cart-size').text(items[i].size[prop]));
+                } else {
+                  $size.append($('<div>').addClass('cart-size', 'cart-l').text('Length:'));
+                  $size.append($('<div>').addClass('cart-size').text(items[i].size[prop]));
+                }
+              }
+            } else {
+              $size.append($('<div>').addClass('cart-size').text('Size:'));
+              $size.append($('<div>').addClass('cart-size').text(items[i].size));
+            }
+            append(cartText, $size.get());
             var quantLabel = element('div', 'quant-label', 'Quantity');
             var quantSection = element('div', 'quant');
-            append(quantSection, [quantLabel, quantBtn(items[i]), removeBtn(items[i])])
+            append(quantSection, [quantLabel, quantBtn(items[i]), removeBtn(items[i])]);
             elItem = element('div', 'cart-item');
             append(elItem, [img, cartText, quantSection]);
+
             break;
+
+
           case 'view-checkout':
             img.classList.add('review-img');
             name.classList.add('review-name');
@@ -509,7 +544,7 @@ function create(items, view) {
     price = element('div', 'product-price', priceFormat(items.price));
     descrip = element('div', 'product-descr', items.description);
     var brand = element('div', 'product-brand', items.brand);
-    var sizes = sizeBtn(items.sizes);
+    var sizes = sizeBtn(items);
     var cartBtn = element('button', 'add-cart-btn', 'Add to Cart', ['data-id', items.id]);
     var prodDetail = element('div', 'product-detail');
     append(prodDetail, [name, brand, price, sizes, descrip, cartBtn]);
@@ -519,36 +554,40 @@ function create(items, view) {
   }
 }
 
-function sizeBtn(sizes) {
+function sizeBtn(item) {
+  var sizes = item.sizes;
   var theSizes = element('div', 'product-size');
   if (Array.isArray(sizes)) {
     var theSizeLabel = element('div', 'product-size-label');
     theSizeLabel.textContent = 'Size:'
     var theSizeButton = element('select', 'product-size-btn');
+    theSizeButton.setAttribute('data-size', 'size');
     sizes.forEach(function(size) {
       var theSize = document.createElement('option');
       theSize.setAttribute('value', size);
       theSize.textContent = size;
       theSizeButton.appendChild(theSize);
-      append(theSizes, [theSizeLabel, theSizeButton])
+      append(theSizes, [theSizeLabel, theSizeButton]);
     })
   } else {
     for (var prop in sizes) {
       var theSizeLbl = element('div', 'product-size-label');
+      var theSizeBtn = element('select', 'product-size-btn');
       if (prop === 'width') {
         theSizeLbl.textContent = 'Waist:';
+        theSizeBtn.setAttribute('data-size', 'waist')
       } else {
         theSizeLbl.classList.add('product-size-length');
         theSizeLbl.textContent = 'Length:';
+        theSizeBtn.setAttribute('data-size', 'length');
       }
-      var theSizeBtn = element('select', 'product-size-btn');
       sizes[prop].forEach(function(size) {
         var theSize = document.createElement('option');
         theSize.setAttribute('value', size);
         theSize.textContent = size;
         theSizeBtn.appendChild(theSize);
       })
-      append(theSizes, [theSizeLbl, theSizeBtn])
+      append(theSizes, [theSizeLbl, theSizeBtn]);
     }
   }
   return theSizes;
