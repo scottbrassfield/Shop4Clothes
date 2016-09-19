@@ -495,14 +495,14 @@ function create(items, view) {
             var quantity = element('div', 'review-quant', 'Quantity: ' + items[i].quantity);
             var reviewText = element('div','review-text');
             var reviewSizes = element('div', 'review-sizes');
-            if (typeof items.size !== 'object') {
+            if (typeof items[i].size !== 'object') {
               reviewSizes.textContent = 'Size: ' + items[i].size;
             } else {
               for (var props in items[i].size) {
                 if (props === 'waist') {
                   reviewSizes.textContent += 'Waist: ' + items[i].size[props];
                 } else {
-                  reviewSizes.textContent +=  'Length: ' + items[i].size[props];
+                  reviewSizes.textContent +=  ' Length: ' + items[i].size[props];
                 }
               }
             }
