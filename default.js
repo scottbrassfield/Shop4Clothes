@@ -508,13 +508,50 @@ function create(items, view) {
     name = element('div', 'product-name', items.name);
     price = element('div', 'product-price', priceFormat(items.price));
     descrip = element('div', 'product-descr', items.description);
+    var brand = element('div', 'product-brand', items.brand);
+    var sizes = sizeBtn(items.sizes);
     var cartBtn = element('button', 'add-cart-btn', 'Add to Cart', ['data-id', items.id]);
     var prodDetail = element('div', 'product-detail');
-    append(prodDetail, [name, price, descrip, cartBtn]);
+    append(prodDetail, [name, brand, price, sizes, descrip, cartBtn]);
     elItem = element('div', 'product-item');
     append(elItem, [img, prodDetail]);
     return elItem;
   }
+}
+
+function sizeBtn(sizes) {
+  var theSizes = element('div', 'product-size');
+  if (Array.isArray(sizes)) {
+    var theSizeLabel = element('div', 'product-size-label');
+    theSizeLabel.textContent = 'Size:'
+    var theSizeButton = element('select', 'product-size-btn');
+    sizes.forEach(function(size) {
+      var theSize = document.createElement('option');
+      theSize.setAttribute('value', size);
+      theSize.textContent = size;
+      theSizeButton.appendChild(theSize);
+      append(theSizes, [theSizeLabel, theSizeButton])
+    })
+  } else {
+    for (var prop in sizes) {
+      var theSizeLbl = element('div', 'product-size-label');
+      if (prop === 'width') {
+        theSizeLbl.textContent = 'Waist:';
+      } else {
+        theSizeLbl.classList.add('product-size-length');
+        theSizeLbl.textContent = 'Length:';
+      }
+      var theSizeBtn = element('select', 'product-size-btn');
+      sizes[prop].forEach(function(size) {
+        var theSize = document.createElement('option');
+        theSize.setAttribute('value', size);
+        theSize.textContent = size;
+        theSizeBtn.appendChild(theSize);
+      })
+      append(theSizes, [theSizeLbl, theSizeBtn])
+    }
+  }
+  return theSizes;
 }
 
 function append(parent, children) {
