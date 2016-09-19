@@ -629,8 +629,8 @@ input:focus:valid {
 }
 
 .review-img {
-  height: 100px;
-  width: 100px;
+  height: 120px;
+  width: 80px;
   margin-left: 40px;
   padding-top: 20px;
   display: inline-block;
@@ -645,6 +645,11 @@ input:focus:valid {
 
 .review-price {
   color: maroon;
+  vertical-align: middle;
+}
+
+.review-brand {
+  font-size: 16px;
   vertical-align: middle;
 }
 
@@ -671,6 +676,29 @@ input:focus:valid {
 .review {
   border-bottom: 1px solid grey;
 }
+
+.review-size {
+  margin-top: 5px;
+}
+
+.review-size-label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.review-size-length {
+  margin-left: 20px;
+}
+
+.review-size-btn {
+  margin-top: 5px;
+  width: 100px;
+  -moz-appearance: none;
+  background-position: 150px 7px;
+  text-indent: .01px;
+  text-overflow: "";
+}
+
 
 #summary-totals {
   margin-left: auto;

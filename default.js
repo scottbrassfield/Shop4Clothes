@@ -465,16 +465,20 @@ function create(items, view) {
             if (typeof items[i].size === 'object') {
               for (var prop in items[i].size) {
                 if (prop === 'waist') {
-                  $size.append($('<div>').addClass('cart-size').text('Waist:'))
-                  $size.append($('<div>').addClass('cart-size').text(items[i].size[prop]));
+                  $size.append(
+                    $('<div>').addClass('cart-size').text('Waist:'),
+                    $('<div>').addClass('cart-size').text(items[i].size[prop]))
                 } else {
-                  $size.append($('<div>').addClass('cart-size', 'cart-l').text('Length:'));
-                  $size.append($('<div>').addClass('cart-size').text(items[i].size[prop]));
+                  $size.append(
+                    $('<div>').addClass('cart-size', 'cart-l').text('Length:'),
+                    $('<div>').addClass('cart-size').text(items[i].size[prop]));
                 }
               }
             } else {
-              $size.append($('<div>').addClass('cart-size').text('Size:'));
-              $size.append($('<div>').addClass('cart-size').text(items[i].size));
+              $size.append(
+                $('<div>').addClass('cart-size').text('Size:'),
+                $('<div>').addClass('cart-size').text(items[i].size)
+              );
             }
             append(cartText, $size.get());
             var quantLabel = element('div', 'quant-label', 'Quantity');
@@ -482,19 +486,29 @@ function create(items, view) {
             append(quantSection, [quantLabel, quantBtn(items[i]), removeBtn(items[i])]);
             elItem = element('div', 'cart-item');
             append(elItem, [img, cartText, quantSection]);
-
             break;
-
-
           case 'view-checkout':
             img.classList.add('review-img');
             name.classList.add('review-name');
             price.classList.add('review-price');
-            var quantity = element('div', 'review-quant', 'Quantity: ' + cart[i].quantity);
+            brand.classList.add('review-brand');
+            var quantity = element('div', 'review-quant', 'Quantity: ' + items[i].quantity);
             var reviewText = element('div','review-text');
-            append(reviewText, [name, price, quantity]);
-            var subLabel = element('span','', 'Subtotal: ');
-            var subValue = element('span', 'review-sub-value', priceFormat(cart[i].quantity * cart[i].price));
+            var reviewSizes = element('div', 'review-sizes');
+            if (typeof items.size !== 'object') {
+              reviewSizes.textContent = 'Size: ' + items[i].size;
+            } else {
+              for (var props in items[i].size) {
+                if (props === 'waist') {
+                  reviewSizes.textContent += 'Waist: ' + items[i].size[props];
+                } else {
+                  reviewSizes.textContent +=  'Length: ' + items[i].size[props];
+                }
+              }
+            }
+            append(reviewText, [name, brand, price, reviewSizes, quantity]);
+            var subLabel = element('span', '', 'Subtotal: ');
+            var subValue = element('span', 'review-sub-value', priceFormat(items[i].quantity * items[i].price));
             var sub = element('div', 'review-sub');
             append(sub, [subLabel, subValue])
             elItem = element('div', 'review');
@@ -544,7 +558,7 @@ function create(items, view) {
     price = element('div', 'product-price', priceFormat(items.price));
     descrip = element('div', 'product-descr', items.description);
     var brand = element('div', 'product-brand', items.brand);
-    var sizes = sizeBtn(items);
+    var sizes = sizeBtn(items, 'product');
     var cartBtn = element('button', 'add-cart-btn', 'Add to Cart', ['data-id', items.id]);
     var prodDetail = element('div', 'product-detail');
     append(prodDetail, [name, brand, price, sizes, descrip, cartBtn]);
@@ -554,13 +568,13 @@ function create(items, view) {
   }
 }
 
-function sizeBtn(item) {
+function sizeBtn(item, view) {
   var sizes = item.sizes;
-  var theSizes = element('div', 'product-size');
+  var theSizes = element('div', view +'-size');
   if (Array.isArray(sizes)) {
-    var theSizeLabel = element('div', 'product-size-label');
+    var theSizeLabel = element('div', view + '-size-label');
     theSizeLabel.textContent = 'Size:'
-    var theSizeButton = element('select', 'product-size-btn');
+    var theSizeButton = element('select', view + '-size-btn');
     theSizeButton.setAttribute('data-size', 'size');
     sizes.forEach(function(size) {
       var theSize = document.createElement('option');
@@ -571,13 +585,13 @@ function sizeBtn(item) {
     })
   } else {
     for (var prop in sizes) {
-      var theSizeLbl = element('div', 'product-size-label');
+      var theSizeLbl = element('div', view + '-size-label');
       var theSizeBtn = element('select', 'product-size-btn');
       if (prop === 'width') {
         theSizeLbl.textContent = 'Waist:';
         theSizeBtn.setAttribute('data-size', 'waist')
       } else {
-        theSizeLbl.classList.add('product-size-length');
+        theSizeLbl.classList.add(view + '-size-length');
         theSizeLbl.textContent = 'Length:';
         theSizeBtn.setAttribute('data-size', 'length');
       }
