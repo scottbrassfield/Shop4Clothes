@@ -38,7 +38,24 @@ navbar.addEventListener('click', function(e) {
       currentView = view(orders, 'view-history').id;
       swap('view', currentView);
       break;
-      default:
+    case 'dropdown-history':
+      clear('history-content');
+      currentView = view(orders, 'view-history').id;
+      swap('view', currentView);
+      break;
+    case 'dropdown-checkout':
+      if (cart.length) {
+        currentView = view(cart, 'view-checkout').id;
+      } else {
+        clear('view-other')
+        var emptyMsg = element('div', ['empty-message', 'empty-message-other'], 'Your cart is currently empty');
+        currentView = document.getElementById('view-other');
+        currentView.appendChild(emptyMsg);
+        currentView = 'view-other';
+      }
+      swap('view', currentView);
+      break;
+    default:
   }
 });
 
@@ -395,7 +412,7 @@ function view(items, view, term) {
       if(cart.length === 0) {
         var aside = document.getElementById('cart-aside')
         aside.classList.add('hidden');
-        var empty = element('div', 'empty-message', 'Your Cart is Currently Empty');
+        var empty = element('div', 'empty-message', 'Your cart is currently empty');
         elContent.appendChild(empty);
       }
       else {
@@ -417,7 +434,11 @@ function view(items, view, term) {
       totalValue.textContent = priceFormat(itemsTotal + taxTotal);
       break;
     case 'view-history':
-      elContent.appendChild(element('div', 'hist-title', 'Order History'));
+      if (orders.length > 0) {
+        elContent.appendChild(element('div', 'hist-title', 'Order History'));
+      } else {
+        elContent.appendChild(element('h2', 'empty-message', 'You haven\'t placed any orders yet'))
+      }
       break;
     default:
   }
