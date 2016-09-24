@@ -226,11 +226,11 @@ function validate(element) {
 
 function wholeMatch(search, fieldValue) {
   var whole = 0;
-  for (var i=0; i<search.length; i++) {
-    if (search[i] === fieldValue) {
+  search.forEach(function(result) {
+    if (result === fieldValue) {
       whole++;
     }
-  }
+  })
   return whole;
 }
 
@@ -239,11 +239,11 @@ function partMatch(search, fieldValue) {
   var partSearch = search.map(function(element) {
     return element.slice(0,-1);
   })
-  for (var i=0; i<partSearch.length; i++) {
-    if (partSearch[i] === fieldValue) {
+  partSearch.forEach(function(result) {
+    if (result === fieldValue) {
       part++;
     }
-  }
+  })
   return part;
 }
 
@@ -259,49 +259,49 @@ function relevancy(product, fields, criteria) {
   var search = criteria.split(' ');
   var relevancy = 0;
 
-  for (var i=0; i<fields.length; i++){
-    if (typeof fields[i] === 'string') {
-      var whole = wholeMatch(search, product[fields[i]]);
+  fields.forEach(function(field, index) {
+    if (typeof field === 'string') {
+      var whole = wholeMatch(search, product[field]);
       if (whole === search.length) {
-        relevancy += (10 / (i + 1));
+        relevancy += (10 / (index + 1));
       }
       else if (whole >= 1) {
-        relevancy += (5 / (i + 1));
+        relevancy += (5 / (index + 1));
       }
       else if (whole > 0) {
-        relevancy += (3 / (i + 1));
+        relevancy += (3 / (index + 1));
       }
 
-      var part = partMatch(search, product[fields[i]]);
+      var part = partMatch(search, product[field]);
       if (part === search.length) {
-        relevancy += (3 / (i + 1));
+        relevancy += (3 / (index + 1));
       }
       else if (part >= 1) {
-        relevancy += (2 / (i + 1));
+        relevancy += (2 / (index + 1));
       }
       else if (part > 0) {
-        relevancy += (1 / (i + 1));
+        relevancy += (1 / (index + 1));
       }
     }
-    var sub = subMatch(criteria, product[fields[i]]);
+    var sub = subMatch(criteria, product[field]);
       if (sub) {
         relevancy += sub;
       }
-  }
+  })
   return relevancy;
 }
 
 function search(products, criteria) {
   var fields = ['name', 'description', 'brand', 'tags'];
   var matches = [];
-  for (var i=0; i<products.length; i++) {
-    var score = relevancy(products[i], fields, criteria);
+  products.forEach(function(product) {
+    var score = relevancy(product, fields, criteria);
     if (score) {
-      var prod = products[i];
+      var prod = product;
       prod.score = score;
       matches.push(prod)
     }
-  }
+  })
   matches.sort(function(a, b) {
     return b.score - a.score;
   })
