@@ -368,18 +368,18 @@ function toCart(product, elements) {
 
 function cartCount() {
   var count = 0;
-  for (var i=0; i<cart.length; i++) {
-    count += parseInt(cart[i].quantity);
-  }
+  cart.forEach(function(item) {
+    count += parseInt(item.quantity);
+  })
   return count;
 }
 
 function element(tagname, classes, text, attribute) {
   var el = document.createElement(tagname);
   if(typeof classes === 'object') {
-    for (var i=0; i<classes.length; i++) {
-      el.classList.add(classes[i]);
-    }
+    classes.forEach(function(className) {
+      el.classList.add(className);
+    })
   }
   else if (classes) {
     el.classList.add(classes);
